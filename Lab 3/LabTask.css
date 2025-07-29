@@ -1,0 +1,22 @@
+h2{
+    color: skyblue;
+}
+
+.para1{
+    color: chocolate;
+    font-family: "Poppins";
+}
+
+.para2{
+    color: violet;
+    font-family: "Poppins";
+}
+
+span{
+    color: chocolate;
+    font-family: "Nexa";
+}
+
+#unorderList{
+    color: blueviolet;
+}
