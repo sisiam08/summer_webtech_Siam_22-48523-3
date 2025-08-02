@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Change Div Text Color</title>
+</head>
+<body>
+    <label for="colorInput">Enter a color name or hex code:</label>
+    <input type="text" id="colorInput" placeholder="e.g. red or #ff0000">
+    <button onclick="changeColor()">Change Color</button>
+
+    <div id="colorBox" style="margin-top:20px; padding:20px; border:1px solid #ccc;">
+        This is some text inside the div box.
+    </div>
+
+    <script>
+        function changeColor() {
+            var color = document.getElementById('colorInput').value;
+            document.getElementById('colorBox').style.color = color;
+        }
+    </script>
+</body>
+</html>

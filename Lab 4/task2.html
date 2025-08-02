@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BMI Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        label { display: block; margin-top: 10px; }
+        input[type="number"] { width: 100%; padding: 8px; margin-top: 5px; }
+        button { margin-top: 15px; padding: 10px 20px; }
+        #result { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>BMI Calculator</h2>
+        <form id="bmiForm">
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight" required min="1" step="any">
+
+            <label for="height">Height (cm):</label>
+            <input type="number" id="height" required min="1" step="any">
+
+            <button type="submit">Calculate BMI</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        document.getElementById('bmiForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const weight = parseFloat(document.getElementById('weight').value);
+            const heightCm = parseFloat(document.getElementById('height').value);
+            if (weight > 0 && heightCm > 0) {
+                const heightM = heightCm / 100;
+                const bmi = weight / (heightM * heightM);
+                let category = '';
+                if (bmi < 18.5) category = 'Underweight';
+                else if (bmi < 24.9) category = 'Normal weight';
+                else if (bmi < 29.9) category = 'Overweight';
+                else category = 'Obese';
+                document.getElementById('result').textContent = `Your BMI is ${bmi.toFixed(2)} (${category})`;
+            } else {
+                document.getElementById('result').textContent = 'Please enter valid values.';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Counting Mechanism</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #count { font-size: 2em; margin: 20px; }
+        button { font-size: 1em; margin: 5px; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <h2>Counting Mechanism</h2>
+    <div id="count">0</div>
+    <button onclick="increment()">Increment</button>
+    <button onclick="decrement()">Decrement</button>
+
+    <script>
+        let count = 0;
+        const countDiv = document.getElementById('count');
+
+        function increment() {
+            count++;
+            countDiv.textContent = count;
+        }
+
+        function decrement() {
+            count--;
+            countDiv.textContent = count;
+        }
+    </script>
+</body>
+</html>

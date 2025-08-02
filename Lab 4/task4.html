@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Password Validation Form</title>
+    <style>
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <form id="registerForm" autocomplete="off">
+        <label>
+            Password:
+            <input type="password" id="password" name="password" required>
+        </label>
+        <br>
+        <label>
+            Confirm Password:
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+        </label>
+        <br>
+        <button type="submit">Register</button>
+        <div id="message"></div>
+    </form>
+
+    <script>
+        const form = document.getElementById('registerForm');
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const message = document.getElementById('message');
+
+        function checkPasswordStrength(pwd) {
+            // At least 8 chars, one uppercase, one lowercase, one digit, one special char
+            const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+            return strongRegex.test(pwd);
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            message.textContent = '';
+            message.className = '';
+
+            if (!checkPasswordStrength(password.value)) {
+                message.textContent = 'Password must be at least 8 characters and include uppercase, lowercase, number, and special character.';
+                message.className = 'error';
+                return;
+            }
+
+            if (password.value !== confirmPassword.value) {
+                message.textContent = 'Passwords do not match.';
+                message.className = 'error';
+                return;
+            }
+
+            message.textContent = 'Registration successful!';
+            message.className = 'success';
+            // You can proceed with form submission here
+        });
+    </script>
+</body>
+</html>
