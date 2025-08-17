@@ -1,0 +1,140 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;    
+
+}
+body{
+    background-color: rgb(15, 24, 32);
+    color: rgb(255, 255, 255);
+}
+
+nav{
+    align-items: center;
+    background-color: rgb(15, 34, 51);
+    height: 40px;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 40px;
+    padding-right: 40px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.nav-logo{
+    display: flex;
+    align-items: center;
+}
+
+.nav-logo .nav-logo-img{
+    max-height: 30px;
+    max-width: 70px;
+}
+
+.menu-container{  
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.menu-container li{
+    font-size: 12px;
+    padding-left: 30px;
+    padding-right: 10px;
+
+}
+
+.menu-container li:hover{
+    cursor: pointer;
+    color: rgb(78,179,254);
+}
+
+footer{
+    background-color: rgb(15, 34, 51);
+    padding: 15px 40px;
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    gap: 30px;
+    padding-top: 40px;
+}
+
+
+.footer-main{
+    background-color: rgb(15, 34, 51);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 200px;
+    width: auto;
+}
+
+.footer-logo{
+    display: flex;
+    align-items: center;
+}
+
+.footer-logo .footer-logo-img{
+    max-width: 100px;
+    max-height: 100px;
+}
+
+.social-link{
+    display: flex;
+    flex-direction: column;
+}
+
+.social-link a{
+    font-size: 12px;
+    color: rgb(81, 114, 224);
+    text-decoration: none;
+    line-height: 1.6;
+}
+
+.social-link a:hover{
+    color: rgb(78,179,254);
+}
+
+.footer-links{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 30px;
+    line-height: 1.6;
+}
+
+.footer-links a{
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.footer-links a:hover{
+    text-decoration: underline;
+}
+
+.sign-in button{
+    margin-top: 30px;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: rgb(81, 114, 224);
+    color: white;
+}
+.sign-in button:hover{
+    cursor: pointer;
+    background-color: rgb(78,179,254);
+}
+
+.copyright{
+    font-size: 12px;
+    color: rgb(81, 114, 224);
+    text-align: center;
+}

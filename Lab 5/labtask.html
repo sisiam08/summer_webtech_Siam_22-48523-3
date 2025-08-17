@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab Task Form</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f4f4f4;
+        }
+        .form-container {
+            background: #fff;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            width: 350px;
+            font-family: "Poppins";
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+        .error {
+            color: #d8000c;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background: #0078d7;
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button[type="submit"]:hover {
+            background: #005fa3;
+        }
+    </style>
+</head>
+<body>
+    <form class="form-container" id="labForm" novalidate>
+        <h2>Course Registration</h2>
+        <div class="form-group">
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" name="fullname" required>
+            <div class="error" id="nameError"></div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <div class="error" id="emailError"></div>
+        </div>
+        <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" min="16" max="100" required>
+            <div class="error" id="ageError"></div>
+        </div>
+        <div class="form-group">
+            <label for="course">Course Selection</label>
+            <select id="course" name="course" required>
+                <option value="">--Select Course--</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Data Science">Data Science</option>
+                <option value="AI Fundamentals">AI Fundamentals</option>
+            </select>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        document.getElementById('labForm').addEventListener('submit', function(e) {
+            let valid = true;
+
+            // Full Name validation: must not be empty and at least 3 characters
+            const name = document.getElementById('fullname').value.trim();
+            const nameError = document.getElementById('nameError');
+            if (name.length < 3) {
+                nameError.textContent = "Please enter at least 3 characters.";
+                valid = false;
+            } else {
+                nameError.textContent = "";
+            }
+
+            // Email validation: basic pattern
+            const email = document.getElementById('email').value.trim();
+            const emailError = document.getElementById('emailError');
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                emailError.textContent = "Please enter a valid email address.";
+                valid = false;
+            } else {
+                emailError.textContent = "";
+            }
+
+            // Age validation: must be between 16 and 100
+            const age = document.getElementById('age').value.trim();
+            const ageError = document.getElementById('ageError');
+            if (age === "" || isNaN(age) || age < 16 || age > 100) {
+                ageError.textContent = "Age must be between 16 and 100.";
+                valid = false;
+            } else {
+                ageError.textContent = "";
+            }
+
+            // Prevent form submission if not valid
+            if (!valid) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

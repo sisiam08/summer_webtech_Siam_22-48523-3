@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            justify-content: center;
+            align-items: center;
+        }
+        .form-container{
+            background-color: rgb(251, 251, 252);
+            /* background: transparent;
+            backdrop-filter: blur(10px); */
+            margin: 50px;
+            padding: 32px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgb(225, 225, 237);
+            width: 350px;
+            font-family: "Nexa";
+        }
+
+        .form-div{
+            margin-bottom: 15px;
+        }
+
+        .error {
+            color: #d8000c;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        label{
+            font-family: "Nexa";
+        }
+
+        input, select{
+            width: 100%;
+            padding: 10px;
+            border: 1px solid;
+            border-radius: 6px;
+            border-color: skyblue;
+            font-family: "Nexa";
+        }
+
+        button{
+            width: 100%;
+            padding: 12px;
+            background: #0078d7;
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background: #1692f9;
+
+        }
+
+        .image-container{
+            align-items: center;
+            width: 20%;
+
+        }
+        .image{
+            width: 100px; 
+            height: 100px;
+
+            outline: 3px solid #5100ff;
+            outline-offset: -8px;
+        }
+        .img_BG{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("../Lab 2/Images/Background.jpg");
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="img_BG">
+        <img height="500px" width="600px" src="../Lab 2/Images/Profile Picture.jpg" alt="">        
+    </div>
+    <form class="form-container" id="formID">
+        <div class="form-div">
+            <label for="FullName">Full Name</label>
+            <br>
+            <input type="text" name="" id="fullname" required>
+            <div class="error" id="nameError"></div>
+        </div>
+        <div class="form-div">
+            <label for="Email">Email</label>
+            <br>
+            <input type="email" name="" id="Email" required>
+            <div class="error" id="emailError"></div>
+        </div>
+        <div class="form-div">
+            <label for="Age">Age</label>
+            <br>
+            <input type="number" min="1" name="" id="Age" required>
+            <div class="error" id="ageError"></div>
+        </div>
+        <div class="form-div">
+            <label for="Course">Course</label>
+            <br>
+            <select name="" id="Course" required>
+                <option value="">-- select course --</option>
+                <option value="IP">IP</option>
+                <option value="OOP(Java)">OOP(Java)</option>
+                <option value="OOP2_(C#)">OOP2 (C#)</option>
+                <option value="OOAD">OOAD</option>
+                <option value="Web_Tech">Web Tech</option>
+                <option value="AI">AI</option>
+                <option value="Database">Database</option>
+                <option value="DSA">DSA</option>
+            </select>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+
+    <div class="image-container">
+        <img class="image" src="../Lab 2/Images/Profile Picture.jpg">
+
+        <button>Show Image</button>
+        <button>Hide Image</button>
+    </div>
+
+
+    <script>
+        document.getElementById('formID').addEventListener('submit', function(e) 
+        {
+            let valid = true;
+
+            //Name Validation
+            const name = document.getElementById('FullName').value;
+            const nameError = document.getElementById('nameError');
+
+            if (name.length < 3) 
+            {
+                nameError.textContent = "Please enter at least 3 characters.";
+                valid = false;
+            } else {
+                nameError.textContent = "";
+            }
+
+            // Email validation
+            const email = document.getElementById('Email').value;
+            const emailError = document.getElementById('emailError');
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) 
+            {
+                emailError.textContent = "Please enter a valid email address.";
+                valid = false;
+            } else {
+                emailError.textContent = "";
+            }
+
+            // Age validation
+            const age = document.getElementById('Age').value;
+            const ageError = document.getElementById('ageError');
+
+            if (age === "" || isNaN(age) || age < 18 || age > 50) 
+            {
+                ageError.textContent = "Age must be between 18 and 50.";
+                valid = false;
+            } else {
+                ageError.textContent = "";
+            }
+
+            // Prevent form submission if not valid
+            if (!valid) {
+                e.preventDefault();
+            }
+        });
+
+        const img = document.querySelector('.image-container img');
+        const showBtn = document.querySelectorAll('.image-container button')[0];
+        const hideBtn = document.querySelectorAll('.image-container button')[1];
+
+        showBtn.addEventListener('click', function() {
+            img.style.display='block';
+        });
+
+        hideBtn.addEventListener('click', function() {
+            img.style.display = 'none';
+        });
+    </script>
+    
+</body>
+</html>

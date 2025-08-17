@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head>
+    <title>Counting Mechanism</title>
+</head>
+<body>
+    <h2>Counting Mechanism</h2>
+    <div id="count">0</div>
+    <button onclick="increment()">Increment</button>
+    <button onclick="decrement()">Decrement</button>
+
+    <script>
+        let count = 0;
+        const countDiv = document.getElementById('count');
+
+        function increment() {
+            count++;
+            countDiv.textContent = count;
+        }
+
+        function decrement() {
+            count--;
+            countDiv.textContent = count;
+        }
+    </script>
+</body>
+</html>

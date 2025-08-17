@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>task2</title>
+</head>
+<body>
+    <form>
+        <input type="text" id="textbox" onfocus="validation()">
+    </form>
+
+
+    <script>
+        function validation() {
+            const textbox = document.getElementById("textbox");
+
+            textbox.addEventListener("input", function(){
+                this.value = this.value.toUpperCase();
+            })
+        }
+    </script>
+</body>
+</html>

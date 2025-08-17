@@ -1,0 +1,4 @@
+1. Counting mechanism where one button will increment the count and another button will decrement it.
+2. BMI calculator.
+3. Change the text color of a div box after taking user input. 
+4. Form validation (password strength, confirm password).

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Absolute Position Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: linear-gradient(to right, lightgray 1px, transparent 1px),
+                        linear-gradient(to bottom, lightgray 1px, transparent 1px);
+      background-size: 10px 10px; /* grid of 10px × 10px */
+    }
+
+    .container {
+      width: 300px;
+      height: 200px;
+      border: 2px solid black;
+      position: relative;
+      margin: 50px; /* just to keep it away from the page edges */
+      text-align: center;
+      line-height: 200px; /* vertically center the text */
+      font-weight: bold;
+    }
+
+    .bottom-right {
+      width: 80px;
+      height: 50px;
+      border: 2px solid black;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      text-align: center;
+      line-height: 50px;
+      background: white;
+    }
+
+    h2 {
+      margin-left: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Absolute Position Example</h2>
+  <div class="container">
+    Container Area
+    <div class="bottom-right">Bottom Right</div>
+  </div>
+</body>
+</html>

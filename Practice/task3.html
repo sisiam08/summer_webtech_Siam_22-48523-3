@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>task3</title>
+</head>
+<body>
+    <form>
+        <input type="text" id="age">
+        <br>
+        <p id="massege"></p>
+    </form>
+
+
+    <script>
+        const age = document.getElementById("age");
+        const massege = document.getElementById("massege");
+
+        age.addEventListener("input", function(){
+            const agevalue=parseInt(age.value, 10);
+
+            if(isNaN(agevalue)){
+                massege.textContent="";
+                return;
+            }
+            else if(agevalue<40){
+                massege.textContent="To be a part of the community, you need to at least 40";
+                massege.style.color="black";
+            }
+            else if(agevalue>=40 && agevalue<=50){
+                massege.textContent="You are the youngsters of this community";
+                massege.style.color="black";
+            }
+            else if(agevalue>50){
+                massege.textContent="Top level members of the group";
+                massege.style.color="red";
+            }
+        })
+    
+    </script>
+</body>
+</html>

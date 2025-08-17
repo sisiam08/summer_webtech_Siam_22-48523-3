@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>task5</title>
+</head>
+<body>
+    <button id="changeBackground">Change Background</button>
+
+
+    <script>
+        const button = document.getElementById("changeBackground");
+        button.addEventListener("click", function(){
+            document.body.style.background = '#' + `${Math.floor(Math.random()*16777215).toString(16)}`;
+        })
+    </script>
+</body>
+</html>

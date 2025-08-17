@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>task1</title>
+</head>
+<body>
+    <form onsubmit="return validation()" action="validPage.html">
+        <input type="text" id="firstName" placeholder="First Name">
+        <br><br>
+        <input type="text" id="lastName" placeholder="Last Name">
+        <br><br>
+        <button type="submit" id="submit">Submit</button>
+    </form>
+
+
+    <script>
+        function validation() {
+            const firstName = document.getElementById("firstName").value;
+            const lastName = document.getElementById("lastName").value;
+
+            if (firstName === "" || lastName === "") {
+                alert("Both fields are required!");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
