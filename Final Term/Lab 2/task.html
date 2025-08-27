@@ -1,0 +1,36 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>PHP Form Validation</title> 
+    <style> 
+        .error {color: #FF0000;} 
+    </style> 
+</head> 
+<body> 
+    <form method="post" action="task.php" enctype="multipart/form-data"> 
+        Name: <input type="text" name="name"> 
+        <br><br> 
+
+        E-mail: <input type="text" name="email"> 
+        <br><br> 
+
+        Website: <input type="text" name="website"> 
+        <br><br> 
+
+
+        Comment: <br> 
+        <textarea name="comment" rows="5" cols="40"></textarea> 
+        <br><br> 
+        
+        Profile Picture: <input type="file" name="profile_pic" accept="image/png, image/jpeg">
+        <br><br>
+
+        Gender: 
+        <input type="radio" name="gender" value="Female">Female 
+        <input type="radio" name="gender" value="Male">Male 
+        <br><br> 
+
+        <input type="submit" name="submit" value="Submit"> 
+    </form> 
+</body> 
+</html>
