@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Online Grocery Store</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin">
+    <div class="admin-sidebar">
+        <div class="brand">
+            Grocery Admin
+        </div>
+        <div class="menu">
+            <a href="index.html" class="menu-item">
+                <i class="material-icons">dashboard</i> Dashboard
+            </a>
+            <a href="products.html" class="menu-item">
+                <i class="material-icons">inventory</i> Products
+            </a>
+            <a href="categories.html" class="menu-item">
+                <i class="material-icons">category</i> Categories
+            </a>
+            <a href="orders.html" class="menu-item">
+                <i class="material-icons">shopping_cart</i> Orders
+            </a>
+            <a href="users.html" class="menu-item">
+                <i class="material-icons">people</i> Users
+            </a>
+            <a href="vendors.html" class="menu-item">
+                <i class="material-icons">store</i> Vendors
+            </a>
+            <a href="settings.html" class="menu-item active">
+                <i class="material-icons">settings</i> Settings
+            </a>
+        </div>
+    </div>
+
+    <div class="admin-content">
+        <div class="admin-header">
+            <h2>Settings</h2>
+            <div class="user-info">
+                <div class="dropdown">
+                    <span id="admin-username">Admin</span>
+                    <i class="material-icons">arrow_drop_down</i>
+                    <div class="dropdown-content">
+                        <a href="profile.html">My Profile</a>
+                        <a href="#" id="logout-btn">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-body">
+            <div class="settings-tabs">
+                <div class="tab-nav">
+                    <button class="tab-btn active" data-tab="general">General</button>
+                    <button class="tab-btn" data-tab="shipping">Shipping</button>
+                    <button class="tab-btn" data-tab="payment">Payment</button>
+                    <button class="tab-btn" data-tab="email">Email</button>
+                    <button class="tab-btn" data-tab="appearance">Appearance</button>
+                </div>
+                
+                <div class="tab-content">
+                    <!-- General Settings Tab -->
+                    <div class="tab-pane active" id="general-tab">
+                        <h3>General Settings</h3>
+                        <form id="general-settings-form">
+                            <div class="form-group">
+                                <label for="site-title">Store Name:</label>
+                                <input type="text" id="site-title" name="site_title" value="Online Grocery Store">
+                            </div>
+                            <div class="form-group">
+                                <label for="site-description">Store Description:</label>
+                                <textarea id="site-description" name="site_description" rows="3">Your one-stop shop for fresh groceries.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">Contact Email:</label>
+                                <input type="email" id="contact-email" name="contact_email" value="contact@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-phone">Contact Phone:</label>
+                                <input type="text" id="contact-phone" name="contact_phone" value="+1 (123) 456-7890">
+                            </div>
+                            <div class="form-group">
+                                <label for="store-address">Store Address:</label>
+                                <textarea id="store-address" name="store_address" rows="3">123 Main Street, City, State, 12345</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="currency">Currency:</label>
+                                <select id="currency" name="currency">
+                                    <option value="USD">USD ($)</option>
+                                    <option value="EUR">EUR (€)</option>
+                                    <option value="GBP">GBP (£)</option>
+                                    <option value="JPY">JPY (¥)</option>
+                                    <option value="CAD">CAD (C$)</option>
+                                    <option value="AUD">AUD (A$)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="timezone">Timezone:</label>
+                                <select id="timezone" name="timezone">
+                                    <option value="UTC">UTC</option>
+                                    <option value="America/New_York">Eastern Time (US & Canada)</option>
+                                    <option value="America/Chicago">Central Time (US & Canada)</option>
+                                    <option value="America/Denver">Mountain Time (US & Canada)</option>
+                                    <option value="America/Los_Angeles">Pacific Time (US & Canada)</option>
+                                    <option value="Europe/London">London</option>
+                                    <option value="Europe/Paris">Paris</option>
+                                    <option value="Asia/Tokyo">Tokyo</option>
+                                </select>
+                            </div>
+                            <div class="form-buttons">
+                                <button type="submit" class="btn primary">Save General Settings</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Shipping Settings Tab -->
+                    <div class="tab-pane" id="shipping-tab">
+                        <h3>Shipping Settings</h3>
+                        <form id="shipping-settings-form">
+                            <div class="form-group">
+                                <label for="enable-shipping">Enable Shipping:</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="enable-shipping" name="enable_shipping" checked>
+                                    <label for="enable-shipping"></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="shipping-method">Default Shipping Method:</label>
+                                <select id="shipping-method" name="shipping_method">
+                                    <option value="flat_rate">Flat Rate</option>
+                                    <option value="free_shipping">Free Shipping</option>
+                                    <option value="local_pickup">Local Pickup</option>
+                                    <option value="distance_based">Distance Based</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="flat-rate-fee">Flat Rate Fee:</label>
+                                <input type="number" id="flat-rate-fee" name="flat_rate_fee" value="5.00" min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="free-shipping-min">Free Shipping Minimum Order:</label>
+                                <input type="number" id="free-shipping-min" name="free_shipping_min" value="50.00" min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="shipping-countries">Shipping Countries:</label>
+                                <select id="shipping-countries" name="shipping_countries" multiple>
+                                    <option value="US" selected>United States</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="MX">Mexico</option>
+                                    <option value="GB">United Kingdom</option>
+                                    <option value="FR">France</option>
+                                    <option value="DE">Germany</option>
+                                    <option value="JP">Japan</option>
+                                    <option value="AU">Australia</option>
+                                </select>
+                                <small>Hold Ctrl/Cmd to select multiple countries</small>
+                            </div>
+                            <div class="form-buttons">
+                                <button type="submit" class="btn primary">Save Shipping Settings</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Payment Settings Tab -->
+                    <div class="tab-pane" id="payment-tab">
+                        <h3>Payment Settings</h3>
+                        <form id="payment-settings-form">
+                            <div class="form-group">
+                                <label>Payment Methods:</label>
+                                <div class="checkbox-list">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="payment-cash" name="payment_methods[]" value="cash" checked>
+                                        <label for="payment-cash">Cash on Delivery</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="payment-bank" name="payment_methods[]" value="bank" checked>
+                                        <label for="payment-bank">Bank Transfer</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="payment-card" name="payment_methods[]" value="card" checked>
+                                        <label for="payment-card">Credit/Debit Card</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="payment-paypal" name="payment_methods[]" value="paypal">
+                                        <label for="payment-paypal">PayPal</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="currency-format">Currency Format:</label>
+                                <select id="currency-format" name="currency_format">
+                                    <option value="symbol_left">Symbol on left ($10.00)</option>
+                                    <option value="symbol_right">Symbol on right (10.00$)</option>
+                                    <option value="code_left">Code on left (USD 10.00)</option>
+                                    <option value="code_right">Code on right (10.00 USD)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tax-rate">Default Tax Rate (%):</label>
+                                <input type="number" id="tax-rate" name="tax_rate" value="7.5" min="0" max="100" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label for="enable-tax">Enable Tax Calculation:</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="enable-tax" name="enable_tax" checked>
+                                    <label for="enable-tax"></label>
+                                </div>
+                            </div>
+                            <div class="form-buttons">
+                                <button type="submit" class="btn primary">Save Payment Settings</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Email Settings Tab -->
+                    <div class="tab-pane" id="email-tab">
+                        <h3>Email Settings</h3>
+                        <form id="email-settings-form">
+                            <div class="form-group">
+                                <label for="email-from">From Email:</label>
+                                <input type="email" id="email-from" name="email_from" value="noreply@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="email-from-name">From Name:</label>
+                                <input type="text" id="email-from-name" name="email_from_name" value="Online Grocery Store">
+                            </div>
+                            <div class="form-group">
+                                <label for="email-method">Email Method:</label>
+                                <select id="email-method" name="email_method">
+                                    <option value="smtp">SMTP</option>
+                                    <option value="mail" selected>PHP Mail</option>
+                                    <option value="sendmail">Sendmail</option>
+                                </select>
+                            </div>
+                            <div class="smtp-settings">
+                                <div class="form-group">
+                                    <label for="smtp-host">SMTP Host:</label>
+                                    <input type="text" id="smtp-host" name="smtp_host" value="smtp.example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="smtp-port">SMTP Port:</label>
+                                    <input type="number" id="smtp-port" name="smtp_port" value="587">
+                                </div>
+                                <div class="form-group">
+                                    <label for="smtp-user">SMTP Username:</label>
+                                    <input type="text" id="smtp-user" name="smtp_user" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="smtp-pass">SMTP Password:</label>
+                                    <input type="password" id="smtp-pass" name="smtp_pass" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="smtp-encryption">SMTP Encryption:</label>
+                                    <select id="smtp-encryption" name="smtp_encryption">
+                                        <option value="none">None</option>
+                                        <option value="ssl">SSL</option>
+                                        <option value="tls" selected>TLS</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Notifications:</label>
+                                <div class="checkbox-list">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="notify-new-order" name="notify_new_order" checked>
+                                        <label for="notify-new-order">New Order</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="notify-order-status" name="notify_order_status" checked>
+                                        <label for="notify-order-status">Order Status Update</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="notify-new-account" name="notify_new_account" checked>
+                                        <label for="notify-new-account">New Account Registration</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="notify-low-stock" name="notify_low_stock" checked>
+                                        <label for="notify-low-stock">Low Stock Alert</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-buttons">
+                                <button type="button" class="btn secondary" id="test-email-btn">Send Test Email</button>
+                                <button type="submit" class="btn primary">Save Email Settings</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Appearance Settings Tab -->
+                    <div class="tab-pane" id="appearance-tab">
+                        <h3>Appearance Settings</h3>
+                        <form id="appearance-settings-form">
+                            <div class="form-group">
+                                <label for="store-logo">Store Logo:</label>
+                                <div class="file-upload">
+                                    <input type="file" id="store-logo" name="store_logo" accept="image/*">
+                                    <div class="file-preview">
+                                        <img id="logo-preview" src="../img/logo.png" alt="Store Logo">
+                                    </div>
+                                    <small>Recommended size: 200x50 pixels</small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="store-favicon">Favicon:</label>
+                                <div class="file-upload">
+                                    <input type="file" id="store-favicon" name="store_favicon" accept="image/x-icon,image/png">
+                                    <div class="file-preview">
+                                        <img id="favicon-preview" src="../img/favicon.ico" alt="Favicon">
+                                    </div>
+                                    <small>Recommended size: 16x16 or 32x32 pixels</small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="primary-color">Primary Color:</label>
+                                <input type="color" id="primary-color" name="primary_color" value="#4CAF50">
+                            </div>
+                            <div class="form-group">
+                                <label for="secondary-color">Secondary Color:</label>
+                                <input type="color" id="secondary-color" name="secondary_color" value="#2196F3">
+                            </div>
+                            <div class="form-group">
+                                <label for="featured-limit">Featured Products Limit:</label>
+                                <input type="number" id="featured-limit" name="featured_limit" value="8" min="1" max="20">
+                            </div>
+                            <div class="form-group">
+                                <label for="products-per-page">Products Per Page:</label>
+                                <input type="number" id="products-per-page" name="products_per_page" value="12" min="4" max="48">
+                            </div>
+                            <div class="form-buttons">
+                                <button type="submit" class="btn primary">Save Appearance Settings</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check admin authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if admin is logged in
+            fetch('../php/check_admin.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.isAdmin) {
+                        window.location.href = 'login.html';
+                    } else {
+                        document.getElementById('admin-username').textContent = data.name;
+                        // Load settings after successful authentication
+                        loadSettings();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking admin status:', error);
+                    window.location.href = 'login.html';
+                });
+
+            // Logout functionality
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                fetch('../php/logout.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = 'login.html';
+                        }
+                    })
+                    .catch(error => console.error('Error logging out:', error));
+            });
+
+            // Tab switching
+            document.querySelectorAll('.tab-btn').forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    document.querySelectorAll('.tab-btn').forEach(function(t) {
+                        t.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all tab panes
+                    document.querySelectorAll('.tab-pane').forEach(function(pane) {
+                        pane.classList.remove('active');
+                    });
+                    
+                    // Show the corresponding tab pane
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId + '-tab').classList.add('active');
+                });
+            });
+
+            // Email method change
+            document.getElementById('email-method').addEventListener('change', function() {
+                const smtpSettings = document.querySelector('.smtp-settings');
+                if (this.value === 'smtp') {
+                    smtpSettings.style.display = 'block';
+                } else {
+                    smtpSettings.style.display = 'none';
+                }
+            });
+
+            // Logo preview
+            document.getElementById('store-logo').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        document.getElementById('logo-preview').src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Favicon preview
+            document.getElementById('store-favicon').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        document.getElementById('favicon-preview').src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Test email button
+            document.getElementById('test-email-btn').addEventListener('click', function() {
+                sendTestEmail();
+            });
+
+            // Form submissions
+            setupFormSubmissions();
+        });
+
+        function loadSettings() {
+            fetch('../php/admin/get_settings.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error loading settings:', data.error);
+                        return;
+                    }
+                    
+                    // Populate form fields with settings data
+                    populateSettings(data);
+                })
+                .catch(error => console.error('Error loading settings:', error));
+        }
+
+        function populateSettings(settings) {
+            // This is a placeholder function - in a real implementation,
+            // you would loop through the settings and set each form field value
+            
+            // For now, we'll use default values (already set in HTML)
+            
+            // Show/hide SMTP settings based on email method
+            const emailMethod = document.getElementById('email-method').value;
+            const smtpSettings = document.querySelector('.smtp-settings');
+            
+            if (emailMethod === 'smtp') {
+                smtpSettings.style.display = 'block';
+            } else {
+                smtpSettings.style.display = 'none';
+            }
+        }
+
+        function setupFormSubmissions() {
+            // General settings form
+            document.getElementById('general-settings-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveSettings('general', this);
+            });
+            
+            // Shipping settings form
+            document.getElementById('shipping-settings-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveSettings('shipping', this);
+            });
+            
+            // Payment settings form
+            document.getElementById('payment-settings-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveSettings('payment', this);
+            });
+            
+            // Email settings form
+            document.getElementById('email-settings-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveSettings('email', this);
+            });
+            
+            // Appearance settings form
+            document.getElementById('appearance-settings-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveSettings('appearance', this);
+            });
+        }
+
+        function saveSettings(type, form) {
+            // Create FormData object
+            const formData = new FormData(form);
+            formData.append('type', type);
+            
+            fetch('../php/admin/save_settings.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Settings saved successfully!');
+                } else {
+                    alert(data.message || 'Error saving settings');
+                }
+            })
+            .catch(error => {
+                console.error('Error saving settings:', error);
+                alert('An error occurred while saving settings');
+            });
+        }
+
+        function sendTestEmail() {
+            const recipient = document.getElementById('email-from').value;
+            
+            if (!recipient) {
+                alert('Please enter a valid "From Email" address');
+                return;
+            }
+            
+            fetch('../php/admin/send_test_email.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ recipient: recipient })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Test email sent successfully!');
+                } else {
+                    alert(data.message || 'Error sending test email');
+                }
+            })
+            .catch(error => {
+                console.error('Error sending test email:', error);
+                alert('An error occurred while sending test email');
+            });
+        }
+    </script>
+</body>
+</html>

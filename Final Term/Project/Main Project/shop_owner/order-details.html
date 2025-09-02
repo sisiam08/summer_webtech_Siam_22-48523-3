@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details - Shop Owner Dashboard</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/shop_owner.css">
+</head>
+<body class="shop-owner">
+    <div class="shop-owner-sidebar">
+        <div class="brand">
+            Shop Dashboard
+        </div>
+        <div class="menu">
+            <a href="index.html" class="menu-item">
+                <i class="material-icons">dashboard</i> <span>Dashboard</span>
+            </a>
+            <a href="products.html" class="menu-item">
+                <i class="material-icons">inventory</i> <span>Products</span>
+            </a>
+            <a href="orders.html" class="menu-item active">
+                <i class="material-icons">shopping_cart</i> <span>Orders</span>
+            </a>
+            <a href="reports.html" class="menu-item">
+                <i class="material-icons">bar_chart</i> <span>Reports</span>
+            </a>
+            <a href="profile.html" class="menu-item">
+                <i class="material-icons">store</i> <span>Shop Profile</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="shop-owner-content">
+        <div class="shop-owner-header">
+            <h2>Order Details <span id="order-number"></span></h2>
+            <div class="user-info">
+                <div class="dropdown">
+                    <span id="shop-owner-name">Shop Owner</span>
+                    <i class="material-icons">arrow_drop_down</i>
+                    <div class="dropdown-content">
+                        <a href="profile.html">My Profile</a>
+                        <a href="#" id="logout-btn">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="back-button">
+            <a href="orders.html" class="btn secondary">
+                <i class="material-icons">arrow_back</i> Back to Orders
+            </a>
+        </div>
+
+        <div class="order-details-container">
+            <div class="order-info-grid">
+                <div class="order-summary-card">
+                    <h3>Order Summary</h3>
+                    <div class="order-info">
+                        <div class="info-row">
+                            <span class="label">Status:</span>
+                            <span class="value" id="order-status"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Order Date:</span>
+                            <span class="value" id="order-date"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Total Amount:</span>
+                            <span class="value" id="order-total"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Payment Method:</span>
+                            <span class="value" id="payment-method"></span>
+                        </div>
+                    </div>
+                    <div class="order-actions">
+                        <button class="btn primary" id="update-status-btn">
+                            <i class="material-icons">update</i> Update Status
+                        </button>
+                    </div>
+                </div>
+
+                <div class="customer-info-card">
+                    <h3>Customer Information</h3>
+                    <div class="order-info">
+                        <div class="info-row">
+                            <span class="label">Name:</span>
+                            <span class="value" id="customer-name"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Email:</span>
+                            <span class="value" id="customer-email"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Phone:</span>
+                            <span class="value" id="customer-phone"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shipping-info-card">
+                    <h3>Shipping Information</h3>
+                    <div class="order-info">
+                        <div class="info-row">
+                            <span class="label">Address:</span>
+                            <span class="value" id="shipping-address"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">City:</span>
+                            <span class="value" id="shipping-city"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Postal Code:</span>
+                            <span class="value" id="shipping-postal"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Country:</span>
+                            <span class="value" id="shipping-country"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-items-container">
+                <h3>Order Items</h3>
+                <table class="data-table" id="order-items-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Order items will be populated by JavaScript -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-right"><strong>Subtotal:</strong></td>
+                            <td id="subtotal">$0.00</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-right"><strong>Shipping:</strong></td>
+                            <td id="shipping-fee">$0.00</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                            <td id="total-amount">$0.00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="order-history-container">
+                <h3>Order History</h3>
+                <div class="timeline" id="order-timeline">
+                    <!-- Order history will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Status Modal -->
+    <div class="modal" id="status-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Update Order Status</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Update status for Order #<span id="modal-order-number"></span></p>
+                <div class="form-group">
+                    <label for="order-status-select">Status</label>
+                    <select id="order-status-select" class="form-control">
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary" id="cancel-status">Cancel</button>
+                <button class="btn primary" id="confirm-status">Update Status</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentOrderId = null;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if shop owner is logged in
+            fetch('../php/shop_owner/check_auth.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.isAuthenticated || data.role !== 'shop_owner') {
+                        window.location.href = 'login.html';
+                    } else {
+                        document.getElementById('shop-owner-name').textContent = data.name;
+                        
+                        // Get order ID from URL parameter
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const orderId = urlParams.get('id');
+                        
+                        if (!orderId) {
+                            window.location.href = 'orders.html';
+                            return;
+                        }
+                        
+                        currentOrderId = orderId;
+                        
+                        // Load order details
+                        loadOrderDetails(orderId);
+                        
+                        // Set up event listeners
+                        setupEventListeners();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking authentication:', error);
+                    window.location.href = 'login.html';
+                });
+        });
+
+        function setupEventListeners() {
+            // Logout functionality
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                fetch('../php/logout.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = 'login.html';
+                        }
+                    })
+                    .catch(error => console.error('Error logging out:', error));
+            });
+            
+            // Update status button
+            document.getElementById('update-status-btn').addEventListener('click', function() {
+                openModal();
+            });
+            
+            // Modal functionality
+            const modal = document.getElementById('status-modal');
+            const closeBtn = document.querySelector('.close');
+            const cancelBtn = document.getElementById('cancel-status');
+            
+            closeBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+            
+            // Close modal if clicked outside
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // Status update confirmation
+            document.getElementById('confirm-status').addEventListener('click', function() {
+                if (currentOrderId) {
+                    const status = document.getElementById('order-status-select').value;
+                    updateOrderStatus(currentOrderId, status);
+                }
+            });
+        }
+
+        function loadOrderDetails(orderId) {
+            fetch(`../php/shop_owner/get_order_details.php?id=${orderId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error loading order details:', data.error);
+                        alert('Error loading order details: ' + data.error);
+                        window.location.href = 'orders.html';
+                        return;
+                    }
+                    
+                    // Set order information
+                    const order = data.order;
+                    document.getElementById('order-number').textContent = `#${order.order_number}`;
+                    document.getElementById('modal-order-number').textContent = order.order_number;
+                    
+                    // Create status badge
+                    let statusBadge;
+                    switch (order.status) {
+                        case 'pending':
+                            statusBadge = '<span class="badge warning">Pending</span>';
+                            break;
+                        case 'processing':
+                            statusBadge = '<span class="badge info">Processing</span>';
+                            break;
+                        case 'shipped':
+                            statusBadge = '<span class="badge primary">Shipped</span>';
+                            break;
+                        case 'delivered':
+                            statusBadge = '<span class="badge success">Delivered</span>';
+                            break;
+                        case 'cancelled':
+                            statusBadge = '<span class="badge danger">Cancelled</span>';
+                            break;
+                        default:
+                            statusBadge = '<span class="badge secondary">' + order.status + '</span>';
+                    }
+                    document.getElementById('order-status').innerHTML = statusBadge;
+                    document.getElementById('order-status-select').value = order.status;
+                    
+                    // Set other order details
+                    document.getElementById('order-date').textContent = new Date(order.created_at).toLocaleString();
+                    document.getElementById('order-total').textContent = `$${parseFloat(order.total_amount).toFixed(2)}`;
+                    document.getElementById('payment-method').textContent = order.payment_method || 'N/A';
+                    
+                    // Set customer information
+                    document.getElementById('customer-name').textContent = order.customer_name;
+                    document.getElementById('customer-email').textContent = order.customer_email;
+                    document.getElementById('customer-phone').textContent = order.customer_phone || 'N/A';
+                    
+                    // Set shipping information
+                    document.getElementById('shipping-address').textContent = order.shipping_address;
+                    document.getElementById('shipping-city').textContent = order.shipping_city;
+                    document.getElementById('shipping-postal').textContent = order.shipping_postal_code;
+                    document.getElementById('shipping-country').textContent = order.shipping_country;
+                    
+                    // Set order items
+                    renderOrderItems(data.orderItems);
+                    
+                    // Set order history
+                    renderOrderHistory(data.orderHistory);
+                })
+                .catch(error => {
+                    console.error('Error loading order details:', error);
+                    alert('An error occurred while loading order details');
+                    window.location.href = 'orders.html';
+                });
+        }
+
+        function renderOrderItems(items) {
+            const tableBody = document.querySelector('#order-items-table tbody');
+            tableBody.innerHTML = '';
+            
+            let subtotal = 0;
+            
+            items.forEach(item => {
+                const row = document.createElement('tr');
+                const itemTotal = parseFloat(item.price) * parseInt(item.quantity);
+                subtotal += itemTotal;
+                
+                row.innerHTML = `
+                    <td>
+                        <div class="product-info">
+                            <img src="../uploads/products/${item.image || 'no-image.jpg'}" alt="${item.product_name}" class="thumbnail">
+                            <div>
+                                <div class="product-name">${item.product_name}</div>
+                                <div class="product-sku">SKU: ${item.sku || 'N/A'}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>$${parseFloat(item.price).toFixed(2)}</td>
+                    <td>${item.quantity}</td>
+                    <td>$${itemTotal.toFixed(2)}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Update totals
+            const shippingFee = parseFloat(items[0]?.shipping_fee || 0);
+            const total = subtotal + shippingFee;
+            
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('shipping-fee').textContent = `$${shippingFee.toFixed(2)}`;
+            document.getElementById('total-amount').textContent = `$${total.toFixed(2)}`;
+        }
+
+        function renderOrderHistory(history) {
+            const timeline = document.getElementById('order-timeline');
+            timeline.innerHTML = '';
+            
+            history.forEach(entry => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                
+                // Determine icon based on status
+                let iconClass;
+                switch (entry.status) {
+                    case 'pending':
+                        iconClass = 'warning';
+                        break;
+                    case 'processing':
+                        iconClass = 'info';
+                        break;
+                    case 'shipped':
+                        iconClass = 'primary';
+                        break;
+                    case 'delivered':
+                        iconClass = 'success';
+                        break;
+                    case 'cancelled':
+                        iconClass = 'danger';
+                        break;
+                    default:
+                        iconClass = 'secondary';
+                }
+                
+                timelineItem.innerHTML = `
+                    <div class="timeline-icon ${iconClass}">
+                        <i class="material-icons">
+                            ${getStatusIcon(entry.status)}
+                        </i>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Order ${capitalizeFirstLetter(entry.status)}</h4>
+                        <p>${new Date(entry.created_at).toLocaleString()}</p>
+                        <p class="timeline-user">by ${entry.user_name || entry.user_role}</p>
+                    </div>
+                `;
+                
+                timeline.appendChild(timelineItem);
+            });
+        }
+
+        function getStatusIcon(status) {
+            switch (status) {
+                case 'pending':
+                    return 'pending';
+                case 'processing':
+                    return 'sync';
+                case 'shipped':
+                    return 'local_shipping';
+                case 'delivered':
+                    return 'check_circle';
+                case 'cancelled':
+                    return 'cancel';
+                default:
+                    return 'info';
+            }
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function openModal() {
+            document.getElementById('status-modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('status-modal').style.display = 'none';
+        }
+
+        function updateOrderStatus(orderId, status) {
+            fetch('../php/shop_owner/update_order_status.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `id=${orderId}&status=${status}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    closeModal();
+                    
+                    if (data.success) {
+                        // Show success notification
+                        alert('Order status updated successfully');
+                        
+                        // Reload order details
+                        loadOrderDetails(orderId);
+                    } else {
+                        // Show error notification
+                        alert('Error updating order status: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    closeModal();
+                    console.error('Error updating order status:', error);
+                    alert('An error occurred while updating the order status');
+                });
+        }
+    </script>
+</body>
+</html>

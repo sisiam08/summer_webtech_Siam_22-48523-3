@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Session and Cookies Demo</title>
+</head>
+<body>
+    <div>
+        <h2>Login</h2>
+        <p>Please fill in your credentials to login.</p>
+
+        <?php if(!empty($login_err)): ?>
+            <div style="color: red;"><?php echo $login_err; ?></div>
+        <?php endif; ?>
+
+        <form action="login.php" method="post">
+            <div>
+                <label>Username</label>
+                <input type="text" name="username" value="<?php echo htmlspecialchars($username); ?>">
+                <span style="color: red;"><?php echo $username_err; ?></span>
+            </div>    
+            <div>
+                <label>Password</label>
+                <input type="password" name="password">
+                <span style="color: red;"><?php echo $password_err; ?></span>
+            </div>
+            <div>
+                <input type="checkbox" name="remember_me" <?php echo $remember_me ? 'checked' : ''; ?>> Remember Me
+            </div>
+            <div>
+                <input type="submit" value="Login">
+            </div>
+            <p>Don't have an account? <a href="signup.php">Sign up</a>.</p>
+        </form>
+        
+        <?php if(isset($_SESSION['signup_success']) && $_SESSION['signup_success']): ?>
+            <div style="color: green; margin-top: 20px;">
+                Account created successfully! You can now log in.
+            </div>
+            <?php unset($_SESSION['signup_success']); ?>
+        <?php endif; ?>
+    </div>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Online Grocery Store</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin">
+    <div class="admin-sidebar">
+        <div class="brand">
+            Grocery Admin
+        </div>
+        <div class="menu">
+            <a href="index.html" class="menu-item active">
+                <i class="material-icons">dashboard</i> Dashboard
+            </a>
+            <a href="products.html" class="menu-item">
+                <i class="material-icons">inventory</i> Products
+            </a>
+            <a href="categories.html" class="menu-item">
+                <i class="material-icons">category</i> Categories
+            </a>
+            <a href="orders.html" class="menu-item">
+                <i class="material-icons">shopping_cart</i> Orders
+            </a>
+            <a href="users.html" class="menu-item">
+                <i class="material-icons">people</i> Users
+            </a>
+            <a href="vendors.html" class="menu-item">
+                <i class="material-icons">store</i> Vendors
+            </a>
+            <a href="settings.html" class="menu-item">
+                <i class="material-icons">settings</i> Settings
+            </a>
+        </div>
+    </div>
+
+    <div class="admin-content">
+        <div class="admin-header">
+            <h2>Dashboard</h2>
+            <div class="user-info">
+                <div class="dropdown">
+                    <span id="admin-username">Admin</span>
+                    <i class="material-icons">arrow_drop_down</i>
+                    <div class="dropdown-content">
+                        <a href="profile.html">My Profile</a>
+                        <a href="#" id="logout-btn">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-dashboard-cards">
+            <div class="dashboard-card primary">
+                <i class="material-icons card-icon">shopping_cart</i>
+                <div class="card-value" id="total-orders">0</div>
+                <div class="card-label">Total Orders</div>
+            </div>
+            <div class="dashboard-card info">
+                <i class="material-icons card-icon">inventory</i>
+                <div class="card-value" id="total-products">0</div>
+                <div class="card-label">Total Products</div>
+            </div>
+            <div class="dashboard-card success">
+                <i class="material-icons card-icon">people</i>
+                <div class="card-value" id="total-users">0</div>
+                <div class="card-label">Total Users</div>
+            </div>
+            <div class="dashboard-card warning">
+                <i class="material-icons card-icon">attach_money</i>
+                <div class="card-value" id="total-revenue">$0</div>
+                <div class="card-label">Total Revenue</div>
+            </div>
+        </div>
+
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h3>Recent Orders</h3>
+                <a href="orders.html" class="admin-btn admin-btn-primary admin-btn-small">View All</a>
+            </div>
+            <table class="admin-table" id="recent-orders-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Orders will be loaded here via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h3>Top Selling Products</h3>
+                <a href="products.html" class="admin-btn admin-btn-primary admin-btn-small">View All</a>
+            </div>
+            <table class="admin-table" id="top-products-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Sold</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Products will be loaded here via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in and has admin privileges
+        fetch('../php/check_admin.php')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.is_admin) {
+                    // If not admin, redirect to login page
+                    window.location.href = 'login.html';
+                } else {
+                    // Display admin username
+                    document.getElementById('admin-username').textContent = data.name || 'Admin';
+                    
+                    // Load dashboard data
+                    loadDashboardData();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                window.location.href = 'login.html';
+            });
+            
+        // Load dashboard data
+        function loadDashboardData() {
+            // Fetch dashboard summary
+            fetch('../php/admin/get_dashboard_summary.php')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total-orders').textContent = data.total_orders || 0;
+                    document.getElementById('total-products').textContent = data.total_products || 0;
+                    document.getElementById('total-users').textContent = data.total_users || 0;
+                    document.getElementById('total-revenue').textContent = '$' + (data.total_revenue || 0).toFixed(2);
+                })
+                .catch(error => console.error('Error loading dashboard summary:', error));
+                
+            // Fetch recent orders
+            fetch('../php/admin/get_recent_orders.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('recent-orders-table').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '';
+                    
+                    if (data.length === 0) {
+                        const row = tableBody.insertRow();
+                        const cell = row.insertCell();
+                        cell.colSpan = 6;
+                        cell.textContent = 'No orders found';
+                        cell.style.textAlign = 'center';
+                        return;
+                    }
+                    
+                    data.forEach(order => {
+                        const row = tableBody.insertRow();
+                        
+                        const idCell = row.insertCell();
+                        idCell.textContent = '#' + order.id;
+                        
+                        const customerCell = row.insertCell();
+                        customerCell.textContent = order.customer_name;
+                        
+                        const dateCell = row.insertCell();
+                        dateCell.textContent = new Date(order.order_date).toLocaleDateString();
+                        
+                        const statusCell = row.insertCell();
+                        statusCell.innerHTML = `<span class="status-badge ${order.status.toLowerCase()}">${order.status}</span>`;
+                        
+                        const totalCell = row.insertCell();
+                        totalCell.textContent = '$' + parseFloat(order.total).toFixed(2);
+                        
+                        const actionsCell = row.insertCell();
+                        actionsCell.innerHTML = `
+                            <a href="view_order.html?id=${order.id}" class="admin-btn admin-btn-primary admin-btn-small">View</a>
+                        `;
+                    });
+                })
+                .catch(error => console.error('Error loading recent orders:', error));
+                
+            // Fetch top selling products
+            fetch('../php/admin/get_top_products.php')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('top-products-table').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '';
+                    
+                    if (data.length === 0) {
+                        const row = tableBody.insertRow();
+                        const cell = row.insertCell();
+                        cell.colSpan = 5;
+                        cell.textContent = 'No products found';
+                        cell.style.textAlign = 'center';
+                        return;
+                    }
+                    
+                    data.forEach(product => {
+                        const row = tableBody.insertRow();
+                        
+                        const nameCell = row.insertCell();
+                        nameCell.textContent = product.name;
+                        
+                        const categoryCell = row.insertCell();
+                        categoryCell.textContent = product.category;
+                        
+                        const priceCell = row.insertCell();
+                        priceCell.textContent = '$' + parseFloat(product.price).toFixed(2);
+                        
+                        const stockCell = row.insertCell();
+                        stockCell.textContent = product.stock;
+                        
+                        const soldCell = row.insertCell();
+                        soldCell.textContent = product.sold;
+                    });
+                })
+                .catch(error => console.error('Error loading top products:', error));
+        }
+        
+        // Handle logout
+        document.getElementById('logout-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            fetch('../php/logout.php')
+                .then(response => response.json())
+                .then(data => {
+                    window.location.href = 'login.html';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Online Grocery Store</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .products-container {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .sidebar {
+            width: 20%;
+            background: #fff;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar h3 {
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.5rem;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+        }
+        
+        .sidebar li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar a {
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .sidebar a:hover {
+            color: #4CAF50;
+        }
+        
+        .product-content {
+            width: 80%;
+        }
+        
+        .search-bar {
+            margin-bottom: 1rem;
+        }
+        
+        .search-bar input {
+            padding: 0.5rem;
+            width: 70%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .search-bar button {
+            padding: 0.5rem 1rem;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Online Grocery Store</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Products</h2>
+        
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search products...">
+            <button id="search-button">Search</button>
+        </div>
+        
+        <div class="products-container">
+            <aside class="sidebar">
+                <h3>Categories</h3>
+                <ul id="categories-list">
+                    <li><a href="#" data-category="0" class="category-link active">All Products</a></li>
+                    <!-- Categories will be loaded dynamically -->
+                    <li>Loading categories...</li>
+                </ul>
+            </aside>
+            
+            <div class="product-content">
+                <div class="product-grid" id="products-grid">
+                    <!-- Products will be loaded dynamically -->
+                    <p>Loading products...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Online Grocery Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load categories
+            fetch('php/get_categories.php')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('categories-list').innerHTML = 
+                        '<li><a href="#" data-category="0" class="category-link active">All Products</a></li>' + data;
+                    
+                    // Add event listeners to category links
+                    const categoryLinks = document.querySelectorAll('.category-link');
+                    categoryLinks.forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            
+                            // Remove active class from all links
+                            categoryLinks.forEach(l => l.classList.remove('active'));
+                            
+                            // Add active class to clicked link
+                            this.classList.add('active');
+                            
+                            // Get category ID
+                            const categoryId = this.getAttribute('data-category');
+                            
+                            // Load products for this category
+                            loadProducts(categoryId);
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading categories:', error);
+                    document.getElementById('categories-list').innerHTML = 
+                        '<li><a href="#" data-category="0" class="category-link active">All Products</a></li>' +
+                        '<li>Error loading categories</li>';
+                });
+            
+            // Load all products initially
+            loadProducts(0);
+            
+            // Handle search
+            document.getElementById('search-button').addEventListener('click', function() {
+                const keyword = document.getElementById('search-input').value.trim();
+                if (keyword) {
+                    searchProducts(keyword);
+                } else {
+                    loadProducts(0);
+                }
+            });
+            
+            // Also trigger search on Enter key
+            document.getElementById('search-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('search-button').click();
+                }
+            });
+            
+            // Function to load products
+            function loadProducts(categoryId) {
+                let url = 'php/get_products.php';
+                if (categoryId && categoryId !== '0') {
+                    url += `?category=${categoryId}`;
+                }
+                
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('products-grid').innerHTML = data;
+                    })
+                    .catch(error => {
+                        console.error('Error loading products:', error);
+                        document.getElementById('products-grid').innerHTML = 
+                            '<p>Error loading products. Please try again later.</p>';
+                    });
+            }
+            
+            // Function to search products
+            function searchProducts(keyword) {
+                fetch(`php/search_products.php?keyword=${encodeURIComponent(keyword)}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('products-grid').innerHTML = data;
+                    })
+                    .catch(error => {
+                        console.error('Error searching products:', error);
+                        document.getElementById('products-grid').innerHTML = 
+                            '<p>Error searching products. Please try again later.</p>';
+                    });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Online Grocery Store</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-login">
+    <div class="admin-login-container">
+        <div class="admin-login-box">
+            <h1>Admin Login</h1>
+            <div id="message"></div>
+            
+            <form id="admin-login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            
+            <p><a href="../index.html">Return to Store</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Handle form submission with AJAX
+        document.getElementById('admin-login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            formData.append('admin_login', '1'); // Add a flag to indicate admin login
+            
+            fetch('../php/login_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Redirect on successful login
+                    window.location.href = data.redirect || 'index.html';
+                } else {
+                    // Show error message
+                    document.getElementById('message').innerHTML = 
+                        `<div class="error">${data.message}</div>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('message').innerHTML = 
+                    '<div class="error">An error occurred. Please try again.</div>';
+            });
+        });
+    </script>
+</body>
+</html>

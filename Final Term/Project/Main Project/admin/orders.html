@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Management - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin">
+    <div class="admin-sidebar">
+        <div class="brand">
+            Grocery Admin
+        </div>
+        <div class="menu">
+            <a href="index.html" class="menu-item">
+                <i class="material-icons">dashboard</i> Dashboard
+            </a>
+            <a href="products.html" class="menu-item">
+                <i class="material-icons">inventory</i> Products
+            </a>
+            <a href="categories.html" class="menu-item">
+                <i class="material-icons">category</i> Categories
+            </a>
+            <a href="orders.html" class="menu-item active">
+                <i class="material-icons">shopping_cart</i> Orders
+            </a>
+            <a href="users.html" class="menu-item">
+                <i class="material-icons">people</i> Users
+            </a>
+            <a href="vendors.html" class="menu-item">
+                <i class="material-icons">store</i> Vendors
+            </a>
+            <a href="settings.html" class="menu-item">
+                <i class="material-icons">settings</i> Settings
+            </a>
+        </div>
+    </div>
+
+    <div class="admin-content">
+        <div class="admin-header">
+            <h2>Orders Management</h2>
+            <div class="user-info">
+                <div class="dropdown">
+                    <span id="admin-username">Admin</span>
+                    <i class="material-icons">arrow_drop_down</i>
+                    <div class="dropdown-content">
+                        <a href="profile.html">My Profile</a>
+                        <a href="#" id="logout-btn">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h3>Orders List</h3>
+                <div class="order-controls">
+                    <button class="admin-btn admin-btn-primary" id="export-orders">
+                        <i class="material-icons">download</i> Export Orders
+                    </button>
+                </div>
+            </div>
+            
+            <div class="search-filters">
+                <div class="search-box">
+                    <input type="text" id="search-order" class="admin-form-control" placeholder="Search by order ID or customer...">
+                </div>
+                <div class="filter-box">
+                    <select id="status-filter" class="admin-form-control">
+                        <option value="">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="filter-box">
+                    <input type="date" id="date-filter" class="admin-form-control" placeholder="Filter by date">
+                </div>
+            </div>
+            
+            <table class="admin-table" id="orders-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Payment</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Orders will be loaded here -->
+                </tbody>
+            </table>
+            
+            <div class="pagination" id="orders-pagination">
+                <!-- Pagination will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Order Details Modal -->
+    <div class="modal" id="order-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Order Details</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="order-details-container">
+                    <div class="order-info">
+                        <h4>Order Information</h4>
+                        <table class="order-info-table">
+                            <tr>
+                                <td><strong>Order ID:</strong></td>
+                                <td id="order-id"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Date:</strong></td>
+                                <td id="order-date"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Status:</strong></td>
+                                <td>
+                                    <select id="order-status" class="admin-form-control">
+                                        <option value="pending">Pending</option>
+                                        <option value="processing">Processing</option>
+                                        <option value="shipped">Shipped</option>
+                                        <option value="delivered">Delivered</option>
+                                        <option value="cancelled">Cancelled</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Payment Method:</strong></td>
+                                <td id="payment-method"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Payment Status:</strong></td>
+                                <td>
+                                    <select id="payment-status" class="admin-form-control">
+                                        <option value="pending">Pending</option>
+                                        <option value="completed">Completed</option>
+                                        <option value="failed">Failed</option>
+                                        <option value="refunded">Refunded</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="customer-info">
+                        <h4>Customer Information</h4>
+                        <table class="customer-info-table">
+                            <tr>
+                                <td><strong>Name:</strong></td>
+                                <td id="customer-name"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email:</strong></td>
+                                <td id="customer-email"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phone:</strong></td>
+                                <td id="customer-phone"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="shipping-info">
+                        <h4>Shipping Address</h4>
+                        <p id="shipping-address"></p>
+                    </div>
+                    
+                    <div class="order-items">
+                        <h4>Order Items</h4>
+                        <table class="admin-table" id="order-items-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Order items will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <table class="order-summary-table">
+                            <tr>
+                                <td><strong>Subtotal:</strong></td>
+                                <td id="order-subtotal"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Shipping:</strong></td>
+                                <td id="order-shipping"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Tax:</strong></td>
+                                <td id="order-tax"></td>
+                            </tr>
+                            <tr class="total-row">
+                                <td><strong>Total:</strong></td>
+                                <td id="order-total"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="admin-form-buttons">
+                    <button type="button" class="admin-btn admin-btn-secondary" id="close-order-details">Close</button>
+                    <button type="button" class="admin-btn admin-btn-primary" id="update-order-status">Update Status</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Additional styles for orders page */
+        .order-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+        
+        .status-badge.pending {
+            background-color: #ffecb3;
+            color: #e65100;
+        }
+        
+        .status-badge.processing {
+            background-color: #b3e5fc;
+            color: #0277bd;
+        }
+        
+        .status-badge.shipped {
+            background-color: #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .status-badge.delivered {
+            background-color: #c8e6c9;
+            color: #1b5e20;
+        }
+        
+        .status-badge.cancelled {
+            background-color: #ffcdd2;
+            color: #c62828;
+        }
+        
+        .order-details-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .order-items, .order-summary {
+            grid-column: 1 / 3;
+        }
+        
+        .order-info-table, .customer-info-table, .order-summary-table {
+            width: 100%;
+        }
+        
+        .order-info-table td, .customer-info-table td, .order-summary-table td {
+            padding: 8px 0;
+        }
+        
+        .total-row {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .order-details-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .order-items, .order-summary {
+                grid-column: 1;
+            }
+        }
+    </style>
+
+    <script>
+        // Check if user is logged in and has admin privileges
+        fetch('../php/check_admin.php')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.is_admin) {
+                    // If not admin, redirect to login page
+                    window.location.href = 'login.html';
+                } else {
+                    // Display admin username
+                    document.getElementById('admin-username').textContent = data.name || 'Admin';
+                    
+                    // Load initial data
+                    loadOrders();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                window.location.href = 'login.html';
+            });
+        
+        // Variables for pagination
+        let currentPage = 1;
+        let totalPages = 1;
+        let ordersPerPage = 10;
+        
+        // Load orders
+        function loadOrders(page = 1, search = '', status = '', date = '') {
+            fetch(`../php/admin/get_orders.php?page=${page}&limit=${ordersPerPage}&search=${search}&status=${status}&date=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('orders-table').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = '';
+                    
+                    if (data.orders.length === 0) {
+                        const row = tableBody.insertRow();
+                        const cell = row.insertCell();
+                        cell.colSpan = 7;
+                        cell.textContent = 'No orders found';
+                        cell.style.textAlign = 'center';
+                        return;
+                    }
+                    
+                    // Update pagination variables
+                    currentPage = data.current_page;
+                    totalPages = data.total_pages;
+                    
+                    // Display orders
+                    data.orders.forEach(order => {
+                        const row = tableBody.insertRow();
+                        
+                        // Order ID column
+                        const idCell = row.insertCell();
+                        idCell.textContent = '#' + order.id;
+                        
+                        // Customer column
+                        const customerCell = row.insertCell();
+                        customerCell.textContent = order.customer_name;
+                        
+                        // Date column
+                        const dateCell = row.insertCell();
+                        dateCell.textContent = new Date(order.order_date).toLocaleDateString();
+                        
+                        // Total column
+                        const totalCell = row.insertCell();
+                        totalCell.textContent = '$' + parseFloat(order.total).toFixed(2);
+                        
+                        // Status column
+                        const statusCell = row.insertCell();
+                        const statusBadge = document.createElement('span');
+                        statusBadge.className = `status-badge ${order.status.toLowerCase()}`;
+                        statusBadge.textContent = order.status;
+                        statusCell.appendChild(statusBadge);
+                        
+                        // Payment column
+                        const paymentCell = row.insertCell();
+                        const paymentBadge = document.createElement('span');
+                        paymentBadge.className = `status-badge ${order.payment_status.toLowerCase()}`;
+                        paymentBadge.textContent = order.payment_status;
+                        paymentCell.appendChild(paymentBadge);
+                        
+                        // Actions column
+                        const actionsCell = row.insertCell();
+                        actionsCell.innerHTML = `
+                            <button class="admin-btn admin-btn-primary admin-btn-small view-order" data-id="${order.id}">
+                                <i class="material-icons">visibility</i>
+                            </button>
+                            <button class="admin-btn admin-btn-secondary admin-btn-small print-order" data-id="${order.id}">
+                                <i class="material-icons">print</i>
+                            </button>
+                        `;
+                    });
+                    
+                    // Update pagination
+                    updatePagination();
+                })
+                .catch(error => console.error('Error loading orders:', error));
+        }
+        
+        // Update pagination controls
+        function updatePagination() {
+            const pagination = document.getElementById('orders-pagination');
+            pagination.innerHTML = '';
+            
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = '&laquo;';
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    loadOrders(currentPage - 1, 
+                        document.getElementById('search-order').value,
+                        document.getElementById('status-filter').value,
+                        document.getElementById('date-filter').value
+                    );
+                }
+            });
+            pagination.appendChild(prevButton);
+            
+            // Page buttons
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, startPage + 4);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.className = i === currentPage ? 'active' : '';
+                pageButton.addEventListener('click', () => {
+                    loadOrders(i, 
+                        document.getElementById('search-order').value,
+                        document.getElementById('status-filter').value,
+                        document.getElementById('date-filter').value
+                    );
+                });
+                pagination.appendChild(pageButton);
+            }
+            
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '&raquo;';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    loadOrders(currentPage + 1, 
+                        document.getElementById('search-order').value,
+                        document.getElementById('status-filter').value,
+                        document.getElementById('date-filter').value
+                    );
+                }
+            });
+            pagination.appendChild(nextButton);
+        }
+        
+        // Search and filter handlers
+        document.getElementById('search-order').addEventListener('input', debounce(function() {
+            loadOrders(1, this.value, 
+                document.getElementById('status-filter').value,
+                document.getElementById('date-filter').value
+            );
+        }, 500));
+        
+        document.getElementById('status-filter').addEventListener('change', function() {
+            loadOrders(1, 
+                document.getElementById('search-order').value,
+                this.value,
+                document.getElementById('date-filter').value
+            );
+        });
+        
+        document.getElementById('date-filter').addEventListener('change', function() {
+            loadOrders(1, 
+                document.getElementById('search-order').value,
+                document.getElementById('status-filter').value,
+                this.value
+            );
+        });
+        
+        // Debounce function to prevent multiple rapid requests
+        function debounce(func, wait) {
+            let timeout;
+            return function() {
+                const context = this, args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    func.apply(context, args);
+                }, wait);
+            };
+        }
+        
+        // Order details modal functions
+        const orderModal = document.getElementById('order-modal');
+        let currentOrderId = null;
+        
+        // Handle view order button clicks (delegation)
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.view-order')) {
+                const button = e.target.closest('.view-order');
+                const orderId = button.dataset.id;
+                loadOrderDetails(orderId);
+            }
+        });
+        
+        // Load order details
+        function loadOrderDetails(orderId) {
+            currentOrderId = orderId;
+            
+            fetch(`../php/admin/get_order_details.php?id=${orderId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Set order info
+                    document.getElementById('order-id').textContent = '#' + data.order.id;
+                    document.getElementById('order-date').textContent = new Date(data.order.order_date).toLocaleString();
+                    document.getElementById('order-status').value = data.order.status.toLowerCase();
+                    document.getElementById('payment-method').textContent = data.order.payment_method;
+                    document.getElementById('payment-status').value = data.order.payment_status.toLowerCase();
+                    
+                    // Set customer info
+                    document.getElementById('customer-name').textContent = data.customer.name;
+                    document.getElementById('customer-email').textContent = data.customer.email;
+                    document.getElementById('customer-phone').textContent = data.customer.phone || 'N/A';
+                    
+                    // Set shipping address
+                    document.getElementById('shipping-address').textContent = data.shipping_address;
+                    
+                    // Set order items
+                    const itemsTable = document.getElementById('order-items-table').getElementsByTagName('tbody')[0];
+                    itemsTable.innerHTML = '';
+                    
+                    data.items.forEach(item => {
+                        const row = itemsTable.insertRow();
+                        
+                        const productCell = row.insertCell();
+                        productCell.innerHTML = `
+                            <div class="product-info">
+                                <div class="product-name">${item.product_name}</div>
+                                <div class="product-variant">${item.variant || ''}</div>
+                            </div>
+                        `;
+                        
+                        const priceCell = row.insertCell();
+                        priceCell.textContent = '$' + parseFloat(item.price).toFixed(2);
+                        
+                        const quantityCell = row.insertCell();
+                        quantityCell.textContent = item.quantity;
+                        
+                        const subtotalCell = row.insertCell();
+                        subtotalCell.textContent = '$' + (item.price * item.quantity).toFixed(2);
+                    });
+                    
+                    // Set order summary
+                    document.getElementById('order-subtotal').textContent = '$' + parseFloat(data.order.subtotal).toFixed(2);
+                    document.getElementById('order-shipping').textContent = '$' + parseFloat(data.order.shipping_fee).toFixed(2);
+                    document.getElementById('order-tax').textContent = '$' + parseFloat(data.order.tax).toFixed(2);
+                    document.getElementById('order-total').textContent = '$' + parseFloat(data.order.total).toFixed(2);
+                    
+                    // Show modal
+                    orderModal.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error loading order details:', error);
+                    alert('Failed to load order details. Please try again.');
+                });
+        }
+        
+        // Handle print order button clicks (delegation)
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.print-order')) {
+                const button = e.target.closest('.print-order');
+                const orderId = button.dataset.id;
+                printOrder(orderId);
+            }
+        });
+        
+        // Print order
+        function printOrder(orderId) {
+            window.open(`../php/admin/print_order.php?id=${orderId}`, '_blank');
+        }
+        
+        // Update order status
+        document.getElementById('update-order-status').addEventListener('click', function() {
+            if (!currentOrderId) return;
+            
+            const status = document.getElementById('order-status').value;
+            const paymentStatus = document.getElementById('payment-status').value;
+            
+            fetch('../php/admin/update_order_status.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: currentOrderId,
+                    status: status,
+                    payment_status: paymentStatus
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Order status updated successfully');
+                    orderModal.style.display = 'none';
+                    loadOrders(currentPage, 
+                        document.getElementById('search-order').value,
+                        document.getElementById('status-filter').value,
+                        document.getElementById('date-filter').value
+                    );
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating order status:', error);
+                alert('An error occurred. Please try again.');
+            });
+        });
+        
+        // Export orders
+        document.getElementById('export-orders').addEventListener('click', function() {
+            const search = document.getElementById('search-order').value;
+            const status = document.getElementById('status-filter').value;
+            const date = document.getElementById('date-filter').value;
+            
+            window.open(`../php/admin/export_orders.php?search=${search}&status=${status}&date=${date}`, '_blank');
+        });
+        
+        // Close order details modal
+        document.getElementById('close-order-details').addEventListener('click', function() {
+            orderModal.style.display = 'none';
+        });
+        
+        // Close modal when clicking on X button
+        document.querySelector('#order-modal .close-modal').addEventListener('click', function() {
+            orderModal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside the modal content
+        window.addEventListener('click', function(e) {
+            if (e.target === orderModal) {
+                orderModal.style.display = 'none';
+            }
+        });
+        
+        // Handle logout
+        document.getElementById('logout-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            fetch('../php/logout.php')
+                .then(response => response.json())
+                .then(data => {
+                    window.location.href = 'login.html';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+</html>

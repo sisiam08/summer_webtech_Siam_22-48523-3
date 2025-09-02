@@ -7,10 +7,10 @@ if(!isset($_SESSION["loggedin"]) && isset($_COOKIE["user_login"]) && isset($_COO
     $_SESSION["username"] = $_COOKIE["user_login"];
     $_SESSION["login_time"] = date("Y-m-d H:i:s") . " (Auto-login from cookie)";
     
-    header("location: dashboard_process.php");
+    header("location: dashboard.php");
     exit;
 }
 
-header("location: login_process.php");
+header("location: login.php");
 exit;
 ?>

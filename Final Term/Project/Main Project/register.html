@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Online Grocery Store</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Online Grocery Store</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="form-container">
+            <h2>Register</h2>
+            <div id="message"></div>
+            
+            <form id="register-form" action="php/register_process.php" method="post">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm_password" required>
+                </div>
+                
+                <button type="submit" class="btn">Register</button>
+            </form>
+            
+            <p>Already have an account? <a href="login.html">Login</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Online Grocery Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Handle form submission with AJAX
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Basic validation
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                document.getElementById('message').innerHTML = 
+                    '<div class="error">Passwords do not match</div>';
+                return;
+            }
+            
+            const formData = new FormData(this);
+            
+            fetch('php/register_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Redirect on successful registration
+                    window.location.href = data.redirect || 'index.html';
+                } else {
+                    // Show error message
+                    document.getElementById('message').innerHTML = 
+                        `<div class="error">${data.message}</div>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('message').innerHTML = 
+                    '<div class="error">An error occurred. Please try again.</div>';
+            });
+        });
+    </script>
+</body>
+</html>

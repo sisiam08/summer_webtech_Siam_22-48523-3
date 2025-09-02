@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Online Grocery Store</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .confirmation-container {
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .confirmation-icon {
+            font-size: 5rem;
+            color: #4CAF50;
+            margin-bottom: 1rem;
+        }
+        
+        .confirmation-message {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .order-details {
+            background: #f9f9f9;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        
+        .order-details h3 {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .detail-row {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+        
+        .detail-label {
+            width: 150px;
+            font-weight: bold;
+        }
+        
+        .detail-value {
+            flex: 1;
+        }
+        
+        .action-buttons {
+            margin-top: 2rem;
+        }
+        
+        .action-button {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+        
+        .secondary-button {
+            background: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Online Grocery Store</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Order Confirmation</h2>
+        
+        <div id="confirmation-content">
+            <p>Loading order confirmation...</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Online Grocery Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get order ID from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('order_id');
+            
+            if (!orderId) {
+                document.getElementById('confirmation-content').innerHTML = `
+                    <div class="confirmation-container">
+                        <div class="confirmation-icon">❌</div>
+                        <div class="confirmation-message">Order information not found</div>
+                        <p>We couldn't find the order information. Please check your order history.</p>
+                        <div class="action-buttons">
+                            <a href="index.html" class="action-button">Return to Home</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Load order confirmation
+            fetch(`php/get_order.php?order_id=${orderId}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('confirmation-content').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading order confirmation:', error);
+                    document.getElementById('confirmation-content').innerHTML = `
+                        <div class="confirmation-container">
+                            <div class="confirmation-icon">❌</div>
+                            <div class="confirmation-message">Error loading order</div>
+                            <p>There was an error loading your order information. Please try again later.</p>
+                            <div class="action-buttons">
+                                <a href="index.html" class="action-button">Return to Home</a>
+                            </div>
+                        </div>
+                    `;
+                });
+        });
+    </script>
+</body>
+</html>

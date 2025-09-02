@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Owner Dashboard - Online Grocery Store</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/shop_owner.css">
+</head>
+<body class="shop-owner">
+    <div class="shop-owner-sidebar">
+        <div class="brand">
+            Shop Dashboard
+        </div>
+        <div class="menu">
+            <a href="index.html" class="menu-item active">
+                <i class="material-icons">dashboard</i> <span>Dashboard</span>
+            </a>
+            <a href="products.html" class="menu-item">
+                <i class="material-icons">inventory</i> <span>Products</span>
+            </a>
+            <a href="orders.html" class="menu-item">
+                <i class="material-icons">shopping_cart</i> <span>Orders</span>
+            </a>
+            <a href="reports.html" class="menu-item">
+                <i class="material-icons">bar_chart</i> <span>Reports</span>
+            </a>
+            <a href="profile.html" class="menu-item">
+                <i class="material-icons">store</i> <span>Shop Profile</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="shop-owner-content">
+        <div class="shop-owner-header">
+            <h2>Dashboard</h2>
+            <div class="user-info">
+                <div class="dropdown">
+                    <span id="shop-owner-name">Shop Owner</span>
+                    <i class="material-icons">arrow_drop_down</i>
+                    <div class="dropdown-content">
+                        <a href="profile.html">My Profile</a>
+                        <a href="#" id="logout-btn">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stat-cards">
+            <div class="stat-card">
+                <div class="icon orange">
+                    <i class="material-icons">inventory</i>
+                </div>
+                <div class="content">
+                    <h3 id="total-products">0</h3>
+                    <p>Total Products</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon blue">
+                    <i class="material-icons">shopping_cart</i>
+                </div>
+                <div class="content">
+                    <h3 id="total-orders">0</h3>
+                    <p>Total Orders</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon green">
+                    <i class="material-icons">payments</i>
+                </div>
+                <div class="content">
+                    <h3 id="total-revenue">$0.00</h3>
+                    <p>Total Revenue</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon yellow">
+                    <i class="material-icons">pending_actions</i>
+                </div>
+                <div class="content">
+                    <h3 id="pending-orders">0</h3>
+                    <p>Pending Orders</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <h3>Recent Orders</h3>
+            <table class="data-table" id="recent-orders-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated by JavaScript -->
+                </tbody>
+            </table>
+            <div class="table-footer">
+                <a href="orders.html" class="btn secondary">View All Orders</a>
+            </div>
+        </div>
+
+        <div class="data-table-container">
+            <h3>Low Stock Products</h3>
+            <table class="data-table" id="low-stock-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be populated by JavaScript -->
+                </tbody>
+            </table>
+            <div class="table-footer">
+                <a href="products.html" class="btn secondary">Manage All Products</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if shop owner is logged in
+            fetch('../php/shop_owner/check_auth.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.isAuthenticated || data.role !== 'shop_owner') {
+                        window.location.href = 'login.html';
+                    } else {
+                        document.getElementById('shop-owner-name').textContent = data.name;
+                        loadDashboardData();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking authentication:', error);
+                    window.location.href = 'login.html';
+                });
+
+            // Logout functionality
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                fetch('../php/logout.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.href = 'login.html';
+                        }
+                    })
+                    .catch(error => console.error('Error logging out:', error));
+            });
+        });
+
+        function loadDashboardData() {
+            // Load dashboard statistics
+            fetch('../php/shop_owner/get_dashboard_stats.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error loading dashboard stats:', data.error);
+                        return;
+                    }
+                    
+                    // Update statistics
+                    document.getElementById('total-products').textContent = data.totalProducts;
+                    document.getElementById('total-orders').textContent = data.totalOrders;
+                    document.getElementById('total-revenue').textContent = '$' + parseFloat(data.totalRevenue).toFixed(2);
+                    document.getElementById('pending-orders').textContent = data.pendingOrders;
+                    
+                    // Load recent orders
+                    loadRecentOrders();
+                    
+                    // Load low stock products
+                    loadLowStockProducts();
+                })
+                .catch(error => console.error('Error loading dashboard stats:', error));
+        }
+
+        function loadRecentOrders() {
+            fetch('../php/shop_owner/get_recent_orders.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error loading recent orders:', data.error);
+                        return;
+                    }
+                    
+                    const tableBody = document.querySelector('#recent-orders-table tbody');
+                    tableBody.innerHTML = '';
+                    
+                    if (data.orders.length === 0) {
+                        const emptyRow = document.createElement('tr');
+                        emptyRow.innerHTML = '<td colspan="6" class="text-center">No recent orders found</td>';
+                        tableBody.appendChild(emptyRow);
+                        return;
+                    }
+                    
+                    data.orders.forEach(order => {
+                        const row = document.createElement('tr');
+                        
+                        // Create status badge
+                        let statusBadge;
+                        switch (order.status) {
+                            case 'pending':
+                                statusBadge = '<span class="badge warning">Pending</span>';
+                                break;
+                            case 'processing':
+                                statusBadge = '<span class="badge info">Processing</span>';
+                                break;
+                            case 'shipped':
+                                statusBadge = '<span class="badge primary">Shipped</span>';
+                                break;
+                            case 'delivered':
+                                statusBadge = '<span class="badge success">Delivered</span>';
+                                break;
+                            case 'cancelled':
+                                statusBadge = '<span class="badge danger">Cancelled</span>';
+                                break;
+                            default:
+                                statusBadge = '<span class="badge secondary">' + order.status + '</span>';
+                        }
+                        
+                        row.innerHTML = `
+                            <td>${order.order_number}</td>
+                            <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                            <td>${order.customer_name}</td>
+                            <td>$${parseFloat(order.total_amount).toFixed(2)}</td>
+                            <td>${statusBadge}</td>
+                            <td>
+                                <a href="order-details.html?id=${order.id}" class="btn icon primary">
+                                    <i class="material-icons">visibility</i>
+                                </a>
+                            </td>
+                        `;
+                        
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error loading recent orders:', error));
+        }
+
+        function loadLowStockProducts() {
+            fetch('../php/shop_owner/get_low_stock_products.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error loading low stock products:', data.error);
+                        return;
+                    }
+                    
+                    const tableBody = document.querySelector('#low-stock-table tbody');
+                    tableBody.innerHTML = '';
+                    
+                    if (data.products.length === 0) {
+                        const emptyRow = document.createElement('tr');
+                        emptyRow.innerHTML = '<td colspan="7" class="text-center">No low stock products found</td>';
+                        tableBody.appendChild(emptyRow);
+                        return;
+                    }
+                    
+                    data.products.forEach(product => {
+                        const row = document.createElement('tr');
+                        
+                        // Create stock class based on quantity
+                        let stockClass = 'success';
+                        if (product.stock <= 5) {
+                            stockClass = 'danger';
+                        } else if (product.stock <= 10) {
+                            stockClass = 'warning';
+                        }
+                        
+                        row.innerHTML = `
+                            <td>${product.id}</td>
+                            <td><img src="../uploads/products/${product.image || 'no-image.jpg'}" alt="${product.name}" class="thumbnail"></td>
+                            <td>${product.name}</td>
+                            <td>${product.category_name}</td>
+                            <td>$${parseFloat(product.price).toFixed(2)}</td>
+                            <td><span class="badge ${stockClass}">${product.stock}</span></td>
+                            <td>
+                                <a href="edit-product.html?id=${product.id}" class="btn icon primary">
+                                    <i class="material-icons">edit</i>
+                                </a>
+                            </td>
+                        `;
+                        
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error loading low stock products:', error));
+        }
+    </script>
+</body>
+</html>
