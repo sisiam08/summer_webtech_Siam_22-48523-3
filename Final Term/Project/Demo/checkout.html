@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Online Grocery Store</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .checkout-container {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .checkout-form {
+            width: 60%;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1rem;
+        }
+        
+        .order-summary {
+            width: 40%;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1rem;
+            align-self: flex-start;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .section-title {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .order-items {
+            margin-bottom: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .order-item {
+            display: flex;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .order-item-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        
+        .order-item-details {
+            flex: 1;
+            margin-left: 0.5rem;
+        }
+        
+        .order-item-name {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+        
+        .order-item-price {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .order-item-quantity {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .order-item-total {
+            font-weight: bold;
+            text-align: right;
+            margin-left: 0.5rem;
+            align-self: center;
+        }
+        
+        .order-summary-table {
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .order-summary-table td {
+            padding: 0.5rem 0;
+        }
+        
+        .order-summary-table td:last-child {
+            text-align: right;
+        }
+        
+        .order-total {
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-top: 1px solid #ddd;
+            margin-top: 0.5rem;
+        }
+        
+        .place-order-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            width: 100%;
+        }
+        
+        .payment-methods {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .payment-method {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .payment-method.selected {
+            border-color: #4CAF50;
+            background-color: #f0f8f0;
+        }
+        
+        .payment-method img {
+            max-height: 30px;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Online Grocery Store</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Checkout</h2>
+        
+        <div id="checkout-content">
+            <p>Loading checkout...</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Online Grocery Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            fetch('php/check_login.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.logged_in) {
+                        // Redirect to login page if not logged in
+                        window.location.href = 'login.html?redirect=checkout.html';
+                    } else {
+                        // Load checkout
+                        loadCheckout();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking login status:', error);
+                });
+            
+            // Function to load checkout
+            function loadCheckout() {
+                fetch('php/get_checkout.php')
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById('checkout-content').innerHTML = data;
+                        
+                        // Add event listeners after checkout is loaded
+                        addCheckoutEventListeners();
+                    })
+                    .catch(error => {
+                        console.error('Error loading checkout:', error);
+                        document.getElementById('checkout-content').innerHTML = 
+                            '<p>Error loading checkout. Please try again later.</p>';
+                    });
+            }
+            
+            // Function to add event listeners to checkout elements
+            function addCheckoutEventListeners() {
+                // Payment method selection
+                const paymentMethods = document.querySelectorAll('.payment-method');
+                paymentMethods.forEach(method => {
+                    method.addEventListener('click', function() {
+                        // Remove selected class from all payment methods
+                        paymentMethods.forEach(m => m.classList.remove('selected'));
+                        
+                        // Add selected class to clicked payment method
+                        this.classList.add('selected');
+                        
+                        // Update hidden input value
+                        document.getElementById('payment_method').value = this.getAttribute('data-method');
+                    });
+                });
+                
+                // Form submission
+                const checkoutForm = document.getElementById('checkout-form');
+                if (checkoutForm) {
+                    checkoutForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        // Validate form
+                        if (validateCheckoutForm()) {
+                            // Submit form using AJAX
+                            const formData = new FormData(this);
+                            
+                            fetch('php/process_order.php', {
+                                method: 'POST',
+                                body: formData
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    // Redirect to order confirmation page
+                                    window.location.href = 'order_confirmation.html?order_id=' + data.order_id;
+                                } else {
+                                    alert(data.message || 'Error processing your order. Please try again.');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error processing order:', error);
+                                alert('Error processing your order. Please try again.');
+                            });
+                        }
+                    });
+                }
+            }
+            
+            // Function to validate checkout form
+            function validateCheckoutForm() {
+                const requiredFields = [
+                    'full_name', 'email', 'phone', 'address', 'city', 
+                    'postal_code', 'country', 'payment_method'
+                ];
+                
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    const input = document.getElementById(field);
+                    if (input && !input.value.trim()) {
+                        input.classList.add('error');
+                        isValid = false;
+                    } else if (input) {
+                        input.classList.remove('error');
+                    }
+                });
+                
+                if (!isValid) {
+                    alert('Please fill in all required fields');
+                }
+                
+                return isValid;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+2025-09-05 06:30:00: Database connected successfully
+2025-09-05 06:30:00: Form data: {"id":"19","name":"chal - 5kg","category_id":"4","price":"4520.00","stock":"456","unit":"kg","description":"fghbc","current_image":"product_68ba64968dd13.jpg","is_active":"1","is_featured":"1","has_discount":"1","discount_percent":"10"}
+2025-09-05 06:30:00: Prepare statement successful

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details - Online Grocery Store</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/customer.css">
+</head>
+<body class="customer-dashboard">
+    <header>
+        <div class="container">
+            <h1>Online Grocery Store</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="account.html" class="active">My Account</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container dashboard-container">
+        <div class="dashboard-sidebar">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="material-icons">account_circle</i>
+                </div>
+                <div class="user-details">
+                    <h3 id="customer-name">Welcome back!</h3>
+                    <p id="customer-email">Loading...</p>
+                </div>
+            </div>
+            <nav class="dashboard-nav">
+                <ul>
+                    <li>
+                        <a href="account.html">
+                            <i class="material-icons">dashboard</i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="orders.html">
+                            <i class="material-icons">shopping_bag</i>
+                            My Orders
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addresses.html">
+                            <i class="material-icons">location_on</i>
+                            My Addresses
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wishlist.html">
+                            <i class="material-icons">favorite</i>
+                            Wishlist
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile.html">
+                            <i class="material-icons">person</i>
+                            Edit Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="sidebar-logout">
+                            <i class="material-icons">exit_to_app</i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="breadcrumb">
+                <a href="orders.html">My Orders</a> &gt; <span id="order-number-breadcrumb">Order Details</span>
+            </div>
+            
+            <div id="order-details-container" class="loading-container">
+                <p class="loading">Loading order details...</p>
+                <!-- Order details will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Online Grocery Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            fetch('php/customer/check_auth.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.isAuthenticated || data.role !== 'customer') {
+                        window.location.href = 'login.html';
+                    } else {
+                        // Set user information
+                        document.getElementById('customer-name').textContent = `Welcome, ${data.name}!`;
+                        document.getElementById('customer-email').textContent = data.email;
+                        
+                        // Get order ID from URL
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const orderId = urlParams.get('id');
+                        
+                        if (orderId) {
+                            // Load order details
+                            loadOrderDetails(orderId);
+                        } else {
+                            // No order ID provided, redirect back to orders page
+                            window.location.href = 'orders.html';
+                        }
+                        
+                        // Set up event listeners
+                        setupEventListeners();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking authentication:', error);
+                    window.location.href = 'login.html';
+                });
+        });
+        
+        function setupEventListeners() {
+            // Logout functionality
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            document.getElementById('sidebar-logout').addEventListener('click', logout);
+        }
+        
+        function logout(e) {
+            e.preventDefault();
+            fetch('php/logout.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = 'login.html';
+                    }
+                })
+                .catch(error => console.error('Error logging out:', error));
+        }
+        
+        function loadOrderDetails(orderId) {
+            fetch(`php/customer/get_order_details.php?id=${orderId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('order-details-container').innerHTML = `
+                            <div class="error-message">
+                                <i class="material-icons">error</i>
+                                <p>${data.error}</p>
+                                <a href="orders.html" class="btn primary">Back to Orders</a>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    renderOrderDetails(data);
+                })
+                .catch(error => {
+                    console.error('Error loading order details:', error);
+                    document.getElementById('order-details-container').innerHTML = `
+                        <div class="error-message">
+                            <i class="material-icons">error</i>
+                            <p>Failed to load order details. Please try again.</p>
+                            <a href="orders.html" class="btn primary">Back to Orders</a>
+                        </div>
+                    `;
+                });
+        }
+        
+        function renderOrderDetails(order) {
+            // Update breadcrumb
+            document.getElementById('order-number-breadcrumb').textContent = `Order #${order.order_number}`;
+            
+            // Create status badge
+            let statusClass;
+            switch (order.status) {
+                case 'pending':
+                    statusClass = 'warning';
+                    break;
+                case 'processing':
+                    statusClass = 'info';
+                    break;
+                case 'shipped':
+                    statusClass = 'primary';
+                    break;
+                case 'delivered':
+                    statusClass = 'success';
+                    break;
+                case 'cancelled':
+                    statusClass = 'danger';
+                    break;
+                default:
+                    statusClass = 'secondary';
+            }
+            
+            const orderDate = new Date(order.created_at);
+            const formattedDate = `${orderDate.toLocaleDateString()} ${orderDate.toLocaleTimeString()}`;
+            
+            // Build order timeline based on status
+            let timelineHtml = '';
+            const statuses = ['pending', 'processing', 'shipped', 'delivered'];
+            let currentStatusIndex = statuses.indexOf(order.status);
+            
+            if (order.status === 'cancelled') {
+                timelineHtml = `
+                    <div class="timeline-item">
+                        <div class="timeline-marker completed">
+                            <i class="material-icons">shopping_cart</i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Order Placed</h3>
+                            <p>${formattedDate}</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker cancelled">
+                            <i class="material-icons">cancel</i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Order Cancelled</h3>
+                            <p>${order.updated_at ? new Date(order.updated_at).toLocaleDateString() + ' ' + new Date(order.updated_at).toLocaleTimeString() : 'N/A'}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                statuses.forEach((status, index) => {
+                    let markerClass = '';
+                    if (index < currentStatusIndex) {
+                        markerClass = 'completed';
+                    } else if (index === currentStatusIndex) {
+                        markerClass = 'active';
+                    }
+                    
+                    let statusName = '';
+                    let statusIcon = '';
+                    
+                    switch (status) {
+                        case 'pending':
+                            statusName = 'Order Placed';
+                            statusIcon = 'shopping_cart';
+                            break;
+                        case 'processing':
+                            statusName = 'Processing';
+                            statusIcon = 'inventory';
+                            break;
+                        case 'shipped':
+                            statusName = 'Shipped';
+                            statusIcon = 'local_shipping';
+                            break;
+                        case 'delivered':
+                            statusName = 'Delivered';
+                            statusIcon = 'check_circle';
+                            break;
+                    }
+                    
+                    timelineHtml += `
+                        <div class="timeline-item">
+                            <div class="timeline-marker ${markerClass}">
+                                <i class="material-icons">${statusIcon}</i>
+                            </div>
+                            <div class="timeline-content">
+                                <h3>${statusName}</h3>
+                                <p>${index === 0 ? formattedDate : 'N/A'}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Calculate subtotal, tax, shipping
+            const subtotal = parseFloat(order.subtotal || 0).toFixed(2);
+            const tax = parseFloat(order.tax || 0).toFixed(2);
+            const shipping = parseFloat(order.shipping_cost || 0).toFixed(2);
+            const total = parseFloat(order.total_amount).toFixed(2);
+            
+            // Render full order details
+            const orderDetailsContainer = document.getElementById('order-details-container');
+            orderDetailsContainer.innerHTML = `
+                <div class="order-details-header">
+                    <div class="order-title">
+                        <h2>Order #${order.order_number}</h2>
+                        <span class="badge ${statusClass}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>
+                    </div>
+                    <div class="order-meta">
+                        <p><strong>Date:</strong> ${formattedDate}</p>
+                        <p><strong>Payment Method:</strong> ${order.payment_method || 'N/A'}</p>
+                    </div>
+                </div>
+                
+                <div class="order-tracking-section">
+                    <h3>Order Status</h3>
+                    <div class="order-timeline">
+                        ${timelineHtml}
+                    </div>
+                </div>
+                
+                <div class="order-content-grid">
+                    <div class="order-items-section">
+                        <h3>Order Items</h3>
+                        <div class="order-items-list">
+                            ${order.items.map(item => `
+                                <div class="order-item">
+                                    <div class="item-image">
+                                        <img src="uploads/products/${item.image || 'no-image.jpg'}" alt="${item.name}">
+                                    </div>
+                                    <div class="item-details">
+                                        <h4>${item.name}</h4>
+                                        <p>Price: $${parseFloat(item.price).toFixed(2)}</p>
+                                        <p>Quantity: ${item.quantity}</p>
+                                    </div>
+                                    <div class="item-total">
+                                        $${(parseFloat(item.price) * parseInt(item.quantity)).toFixed(2)}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary-section">
+                        <h3>Order Summary</h3>
+                        <div class="order-summary">
+                            <div class="summary-row">
+                                <span>Subtotal:</span>
+                                <span>$${subtotal}</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Tax:</span>
+                                <span>$${tax}</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Shipping:</span>
+                                <span>$${shipping}</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total:</span>
+                                <span>$${total}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="shipping-address-section">
+                    <h3>Shipping Address</h3>
+                    <div class="address-card">
+                        <p><strong>${order.shipping_address.name}</strong></p>
+                        <p>${order.shipping_address.address_line1}</p>
+                        ${order.shipping_address.address_line2 ? `<p>${order.shipping_address.address_line2}</p>` : ''}
+                        <p>${order.shipping_address.city}, ${order.shipping_address.state} ${order.shipping_address.postal_code}</p>
+                        <p>${order.shipping_address.country}</p>
+                        <p>Phone: ${order.shipping_address.phone}</p>
+                    </div>
+                </div>
+                
+                <div class="order-actions">
+                    <a href="orders.html" class="btn secondary">Back to Orders</a>
+                    ${order.status === 'pending' ? '<button id="cancel-order-btn" class="btn danger">Cancel Order</button>' : ''}
+                    ${order.status === 'delivered' ? '<button id="reorder-btn" class="btn primary">Reorder</button>' : ''}
+                </div>
+            `;
+            
+            // Add event listeners for action buttons
+            if (order.status === 'pending') {
+                document.getElementById('cancel-order-btn').addEventListener('click', function() {
+                    cancelOrder(order.id);
+                });
+            }
+            
+            if (order.status === 'delivered') {
+                document.getElementById('reorder-btn').addEventListener('click', function() {
+                    reorder(order.id);
+                });
+            }
+        }
+        
+        function cancelOrder(orderId) {
+            if (confirm('Are you sure you want to cancel this order? This action cannot be undone.')) {
+                fetch('php/customer/cancel_order.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ order_id: orderId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Order has been cancelled successfully.');
+                        loadOrderDetails(orderId);
+                    } else {
+                        alert('Failed to cancel order: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error cancelling order:', error);
+                    alert('An error occurred while cancelling the order. Please try again.');
+                });
+            }
+        }
+        
+        function reorder(orderId) {
+            fetch('php/customer/reorder.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ order_id: orderId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Items have been added to your cart.');
+                    window.location.href = 'cart.html';
+                } else {
+                    alert('Failed to reorder: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error reordering:', error);
+                alert('An error occurred while processing your request. Please try again.');
+            });
+        }
+    </script>
+</body>
+</html>

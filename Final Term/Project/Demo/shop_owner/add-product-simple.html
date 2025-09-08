@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Product Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            display: none;
+        }
+        pre {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Product Form</h1>
+    <p>This is a simplified form to test basic product insertion.</p>
+    
+    <form id="simple-form">
+        <div class="form-group">
+            <label for="name">Product Name</label>
+            <input type="text" id="name" name="name" value="Test Product" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="category_id">Category ID</label>
+            <input type="number" id="category_id" name="category_id" value="1" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" id="price" name="price" step="0.01" value="9.99" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="stock">Stock</label>
+            <input type="number" id="stock" name="stock" value="10" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="unit">Unit</label>
+            <select id="unit" name="unit">
+                <option value="piece">Piece</option>
+                <option value="kg">Kilogram</option>
+                <option value="g">Gram</option>
+                <option value="lb">Pound</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description">Test product description</textarea>
+        </div>
+        
+        <button type="submit">Add Product</button>
+    </form>
+    
+    <div id="result">
+        <h3>Result:</h3>
+        <pre id="result-content"></pre>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('simple-form');
+            const result = document.getElementById('result');
+            const resultContent = document.getElementById('result-content');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                result.style.display = 'block';
+                resultContent.textContent = 'Submitting...';
+                
+                // Create FormData object
+                const formData = new FormData(this);
+                
+                // Send the request
+                fetch('save_product_simple.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    // Try to parse as JSON
+                    try {
+                        const data = JSON.parse(text);
+                        resultContent.textContent = JSON.stringify(data, null, 2);
+                    } catch (e) {
+                        // If not valid JSON, show the raw text
+                        resultContent.textContent = text;
+                    }
+                })
+                .catch(error => {
+                    resultContent.textContent = 'Error: ' + error.message;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+2025-09-05 06:37:16: Script started
+2025-09-05 06:37:16: Database connected successfully
+2025-09-05 06:37:16: Fetching product with ID: 17
+2025-09-05 06:37:16: Product found: {"id":17,"shop_id":1,"name":"chal - 5kg","description":"dfvbsddgf","price":"4520.00","discounted_price":"4068.00","image":"product_68ba64116726f.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":345,"unit":"0","created_at":"2025-09-05 10:16:17","category_name":"Bakery"}
+2025-09-05 06:37:16: Connection closed
+2025-09-05 06:37:23: Script started
+2025-09-05 06:37:23: Database connected successfully
+2025-09-05 06:37:23: Fetching product with ID: 20
+2025-09-05 06:37:23: Product found: {"id":20,"shop_id":1,"name":"eggs - 12pis","description":"tghdgf","price":"130.00","discounted_price":null,"image":"product_68ba6624365fa.jpeg","is_active":1,"is_featured":1,"category_id":3,"stock":500,"unit":"0","created_at":"2025-09-05 10:25:08","category_name":"Dairy"}
+2025-09-05 06:37:23: Connection closed
+2025-09-05 06:37:29: Script started
+2025-09-05 06:37:29: Database connected successfully
+2025-09-05 06:37:29: Fetching product with ID: 12
+2025-09-05 06:37:29: Product found: {"id":12,"shop_id":1,"name":"Test Product 2025-09-05 05:18:32","description":"Test description","price":"9.99","discounted_price":null,"image":"default.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":10,"unit":"piece","created_at":"2025-09-05 09:18:32","category_name":"Fruits"}
+2025-09-05 06:37:29: Connection closed
+2025-09-05 06:37:33: Script started
+2025-09-05 06:37:33: Database connected successfully
+2025-09-05 06:37:33: Fetching product with ID: 18
+2025-09-05 06:37:33: Product found: {"id":18,"shop_id":1,"name":"chal - 5kg","description":"dfvbsddgf","price":"4520.00","discounted_price":"4068.00","image":"product_68ba64167cdf7.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":345,"unit":"0","created_at":"2025-09-05 10:16:22","category_name":"Bakery"}
+2025-09-05 06:37:33: Connection closed
+2025-09-05 06:39:59: Script started
+2025-09-05 06:39:59: Database connected successfully
+2025-09-05 06:39:59: Fetching product with ID: 18
+2025-09-05 06:39:59: Product unit: 0
+2025-09-05 06:39:59: Product found: {"id":18,"shop_id":1,"name":"chal - 5kg","description":"dfvbsddgf","price":"4520.00","discounted_price":"4068.00","image":"product_68ba64167cdf7.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":345,"unit":"0","created_at":"2025-09-05 10:16:22","category_name":"Bakery"}
+2025-09-05 06:39:59: Connection closed

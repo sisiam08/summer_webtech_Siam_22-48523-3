@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database and Product Form Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+        .steps {
+            margin-top: 20px;
+        }
+        .step {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #e9e9e9;
+            border-radius: 4px;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Database and Product Form Test</h1>
+        <p>This page will help diagnose and fix issues with adding products to the database.</p>
+        
+        <div class="card">
+            <h2>Step 1: Check Database Connection</h2>
+            <button id="check-connection">Check Connection</button>
+            <button id="simple-test">Simple Test</button>
+            <div id="connection-result" class="result"></div>
+        </div>
+        
+        <div class="card">
+            <h2>Step 2: Check Database Structure</h2>
+            <button id="check-structure">Check Structure</button>
+            <div id="structure-result" class="result"></div>
+        </div>
+        
+        <div class="card">
+            <h2>Step 3: Fix Database Structure</h2>
+            <button id="fix-database">Fix Database</button>
+            <div id="fix-result" class="result"></div>
+        </div>
+        
+        <div class="card">
+            <h2>Step 4: Test Simple Product Insertion</h2>
+            <button id="test-insertion">Test Insertion</button>
+            <div id="test-result" class="result"></div>
+        </div>
+        
+        <div class="card">
+            <h2>Step 5: Fix Original Product Save Script</h2>
+            <button id="fix-script">Fix Script</button>
+            <div id="script-result" class="result"></div>
+        </div>
+        
+        <div class="card">
+            <h2>Next Steps</h2>
+            <div class="steps" id="next-steps">
+                <div class="step">Follow the steps above in order to diagnose and fix the issue.</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Step 1: Check Connection
+            document.getElementById('check-connection').addEventListener('click', function() {
+                const resultDiv = document.getElementById('connection-result');
+                resultDiv.innerHTML = 'Checking database connection...';
+                
+                fetch('../config/check_connection.php')
+                    .then(response => response.text())
+                    .then(text => {
+                        try {
+                            const data = JSON.parse(text);
+                            resultDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                            
+                            if (data.success) {
+                                resultDiv.innerHTML += '<p class="success">Connection successful!</p>';
+                            } else {
+                                resultDiv.innerHTML += '<p class="error">Connection failed!</p>';
+                            }
+                        } catch (e) {
+                            resultDiv.innerHTML = '<p class="error">Error parsing response:</p><pre>' + text + '</pre>';
+                        }
+                    })
+                    .catch(error => {
+                        resultDiv.innerHTML = '<p class="error">Error: ' + error.message + '</p>';
+                    });
+            });
+            
+            // Simple Test
+            document.getElementById('simple-test').addEventListener('click', function() {
+                const resultDiv = document.getElementById('connection-result');
+                resultDiv.innerHTML = 'Running simple test...';
+                
+                fetch('test_connection_and_insert.php')
+                    .then(response => response.text())
+                    .then(text => {
+                        try {
+                            const data = JSON.parse(text);
+                            resultDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                            
+                            if (data.success) {
+                                resultDiv.innerHTML += '<p class="success">Simple test successful!</p>';
+                            } else {
+                                resultDiv.innerHTML += '<p class="error">Simple test failed!</p>';
+                            }
+                        } catch (e) {
+                            resultDiv.innerHTML = '<p class="error">Error parsing response:</p><pre>' + text + '</pre>';
+                        }
+                    })
+                    .catch(error => {
+                        resultDiv.innerHTML = '<p class="error">Error: ' + error.message + '</p>';
+                    });
+            });
+            
+            // Step 2: Check Structure
+            document.getElementById('check-structure').addEventListener('click', function() {
+                const resultDiv = document.getElementById('structure-result');
+                resultDiv.innerHTML = 'Checking database structure...';
+                
+                fetch('../database/check_structure.php')
+                    .then(response => response.text())
+                    .then(text => {
+                        try {
+                            const data = JSON.parse(text);
+                            resultDiv.innerHTML = '<pre>' + JSON.stringify(data.products, null, 2) + '</pre>';
+                        } catch (e) {
+                            resultDiv.innerHTML = '<p class="error">Error parsing response:</p><pre>' + text + '</pre>';
+                        }
+                    })
+                    .catch(error => {
+                        resultDiv.innerHTML = '<p class="error">Error: ' + error.message + '</p>';
+                    });
+            });
+            
+            // Step 3: Fix Database
+            document.getElementById('fix-database').addEventListener('click', function() {
+                const resultDiv = document.getElementById('fix-result');
+                resultDiv.innerHTML = 'Fixing database structure...';
+                
+                fetch('../database/auto_fix_database.php')
+                    .then(response => response.text())
+                    .then(text => {
+                        try {
+                            const data = JSON.parse(text);
+                            resultDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                            
+                            if (data.success) {
+                                resultDiv.innerHTML += '<p class="success">Database structure fixed!</p>';
+                            } else {
+                                resultDiv.innerHTML += '<p class="error">Failed to fix database structure!</p>';
+                            }
+                        } catch (e) {
+                            resultDiv.innerHTML = '<p class="error">Error parsing response:</p><pre>' + text + '</pre>';
+                        }
+                    })
+                    .catch(error => {
+                        resultDiv.innerHTML = '<p class="error">Error: ' + error.message + '</p>';
+                    });
+            });
+            
+            // Step 4: Test Insertion
+            document.getElementById('test-insertion').addEventListener('click', function() {
+                const resultDiv = document.getElementById('test-result');
+                resultDiv.innerHTML = 'Testing simple product insertion...';
+                
+                // Create form data with test values
+                const formData = new FormData();
+                formData.append('name', 'Test Product ' + Date.now());
+                formData.append('category_id', '1');
+                formData.append('price', '9.99');
+                formData.append('stock', '10');
+                formData.append('unit', 'piece');
+                formData.append('description', 'Test description');
+                
+                fetch('save_product_simple.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.text())
+                    .then(text => {
+                        try {
+                            const data = JSON.parse(text);
+                            resultDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                            
+                            if (data.success) {
+                                resultDiv.innerHTML += '<p class="success">Test insertion successful!</p>';
+                            } else {
+                                resultDiv.innerHTML += '<p class="error">Test insertion failed!</p>';
+                            }
+                        } catch (e) {
+                            resultDiv.innerHTML = '<p class="error">Error parsing response:</p><pre>' + text + '</pre>';
+                        }
+                    })
+                    .catch(error => {
+                        resultDiv.innerHTML = '<p class="error">Error: ' + error.message + '</p>';
+                    });
+            });
+            
+            // Step 5: Fix Script
+            document.getElementById('fix-script').addEventListener('click', function() {
+                const resultDiv = document.getElementById('script-result');
+                resultDiv.innerHTML = 'Fixing product save script...';
+                
+                fetch('fix_save_product.php')
+                    .then(response => response.text())
+                    .then(text => {
+                        try {
+                            const data = JSON.parse(text);
+                            resultDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                            
+                            if (data.success) {
+                                resultDiv.innerHTML += '<p class="success">Product save script fixed!</p>';
+                                document.getElementById('next-steps').innerHTML = `
+                                    <div class="step">
+                                        <p class="success">All fixes applied successfully!</p>
+                                        <p>You can now use the regular <a href="add-product.php" target="_blank">add-product.php</a> form to add products.</p>
+                                    </div>
+                                `;
+                            } else {
+                                resultDiv.innerHTML += '<p class="error">Failed to fix product save script!</p>';
+                            }
+                        } catch (e) {
+                            resultDiv.innerHTML = '<p class="error">Error parsing response:</p><pre>' + text + '</pre>';
+                        }
+                    })
+                    .catch(error => {
+                        resultDiv.innerHTML = '<p class="error">Error: ' + error.message + '</p>';
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

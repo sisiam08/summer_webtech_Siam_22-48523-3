@@ -1,0 +1,7 @@
+2025-09-05 06:25:08: Script started
+2025-09-05 06:25:08: Database connected successfully
+2025-09-05 06:25:08: Form data: {"name":"eggs - 12pis","category_id":"3","price":"130","stock":"500","unit":"pcs","description":"tghdgf","is_active":"1","is_featured":"1","discount_percent":"10"}
+2025-09-05 06:25:08: Prepare statement successful
+2025-09-05 06:25:08: Parameters bound successfully
+2025-09-05 06:25:08: Parameters: shop_id=1, name=eggs - 12pis, category_id=3, price=130, discounted_price=NULL, stock=500, unit=pcs, is_active=1, is_featured=1
+2025-09-05 06:25:08: Product added successfully with ID: 20

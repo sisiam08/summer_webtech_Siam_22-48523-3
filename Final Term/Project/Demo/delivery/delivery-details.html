@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Details - Online Grocery Store</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/delivery.css">
+</head>
+<body class="delivery-dashboard">
+    <header>
+        <div class="container">
+            <h1>Online Grocery Store</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="assignments.html">My Assignments</a></li>
+                    <li><a href="completed.html">Completed Deliveries</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container dashboard-container">
+        <div class="dashboard-sidebar">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="material-icons">directions_bike</i>
+                </div>
+                <div class="user-details">
+                    <h3 id="delivery-person-name">Welcome back!</h3>
+                    <p id="delivery-person-email">Loading...</p>
+                </div>
+            </div>
+            <nav class="dashboard-nav">
+                <ul>
+                    <li>
+                        <a href="index.html">
+                            <i class="material-icons">dashboard</i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="assignments.html">
+                            <i class="material-icons">assignment</i>
+                            My Assignments
+                        </a>
+                    </li>
+                    <li>
+                        <a href="completed.html">
+                            <i class="material-icons">check_circle</i>
+                            Completed Deliveries
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile.html">
+                            <i class="material-icons">person</i>
+                            My Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="sidebar-logout">
+                            <i class="material-icons">exit_to_app</i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="breadcrumb">
+                <a href="javascript:history.back()">Back</a> &gt; <span id="order-number-breadcrumb">Delivery Details</span>
+            </div>
+            
+            <div id="delivery-details-container" class="loading-container">
+                <p class="loading">Loading delivery details...</p>
+                <!-- Delivery details will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Preview Modal -->
+    <div id="image-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="proof-img-large" src="" alt="Delivery Proof">
+        </div>
+    </div>
+
+    <!-- Proof of Delivery Modal -->
+    <div id="proof-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Submit Proof of Delivery</h3>
+                <span class="close">&times;</span>
+            </div>
+            <form id="proof-form" enctype="multipart/form-data">
+                <input type="hidden" id="delivery-id" name="delivery_id">
+                <div class="form-group">
+                    <label for="proof-image">Upload Photo (required)</label>
+                    <input type="file" id="proof-image" name="proof_image" accept="image/*" required>
+                    <small>Take a photo of the delivered package or get customer's signature</small>
+                </div>
+                <div class="form-group">
+                    <label for="proof-notes">Delivery Notes (optional)</label>
+                    <textarea id="proof-notes" name="notes" rows="3" placeholder="E.g., 'Left at front door', 'Handed to customer'"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn secondary" id="cancel-proof-btn">Cancel</button>
+                    <button type="submit" class="btn primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Online Grocery Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            fetch('../php/delivery/check_auth.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.isAuthenticated || data.role !== 'delivery') {
+                        window.location.href = '../login.html';
+                    } else {
+                        // Set user information
+                        document.getElementById('delivery-person-name').textContent = `Welcome, ${data.name}!`;
+                        document.getElementById('delivery-person-email').textContent = data.email;
+                        
+                        // Get delivery ID from URL
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const deliveryId = urlParams.get('id');
+                        
+                        if (deliveryId) {
+                            // Load delivery details
+                            loadDeliveryDetails(deliveryId);
+                        } else {
+                            // No delivery ID provided, redirect back
+                            window.location.href = 'index.html';
+                        }
+                        
+                        // Set up event listeners
+                        setupEventListeners();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking authentication:', error);
+                    window.location.href = '../login.html';
+                });
+        });
+        
+        function setupEventListeners() {
+            // Logout functionality
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            document.getElementById('sidebar-logout').addEventListener('click', logout);
+            
+            // Modal close buttons
+            document.querySelectorAll('.modal .close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+            
+            // Cancel proof button
+            document.getElementById('cancel-proof-btn').addEventListener('click', function() {
+                document.getElementById('proof-modal').style.display = 'none';
+            });
+            
+            // Proof form submission
+            document.getElementById('proof-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitProofOfDelivery();
+            });
+        }
+        
+        function logout(e) {
+            e.preventDefault();
+            fetch('../php/logout.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '../login.html';
+                    }
+                })
+                .catch(error => console.error('Error logging out:', error));
+        }
+        
+        function loadDeliveryDetails(deliveryId) {
+            fetch(`../php/delivery/get_delivery_details.php?id=${deliveryId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('delivery-details-container').innerHTML = `
+                            <div class="error-message">
+                                <i class="material-icons">error</i>
+                                <p>${data.error}</p>
+                                <button class="btn primary" onclick="history.back()">Go Back</button>
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    renderDeliveryDetails(data);
+                })
+                .catch(error => {
+                    console.error('Error loading delivery details:', error);
+                    document.getElementById('delivery-details-container').innerHTML = `
+                        <div class="error-message">
+                            <i class="material-icons">error</i>
+                            <p>Failed to load delivery details. Please try again.</p>
+                            <button class="btn primary" onclick="history.back()">Go Back</button>
+                        </div>
+                    `;
+                });
+        }
+        
+        function renderDeliveryDetails(delivery) {
+            // Update breadcrumb
+            document.getElementById('order-number-breadcrumb').textContent = `Order #${delivery.order_number}`;
+            
+            // Format dates
+            const orderDate = new Date(delivery.created_at);
+            const formattedOrderDate = `${orderDate.toLocaleDateString()} ${orderDate.toLocaleTimeString()}`;
+            
+            const assignedDate = new Date(delivery.assigned_at);
+            const formattedAssignedDate = `${assignedDate.toLocaleDateString()} ${assignedDate.toLocaleTimeString()}`;
+            
+            let pickedUpDate = '';
+            if (delivery.picked_up_at) {
+                const pickedUp = new Date(delivery.picked_up_at);
+                pickedUpDate = `${pickedUp.toLocaleDateString()} ${pickedUp.toLocaleTimeString()}`;
+            }
+            
+            let deliveredDate = '';
+            if (delivery.delivered_at) {
+                const delivered = new Date(delivery.delivered_at);
+                deliveredDate = `${delivered.toLocaleDateString()} ${delivered.toLocaleTimeString()}`;
+            }
+            
+            // Create estimated delivery time
+            const estimatedDelivery = new Date(delivery.estimated_delivery);
+            const formattedEstimatedDelivery = `${estimatedDelivery.toLocaleDateString()} ${estimatedDelivery.toLocaleTimeString()}`;
+            
+            // Get status badge class
+            let statusClass = '';
+            switch (delivery.status) {
+                case 'assigned':
+                    statusClass = 'warning';
+                    break;
+                case 'picked_up':
+                    statusClass = 'primary';
+                    break;
+                case 'delivered':
+                    statusClass = 'success';
+                    break;
+                default:
+                    statusClass = 'secondary';
+            }
+            
+            // Generate star rating HTML if completed
+            let ratingHtml = '';
+            if (delivery.status === 'delivered' && delivery.rating) {
+                const fullStars = Math.floor(delivery.rating);
+                const halfStar = delivery.rating % 1 >= 0.5;
+                const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+                
+                ratingHtml = '<div class="rating-section">';
+                ratingHtml += '<h3>Customer Rating</h3>';
+                ratingHtml += '<div class="stars-container">';
+                
+                for (let i = 0; i < fullStars; i++) {
+                    ratingHtml += '<i class="material-icons star">star</i>';
+                }
+                
+                if (halfStar) {
+                    ratingHtml += '<i class="material-icons star">star_half</i>';
+                }
+                
+                for (let i = 0; i < emptyStars; i++) {
+                    ratingHtml += '<i class="material-icons star">star_border</i>';
+                }
+                
+                ratingHtml += `<span class="rating-value">${delivery.rating.toFixed(1)}</span>`;
+                ratingHtml += '</div>';
+                
+                if (delivery.feedback) {
+                    ratingHtml += `
+                        <div class="feedback">
+                            <h4>Customer Feedback:</h4>
+                            <p>${delivery.feedback}</p>
+                        </div>
+                    `;
+                }
+                
+                ratingHtml += '</div>';
+            }
+            
+            // Build timeline based on status
+            let timelineHtml = `
+                <div class="timeline-item">
+                    <div class="timeline-marker completed">
+                        <i class="material-icons">shopping_cart</i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Order Placed</h3>
+                        <p>${formattedOrderDate}</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker completed">
+                        <i class="material-icons">assignment</i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Assigned to You</h3>
+                        <p>${formattedAssignedDate}</p>
+                    </div>
+                </div>
+            `;
+            
+            // Add picked up state if applicable
+            if (delivery.status === 'picked_up' || delivery.status === 'delivered') {
+                timelineHtml += `
+                    <div class="timeline-item">
+                        <div class="timeline-marker completed">
+                            <i class="material-icons">local_shipping</i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Picked Up</h3>
+                            <p>${pickedUpDate}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                timelineHtml += `
+                    <div class="timeline-item">
+                        <div class="timeline-marker ${delivery.status === 'assigned' ? 'active' : ''}">
+                            <i class="material-icons">local_shipping</i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Picked Up</h3>
+                            <p>Pending</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Add delivered state if applicable
+            if (delivery.status === 'delivered') {
+                timelineHtml += `
+                    <div class="timeline-item">
+                        <div class="timeline-marker completed">
+                            <i class="material-icons">check_circle</i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Delivered</h3>
+                            <p>${deliveredDate}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                timelineHtml += `
+                    <div class="timeline-item">
+                        <div class="timeline-marker ${delivery.status === 'picked_up' ? 'active' : ''}">
+                            <i class="material-icons">check_circle</i>
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Delivered</h3>
+                            <p>Pending</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Create proof of delivery section if available
+            let proofHtml = '';
+            if (delivery.proof_image) {
+                proofHtml = `
+                    <div class="proof-section">
+                        <h3>Proof of Delivery</h3>
+                        <div class="proof-content">
+                            <div class="proof-image">
+                                <img src="../uploads/delivery_proof/${delivery.proof_image}" alt="Proof of Delivery" id="proof-img-small">
+                            </div>
+                            <div class="proof-details">
+                                <p><strong>Delivered at:</strong> ${deliveredDate}</p>
+                                ${delivery.proof_notes ? `<p><strong>Notes:</strong> ${delivery.proof_notes}</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Get action button based on status
+            let actionButtonHtml = '';
+            if (delivery.status === 'assigned') {
+                actionButtonHtml = `
+                    <button class="btn primary update-status-btn" data-id="${delivery.id}" data-status="assigned">
+                        Start Delivery
+                    </button>
+                `;
+            } else if (delivery.status === 'picked_up') {
+                actionButtonHtml = `
+                    <button class="btn primary submit-proof-btn" data-id="${delivery.id}">
+                        Complete Delivery
+                    </button>
+                `;
+            }
+            
+            // Render full delivery details
+            const container = document.getElementById('delivery-details-container');
+            container.innerHTML = `
+                <div class="delivery-details-header">
+                    <div class="delivery-title">
+                        <h2>Order #${delivery.order_number}</h2>
+                        <span class="badge ${statusClass}">${delivery.status.charAt(0).toUpperCase() + delivery.status.slice(1).replace('_', ' ')}</span>
+                    </div>
+                    <div class="delivery-meta">
+                        <p><strong>Ordered:</strong> ${formattedOrderDate}</p>
+                        <p><strong>Est. Delivery:</strong> ${formattedEstimatedDelivery}</p>
+                    </div>
+                </div>
+                
+                <div class="delivery-tracking-section">
+                    <h3>Delivery Progress</h3>
+                    <div class="delivery-timeline">
+                        ${timelineHtml}
+                    </div>
+                </div>
+                
+                ${proofHtml}
+                
+                <div class="delivery-content-grid">
+                    <div class="delivery-items-section">
+                        <h3>Order Items</h3>
+                        <div class="delivery-items-list">
+                            ${delivery.items.map(item => `
+                                <div class="delivery-item">
+                                    <div class="item-image">
+                                        <img src="../uploads/products/${item.image || 'no-image.jpg'}" alt="${item.name}">
+                                    </div>
+                                    <div class="item-details">
+                                        <h4>${item.name}</h4>
+                                        <p>Quantity: ${item.quantity}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="delivery-info-section">
+                        <h3>Delivery Information</h3>
+                        <div class="info-grid">
+                            <div class="customer-info">
+                                <h4>Customer</h4>
+                                <p>${delivery.customer_name}</p>
+                                <p>Phone: ${delivery.customer_phone}</p>
+                            </div>
+                            <div class="address-info">
+                                <h4>Delivery Address</h4>
+                                <p>${delivery.address.name}</p>
+                                <p>${delivery.address.address_line1}</p>
+                                ${delivery.address.address_line2 ? `<p>${delivery.address.address_line2}</p>` : ''}
+                                <p>${delivery.address.city}, ${delivery.address.state} ${delivery.address.postal_code}</p>
+                                <p>Phone: ${delivery.address.phone}</p>
+                            </div>
+                        </div>
+                        <div class="order-summary">
+                            <h4>Order Summary</h4>
+                            <div class="summary-row">
+                                <span>Items:</span>
+                                <span>${delivery.item_count}</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Total:</span>
+                                <span>$${parseFloat(delivery.total_amount).toFixed(2)}</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Payment Method:</span>
+                                <span>${delivery.payment_method || 'N/A'}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                ${ratingHtml}
+                
+                <div class="delivery-actions">
+                    <button class="btn secondary" onclick="history.back()">Back</button>
+                    ${actionButtonHtml}
+                </div>
+            `;
+            
+            // Add event listeners to new elements
+            if (delivery.status === 'assigned') {
+                document.querySelector('.update-status-btn').addEventListener('click', function() {
+                    updateDeliveryStatus(this.getAttribute('data-id'), this.getAttribute('data-status'));
+                });
+            } else if (delivery.status === 'picked_up') {
+                document.querySelector('.submit-proof-btn').addEventListener('click', function() {
+                    showProofModal(this.getAttribute('data-id'));
+                });
+            }
+            
+            // Add event listener to proof image if available
+            const proofImgSmall = document.getElementById('proof-img-small');
+            if (proofImgSmall) {
+                proofImgSmall.addEventListener('click', function() {
+                    showImageModal(this.src);
+                });
+            }
+        }
+        
+        function updateDeliveryStatus(deliveryId, currentStatus) {
+            let newStatus;
+            let confirmMessage;
+            
+            switch (currentStatus) {
+                case 'assigned':
+                    newStatus = 'picked_up';
+                    confirmMessage = 'Have you picked up this order and started the delivery?';
+                    break;
+                default:
+                    return;
+            }
+            
+            if (confirm(confirmMessage)) {
+                fetch('../php/delivery/update_delivery_status.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        delivery_id: deliveryId,
+                        status: newStatus
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('Error updating delivery status: ' + data.error);
+                    } else {
+                        // Reload delivery details
+                        loadDeliveryDetails(deliveryId);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating delivery status:', error);
+                    alert('An error occurred while updating the delivery status. Please try again.');
+                });
+            }
+        }
+        
+        function showProofModal(deliveryId) {
+            // Set the delivery ID in the form
+            document.getElementById('delivery-id').value = deliveryId;
+            
+            // Show the modal
+            document.getElementById('proof-modal').style.display = 'block';
+        }
+        
+        function showImageModal(imgSrc) {
+            // Set the image source
+            document.getElementById('proof-img-large').src = imgSrc;
+            
+            // Show the modal
+            document.getElementById('image-modal').style.display = 'block';
+        }
+        
+        function submitProofOfDelivery() {
+            const deliveryId = document.getElementById('delivery-id').value;
+            const proofImage = document.getElementById('proof-image').files[0];
+            const notes = document.getElementById('proof-notes').value;
+            
+            if (!proofImage) {
+                alert('Please upload a photo as proof of delivery.');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('delivery_id', deliveryId);
+            formData.append('proof_image', proofImage);
+            formData.append('notes', notes);
+            
+            fetch('../php/delivery/submit_proof_of_delivery.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error submitting proof: ' + data.error);
+                } else {
+                    alert('Delivery completed successfully!');
+                    document.getElementById('proof-modal').style.display = 'none';
+                    loadDeliveryDetails(deliveryId);
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting proof:', error);
+                alert('An error occurred while submitting proof of delivery. Please try again.');
+            });
+        }
+    </script>
+</body>
+</html>

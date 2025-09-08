@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Assignments - Online Grocery Store</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/delivery.css">
+</head>
+<body class="delivery-dashboard">
+    <header>
+        <div class="container">
+            <h1>Online Grocery Store</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Dashboard</a></li>
+                    <li><a href="assignments.html" class="active">My Assignments</a></li>
+                    <li><a href="completed.html">Completed Deliveries</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container dashboard-container">
+        <div class="dashboard-sidebar">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="material-icons">directions_bike</i>
+                </div>
+                <div class="user-details">
+                    <h3 id="delivery-person-name">Welcome back!</h3>
+                    <p id="delivery-person-email">Loading...</p>
+                </div>
+            </div>
+            <nav class="dashboard-nav">
+                <ul>
+                    <li>
+                        <a href="index.html">
+                            <i class="material-icons">dashboard</i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="assignments.html">
+                            <i class="material-icons">assignment</i>
+                            My Assignments
+                        </a>
+                    </li>
+                    <li>
+                        <a href="completed.html">
+                            <i class="material-icons">check_circle</i>
+                            Completed Deliveries
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile.html">
+                            <i class="material-icons">person</i>
+                            My Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="sidebar-logout">
+                            <i class="material-icons">exit_to_app</i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="dashboard-content">
+            <h2>My Assignments</h2>
+            
+            <div class="filters-bar">
+                <div class="filter-options">
+                    <select id="status-filter">
+                        <option value="">All Statuses</option>
+                        <option value="assigned">Assigned</option>
+                        <option value="picked_up">Picked Up</option>
+                    </select>
+                    <select id="date-filter">
+                        <option value="">All Time</option>
+                        <option value="1">Today</option>
+                        <option value="7">Last 7 Days</option>
+                        <option value="30">Last 30 Days</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="assignments-container" class="assignments-list">
+                <p class="loading">Loading your assignments...</p>
+                <!-- Assignments will be loaded dynamically -->
+            </div>
+            
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Online Grocery Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+        let assignmentsPerPage = 10;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            fetch('../php/delivery/check_auth.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.isAuthenticated || data.role !== 'delivery') {
+                        window.location.href = '../login.html';
+                    } else {
+                        // Set user information
+                        document.getElementById('delivery-person-name').textContent = `Welcome, ${data.name}!`;
+                        document.getElementById('delivery-person-email').textContent = data.email;
+                        
+                        // Load assignments
+                        loadAssignments();
+                        
+                        // Set up event listeners
+                        setupEventListeners();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking authentication:', error);
+                    window.location.href = '../login.html';
+                });
+        });
+        
+        function setupEventListeners() {
+            // Logout functionality
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            document.getElementById('sidebar-logout').addEventListener('click', logout);
+            
+            // Status filter
+            document.getElementById('status-filter').addEventListener('change', function() {
+                currentPage = 1;
+                loadAssignments();
+            });
+            
+            // Date filter
+            document.getElementById('date-filter').addEventListener('change', function() {
+                currentPage = 1;
+                loadAssignments();
+            });
+        }
+        
+        function logout(e) {
+            e.preventDefault();
+            fetch('../php/logout.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '../login.html';
+                    }
+                })
+                .catch(error => console.error('Error logging out:', error));
+        }
+        
+        function loadAssignments() {
+            const statusFilter = document.getElementById('status-filter').value;
+            const dateFilter = document.getElementById('date-filter').value;
+            
+            let url = `../php/delivery/get_assignments.php?page=${currentPage}&limit=${assignmentsPerPage}`;
+            
+            if (statusFilter) {
+                url += `&status=${encodeURIComponent(statusFilter)}`;
+            }
+            
+            if (dateFilter) {
+                url += `&days=${encodeURIComponent(dateFilter)}`;
+            }
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error loading assignments:', data.error);
+                        document.getElementById('assignments-container').innerHTML = `
+                            <p class="empty-message">Error loading assignments. Please try again.</p>
+                        `;
+                        return;
+                    }
+                    
+                    renderAssignments(data.assignments);
+                    renderPagination(data.totalAssignments);
+                })
+                .catch(error => {
+                    console.error('Error loading assignments:', error);
+                    document.getElementById('assignments-container').innerHTML = `
+                        <p class="empty-message">Error loading assignments. Please try again.</p>
+                    `;
+                });
+        }
+        
+        function renderAssignments(assignments) {
+            const container = document.getElementById('assignments-container');
+            
+            if (assignments.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-assignments">
+                        <i class="material-icons">inventory</i>
+                        <p>No assignments found matching your criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let assignmentsHtml = '';
+            
+            assignments.forEach(assignment => {
+                // Format the dates
+                const orderDate = new Date(assignment.created_at);
+                const formattedOrderDate = `${orderDate.toLocaleDateString()} ${orderDate.toLocaleTimeString()}`;
+                
+                const assignedDate = new Date(assignment.assigned_at);
+                const formattedAssignedDate = `${assignedDate.toLocaleDateString()} ${assignedDate.toLocaleTimeString()}`;
+                
+                // Create estimated delivery time
+                const estimatedDelivery = new Date(assignment.estimated_delivery);
+                const formattedEstimatedDelivery = `${estimatedDelivery.toLocaleDateString()} ${estimatedDelivery.toLocaleTimeString()}`;
+                
+                // Get status badge class
+                let statusClass = '';
+                switch (assignment.status) {
+                    case 'assigned':
+                        statusClass = 'warning';
+                        break;
+                    case 'picked_up':
+                        statusClass = 'primary';
+                        break;
+                    default:
+                        statusClass = 'secondary';
+                }
+                
+                // Get action button text based on status
+                let actionButtonText = '';
+                switch (assignment.status) {
+                    case 'assigned':
+                        actionButtonText = 'Start Delivery';
+                        break;
+                    case 'picked_up':
+                        actionButtonText = 'Mark as Delivered';
+                        break;
+                    default:
+                        actionButtonText = 'Update Status';
+                }
+                
+                assignmentsHtml += `
+                    <div class="assignment-item">
+                        <div class="assignment-header">
+                            <div class="assignment-info">
+                                <h3>Order #${assignment.order_number}</h3>
+                                <span class="badge ${statusClass}">${assignment.status.charAt(0).toUpperCase() + assignment.status.slice(1).replace('_', ' ')}</span>
+                            </div>
+                            <div class="assignment-dates">
+                                <p><strong>Ordered:</strong> ${formattedOrderDate}</p>
+                                <p><strong>Assigned:</strong> ${formattedAssignedDate}</p>
+                                <p><strong>Est. Delivery:</strong> ${formattedEstimatedDelivery}</p>
+                            </div>
+                        </div>
+                        <div class="assignment-details">
+                            <div class="customer-info">
+                                <h4>Customer</h4>
+                                <p>${assignment.customer_name}</p>
+                                <p>Phone: ${assignment.customer_phone}</p>
+                            </div>
+                            <div class="delivery-address">
+                                <h4>Delivery Address</h4>
+                                <p>${assignment.address.name}</p>
+                                <p>${assignment.address.address_line1}</p>
+                                ${assignment.address.address_line2 ? `<p>${assignment.address.address_line2}</p>` : ''}
+                                <p>${assignment.address.city}, ${assignment.address.state} ${assignment.address.postal_code}</p>
+                            </div>
+                            <div class="order-summary">
+                                <h4>Order Summary</h4>
+                                <p><strong>Items:</strong> ${assignment.item_count}</p>
+                                <p><strong>Total:</strong> $${parseFloat(assignment.total_amount).toFixed(2)}</p>
+                                <p><strong>Payment:</strong> ${assignment.payment_method || 'N/A'}</p>
+                            </div>
+                        </div>
+                        <div class="assignment-actions">
+                            <a href="delivery-details.html?id=${assignment.id}" class="btn secondary">View Details</a>
+                            <button class="btn primary update-status-btn" data-id="${assignment.id}" data-status="${assignment.status}">
+                                ${actionButtonText}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = assignmentsHtml;
+            
+            // Add event listeners to update status buttons
+            document.querySelectorAll('.update-status-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const deliveryId = this.getAttribute('data-id');
+                    const currentStatus = this.getAttribute('data-status');
+                    updateDeliveryStatus(deliveryId, currentStatus);
+                });
+            });
+        }
+        
+        function updateDeliveryStatus(deliveryId, currentStatus) {
+            let newStatus;
+            let confirmMessage;
+            
+            switch (currentStatus) {
+                case 'assigned':
+                    newStatus = 'picked_up';
+                    confirmMessage = 'Have you picked up this order and started the delivery?';
+                    break;
+                case 'picked_up':
+                    newStatus = 'delivered';
+                    confirmMessage = 'Confirm that you have delivered this order to the customer?';
+                    break;
+                default:
+                    return;
+            }
+            
+            if (confirm(confirmMessage)) {
+                fetch('../php/delivery/update_delivery_status.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        delivery_id: deliveryId,
+                        status: newStatus
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('Error updating delivery status: ' + data.error);
+                    } else {
+                        // Reload assignments
+                        loadAssignments();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error updating delivery status:', error);
+                    alert('An error occurred while updating the delivery status. Please try again.');
+                });
+            }
+        }
+        
+        function renderPagination(totalAssignments) {
+            totalPages = Math.ceil(totalAssignments / assignmentsPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let paginationHtml = '';
+            
+            // Previous button
+            paginationHtml += `
+                <button class="pagination-btn prev ${currentPage === 1 ? 'disabled' : ''}" 
+                        ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="material-icons">chevron_left</i>
+                </button>
+            `;
+            
+            // Page numbers
+            const maxPages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxPages / 2));
+            let endPage = Math.min(totalPages, startPage + maxPages - 1);
+            
+            if (endPage - startPage + 1 < maxPages) {
+                startPage = Math.max(1, endPage - maxPages + 1);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHtml += `
+                    <button class="pagination-btn page-number ${i === currentPage ? 'active' : ''}" 
+                            data-page="${i}">
+                        ${i}
+                    </button>
+                `;
+            }
+            
+            // Next button
+            paginationHtml += `
+                <button class="pagination-btn next ${currentPage === totalPages ? 'disabled' : ''}" 
+                        ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="material-icons">chevron_right</i>
+                </button>
+            `;
+            
+            pagination.innerHTML = paginationHtml;
+            
+            // Add event listeners to pagination buttons
+            document.querySelectorAll('.pagination-btn.page-number').forEach(button => {
+                button.addEventListener('click', function() {
+                    currentPage = parseInt(this.getAttribute('data-page'));
+                    loadAssignments();
+                });
+            });
+            
+            document.querySelector('.pagination-btn.prev').addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    loadAssignments();
+                }
+            });
+            
+            document.querySelector('.pagination-btn.next').addEventListener('click', function() {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    loadAssignments();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

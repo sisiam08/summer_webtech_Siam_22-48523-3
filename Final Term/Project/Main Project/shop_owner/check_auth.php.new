@@ -1,0 +1,32 @@
+<?php
+// Start session if not already started
+session_start();
+
+// Include database connection
+require_once '../config/database.php';
+require_once '../helpers.php';
+
+// Set header to return JSON
+header('Content-Type: application/json');
+
+// Check if user is logged in as shop owner
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'shop_owner') {
+    echo json_encode(['isAuthenticated' => false]);
+    exit;
+}
+
+// Get shop ID from session
+$shop_id = $_SESSION['shop_id'] ?? 0;
+$user_id = $_SESSION['user_id'];
+$user_name = $_SESSION['user_name'] ?? '';
+
+// Just return authentication success with minimal shop info
+echo json_encode([
+    'isAuthenticated' => true,
+    'name' => $user_name,
+    'shop' => [
+        'id' => $shop_id,
+        'name' => $_SESSION['shop_name'] ?? ''
+    ]
+]);
+?>

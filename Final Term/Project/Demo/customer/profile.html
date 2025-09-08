@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - Online Grocery Store</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/customer.css">
+</head>
+<body class="customer-dashboard">
+    <header>
+        <div class="container">
+            <h1>Online Grocery Store</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="account.html" class="active">My Account</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container dashboard-container">
+        <div class="dashboard-sidebar">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="material-icons">account_circle</i>
+                </div>
+                <div class="user-details">
+                    <h3 id="customer-name">Welcome back!</h3>
+                    <p id="customer-email">Loading...</p>
+                </div>
+            </div>
+            <nav class="dashboard-nav">
+                <ul>
+                    <li>
+                        <a href="account.html">
+                            <i class="material-icons">dashboard</i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="orders.html">
+                            <i class="material-icons">shopping_bag</i>
+                            My Orders
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addresses.html">
+                            <i class="material-icons">location_on</i>
+                            My Addresses
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wishlist.html">
+                            <i class="material-icons">favorite</i>
+                            Wishlist
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="profile.html">
+                            <i class="material-icons">person</i>
+                            Edit Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="sidebar-logout">
+                            <i class="material-icons">exit_to_app</i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="dashboard-content">
+            <h2>Edit Profile</h2>
+            
+            <div class="profile-container">
+                <div class="profile-section">
+                    <h3>Personal Information</h3>
+                    <form id="profile-form" class="profile-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">First Name</label>
+                                <input type="text" id="first-name" name="first_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">Last Name</label>
+                                <input type="text" id="last-name" name="last_name" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn primary">Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="profile-section">
+                    <h3>Change Password</h3>
+                    <form id="password-form" class="profile-form">
+                        <div class="form-group">
+                            <label for="current-password">Current Password</label>
+                            <input type="password" id="current-password" name="current_password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" name="new_password" required>
+                            <small>Password must be at least 8 characters long and include a number, an uppercase and a lowercase letter.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm New Password</label>
+                            <input type="password" id="confirm-password" name="confirm_password" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn primary">Update Password</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="profile-section">
+                    <h3>Account Preferences</h3>
+                    <form id="preferences-form" class="profile-form">
+                        <div class="form-check">
+                            <input type="checkbox" id="newsletter" name="newsletter">
+                            <label for="newsletter">Subscribe to newsletter</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" id="promo-emails" name="promo_emails">
+                            <label for="promo-emails">Receive promotional emails</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" id="order-updates" name="order_updates" checked>
+                            <label for="order-updates">Receive order status updates via email</label>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn primary">Save Preferences</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Online Grocery Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            fetch('php/customer/check_auth.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.isAuthenticated || data.role !== 'customer') {
+                        window.location.href = 'login.html';
+                    } else {
+                        // Set user information
+                        document.getElementById('customer-name').textContent = `Welcome, ${data.name}!`;
+                        document.getElementById('customer-email').textContent = data.email;
+                        
+                        // Load profile data
+                        loadProfileData();
+                        
+                        // Set up event listeners
+                        setupEventListeners();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking authentication:', error);
+                    window.location.href = 'login.html';
+                });
+        });
+        
+        function setupEventListeners() {
+            // Logout functionality
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            document.getElementById('sidebar-logout').addEventListener('click', logout);
+            
+            // Form submissions
+            document.getElementById('profile-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                updateProfile();
+            });
+            
+            document.getElementById('password-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                updatePassword();
+            });
+            
+            document.getElementById('preferences-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                updatePreferences();
+            });
+        }
+        
+        function logout(e) {
+            e.preventDefault();
+            fetch('php/logout.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = 'login.html';
+                    }
+                })
+                .catch(error => console.error('Error logging out:', error));
+        }
+        
+        function loadProfileData() {
+            fetch('php/customer/get_profile.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error loading profile:', data.error);
+                        return;
+                    }
+                    
+                    // Populate profile form
+                    document.getElementById('first-name').value = data.first_name || '';
+                    document.getElementById('last-name').value = data.last_name || '';
+                    document.getElementById('email').value = data.email || '';
+                    document.getElementById('phone').value = data.phone || '';
+                    
+                    // Populate preferences form
+                    document.getElementById('newsletter').checked = data.newsletter === 1;
+                    document.getElementById('promo-emails').checked = data.promo_emails === 1;
+                    document.getElementById('order-updates').checked = data.order_updates === 1;
+                })
+                .catch(error => console.error('Error loading profile:', error));
+        }
+        
+        function updateProfile() {
+            const profileData = {
+                first_name: document.getElementById('first-name').value,
+                last_name: document.getElementById('last-name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value
+            };
+            
+            fetch('php/customer/update_profile.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(profileData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error updating profile: ' + data.error);
+                } else {
+                    alert('Profile updated successfully!');
+                    // Update header display name
+                    document.getElementById('customer-name').textContent = `Welcome, ${profileData.first_name}!`;
+                    document.getElementById('customer-email').textContent = profileData.email;
+                }
+            })
+            .catch(error => {
+                console.error('Error updating profile:', error);
+                alert('An error occurred while updating your profile. Please try again.');
+            });
+        }
+        
+        function updatePassword() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Validate password
+            if (newPassword.length < 8) {
+                alert('Password must be at least 8 characters long.');
+                return;
+            }
+            
+            if (!newPassword.match(/[0-9]/)) {
+                alert('Password must contain at least one number.');
+                return;
+            }
+            
+            if (!newPassword.match(/[A-Z]/)) {
+                alert('Password must contain at least one uppercase letter.');
+                return;
+            }
+            
+            if (!newPassword.match(/[a-z]/)) {
+                alert('Password must contain at least one lowercase letter.');
+                return;
+            }
+            
+            // Check if passwords match
+            if (newPassword !== confirmPassword) {
+                alert('New password and confirmation do not match.');
+                return;
+            }
+            
+            const passwordData = {
+                current_password: currentPassword,
+                new_password: newPassword
+            };
+            
+            fetch('php/customer/update_password.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(passwordData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error updating password: ' + data.error);
+                } else {
+                    alert('Password updated successfully!');
+                    document.getElementById('password-form').reset();
+                }
+            })
+            .catch(error => {
+                console.error('Error updating password:', error);
+                alert('An error occurred while updating your password. Please try again.');
+            });
+        }
+        
+        function updatePreferences() {
+            const preferencesData = {
+                newsletter: document.getElementById('newsletter').checked ? 1 : 0,
+                promo_emails: document.getElementById('promo-emails').checked ? 1 : 0,
+                order_updates: document.getElementById('order-updates').checked ? 1 : 0
+            };
+            
+            fetch('php/customer/update_preferences.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(preferencesData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error updating preferences: ' + data.error);
+                } else {
+                    alert('Preferences updated successfully!');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating preferences:', error);
+                alert('An error occurred while updating your preferences. Please try again.');
+            });
+        }
+    </script>
+</body>
+</html>

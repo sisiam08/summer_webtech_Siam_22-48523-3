@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Addresses - Online Grocery Store</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/customer.css">
+</head>
+<body class="customer-dashboard">
+    <header>
+        <div class="container">
+            <h1>Online Grocery Store</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="account.html" class="active">My Account</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container dashboard-container">
+        <div class="dashboard-sidebar">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="material-icons">account_circle</i>
+                </div>
+                <div class="user-details">
+                    <h3 id="customer-name">Welcome back!</h3>
+                    <p id="customer-email">Loading...</p>
+                </div>
+            </div>
+            <nav class="dashboard-nav">
+                <ul>
+                    <li>
+                        <a href="account.html">
+                            <i class="material-icons">dashboard</i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="orders.html">
+                            <i class="material-icons">shopping_bag</i>
+                            My Orders
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="addresses.html">
+                            <i class="material-icons">location_on</i>
+                            My Addresses
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wishlist.html">
+                            <i class="material-icons">favorite</i>
+                            Wishlist
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile.html">
+                            <i class="material-icons">person</i>
+                            Edit Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="sidebar-logout">
+                            <i class="material-icons">exit_to_app</i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="content-header">
+                <h2>My Addresses</h2>
+                <button id="add-address-btn" class="btn primary">
+                    <i class="material-icons">add</i> Add New Address
+                </button>
+            </div>
+            
+            <div id="addresses-container" class="addresses-grid">
+                <p class="loading">Loading your addresses...</p>
+                <!-- Addresses will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Address Modal -->
+    <div id="address-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Add New Address</h3>
+                <span class="close">&times;</span>
+            </div>
+            <form id="address-form">
+                <input type="hidden" id="address-id" value="">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="address-name">Full Name</label>
+                        <input type="text" id="address-name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="address-line1">Address Line 1</label>
+                        <input type="text" id="address-line1" placeholder="Street address, P.O. box, company name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="address-line2">Address Line 2 (Optional)</label>
+                        <input type="text" id="address-line2" placeholder="Apartment, suite, unit, building, floor, etc.">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="address-city">City</label>
+                        <input type="text" id="address-city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address-state">State/Province</label>
+                        <input type="text" id="address-state" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="address-postal-code">Postal Code</label>
+                        <input type="text" id="address-postal-code" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address-country">Country</label>
+                        <input type="text" id="address-country" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="address-phone">Phone Number</label>
+                        <input type="tel" id="address-phone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-check">
+                        <input type="checkbox" id="address-default">
+                        <label for="address-default">Set as default address</label>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn secondary" id="cancel-address-btn">Cancel</button>
+                    <button type="submit" class="btn primary" id="save-address-btn">Save Address</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Delete Address</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this address? This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary" id="cancel-delete-btn">Cancel</button>
+                <button class="btn danger" id="confirm-delete-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Online Grocery Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentAddressId = null;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            fetch('php/customer/check_auth.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.isAuthenticated || data.role !== 'customer') {
+                        window.location.href = 'login.html';
+                    } else {
+                        // Set user information
+                        document.getElementById('customer-name').textContent = `Welcome, ${data.name}!`;
+                        document.getElementById('customer-email').textContent = data.email;
+                        
+                        // Load addresses
+                        loadAddresses();
+                        
+                        // Set up event listeners
+                        setupEventListeners();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking authentication:', error);
+                    window.location.href = 'login.html';
+                });
+        });
+        
+        function setupEventListeners() {
+            // Logout functionality
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            document.getElementById('sidebar-logout').addEventListener('click', logout);
+            
+            // Add address button
+            document.getElementById('add-address-btn').addEventListener('click', function() {
+                showAddressModal();
+            });
+            
+            // Address form submission
+            document.getElementById('address-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveAddress();
+            });
+            
+            // Modal close buttons
+            document.querySelectorAll('.modal .close').forEach(function(closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    closeModal(this.closest('.modal').id);
+                });
+            });
+            
+            // Cancel buttons
+            document.getElementById('cancel-address-btn').addEventListener('click', function() {
+                closeModal('address-modal');
+            });
+            
+            document.getElementById('cancel-delete-btn').addEventListener('click', function() {
+                closeModal('delete-modal');
+            });
+            
+            // Delete confirmation
+            document.getElementById('confirm-delete-btn').addEventListener('click', function() {
+                deleteAddress(currentAddressId);
+            });
+        }
+        
+        function logout(e) {
+            e.preventDefault();
+            fetch('php/logout.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = 'login.html';
+                    }
+                })
+                .catch(error => console.error('Error logging out:', error));
+        }
+        
+        function loadAddresses() {
+            fetch('php/customer/get_addresses.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error loading addresses:', data.error);
+                        document.getElementById('addresses-container').innerHTML = `
+                            <p class="empty-message">Error loading addresses. Please try again.</p>
+                        `;
+                        return;
+                    }
+                    
+                    renderAddresses(data.addresses);
+                })
+                .catch(error => {
+                    console.error('Error loading addresses:', error);
+                    document.getElementById('addresses-container').innerHTML = `
+                        <p class="empty-message">Error loading addresses. Please try again.</p>
+                    `;
+                });
+        }
+        
+        function renderAddresses(addresses) {
+            const addressesContainer = document.getElementById('addresses-container');
+            
+            if (addresses.length === 0) {
+                addressesContainer.innerHTML = `
+                    <div class="empty-addresses">
+                        <i class="material-icons">location_off</i>
+                        <p>You don't have any saved addresses yet.</p>
+                        <button class="btn primary" id="empty-add-address-btn">
+                            <i class="material-icons">add</i> Add Your First Address
+                        </button>
+                    </div>
+                `;
+                
+                // Add event listener to the button
+                document.getElementById('empty-add-address-btn').addEventListener('click', function() {
+                    showAddressModal();
+                });
+                
+                return;
+            }
+            
+            let addressesHtml = '';
+            
+            addresses.forEach(address => {
+                addressesHtml += `
+                    <div class="address-card ${address.is_default ? 'default' : ''}">
+                        ${address.is_default ? '<span class="default-badge">Default</span>' : ''}
+                        <div class="address-content">
+                            <h3>${address.name}</h3>
+                            <p>${address.address_line1}</p>
+                            ${address.address_line2 ? `<p>${address.address_line2}</p>` : ''}
+                            <p>${address.city}, ${address.state} ${address.postal_code}</p>
+                            <p>${address.country}</p>
+                            <p>Phone: ${address.phone}</p>
+                        </div>
+                        <div class="address-actions">
+                            <button class="btn icon edit-address" data-id="${address.id}">
+                                <i class="material-icons">edit</i>
+                            </button>
+                            ${!address.is_default ? `
+                                <button class="btn icon delete-address" data-id="${address.id}">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                            ` : ''}
+                            ${!address.is_default ? `
+                                <button class="btn icon set-default-address" data-id="${address.id}">
+                                    <i class="material-icons">star</i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            addressesContainer.innerHTML = addressesHtml;
+            
+            // Add event listeners to the address cards
+            document.querySelectorAll('.edit-address').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const addressId = this.getAttribute('data-id');
+                    editAddress(addressId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-address').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const addressId = this.getAttribute('data-id');
+                    showDeleteModal(addressId);
+                });
+            });
+            
+            document.querySelectorAll('.set-default-address').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const addressId = this.getAttribute('data-id');
+                    setDefaultAddress(addressId);
+                });
+            });
+        }
+        
+        function showAddressModal(addressData = null) {
+            // Reset form
+            document.getElementById('address-form').reset();
+            document.getElementById('address-id').value = '';
+            
+            // Update modal title
+            document.getElementById('modal-title').textContent = addressData ? 'Edit Address' : 'Add New Address';
+            
+            // Populate form if editing
+            if (addressData) {
+                document.getElementById('address-id').value = addressData.id;
+                document.getElementById('address-name').value = addressData.name;
+                document.getElementById('address-line1').value = addressData.address_line1;
+                document.getElementById('address-line2').value = addressData.address_line2 || '';
+                document.getElementById('address-city').value = addressData.city;
+                document.getElementById('address-state').value = addressData.state;
+                document.getElementById('address-postal-code').value = addressData.postal_code;
+                document.getElementById('address-country').value = addressData.country;
+                document.getElementById('address-phone').value = addressData.phone;
+                document.getElementById('address-default').checked = addressData.is_default;
+                
+                // Disable default checkbox if it's already the default
+                document.getElementById('address-default').disabled = addressData.is_default;
+            }
+            
+            // Show modal
+            document.getElementById('address-modal').style.display = 'block';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        function editAddress(addressId) {
+            fetch(`php/customer/get_address.php?id=${addressId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error fetching address:', data.error);
+                        return;
+                    }
+                    
+                    showAddressModal(data.address);
+                })
+                .catch(error => console.error('Error fetching address:', error));
+        }
+        
+        function showDeleteModal(addressId) {
+            currentAddressId = addressId;
+            document.getElementById('delete-modal').style.display = 'block';
+        }
+        
+        function saveAddress() {
+            const addressId = document.getElementById('address-id').value;
+            const addressData = {
+                id: addressId || null,
+                name: document.getElementById('address-name').value,
+                address_line1: document.getElementById('address-line1').value,
+                address_line2: document.getElementById('address-line2').value,
+                city: document.getElementById('address-city').value,
+                state: document.getElementById('address-state').value,
+                postal_code: document.getElementById('address-postal-code').value,
+                country: document.getElementById('address-country').value,
+                phone: document.getElementById('address-phone').value,
+                is_default: document.getElementById('address-default').checked
+            };
+            
+            fetch('php/customer/save_address.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(addressData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error saving address: ' + data.error);
+                    return;
+                }
+                
+                closeModal('address-modal');
+                loadAddresses();
+            })
+            .catch(error => {
+                console.error('Error saving address:', error);
+                alert('An error occurred while saving the address. Please try again.');
+            });
+        }
+        
+        function deleteAddress(addressId) {
+            fetch('php/customer/delete_address.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: addressId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error deleting address: ' + data.error);
+                } else {
+                    closeModal('delete-modal');
+                    loadAddresses();
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting address:', error);
+                alert('An error occurred while deleting the address. Please try again.');
+            });
+        }
+        
+        function setDefaultAddress(addressId) {
+            fetch('php/customer/set_default_address.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: addressId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Error setting default address: ' + data.error);
+                } else {
+                    loadAddresses();
+                }
+            })
+            .catch(error => {
+                console.error('Error setting default address:', error);
+                alert('An error occurred while setting the default address. Please try again.');
+            });
+        }
+    </script>
+</body>
+</html>

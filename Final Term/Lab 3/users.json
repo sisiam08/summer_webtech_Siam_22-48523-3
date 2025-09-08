@@ -4,5 +4,11 @@
         "email": "omar@gmail.com",
         "password": "omar123",
         "created_at": "2025-09-01 09:37:49"
+    },
+    {
+        "username": "osman",
+        "email": "osman@gmail.com",
+        "password": "OSMAN123",
+        "created_at": "2025-09-08 17:04:59"
     }
 ]

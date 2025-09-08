@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Online Grocery Store</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/customer.css">
+</head>
+<body class="customer-dashboard">
+    <header>
+        <div class="container">
+            <h1>Online Grocery Store</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                    <li><a href="account.html" class="active">My Account</a></li>
+                    <li><a href="#" id="logout-btn">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container dashboard-container">
+        <div class="dashboard-sidebar">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="material-icons">account_circle</i>
+                </div>
+                <div class="user-details">
+                    <h3 id="customer-name">Welcome back!</h3>
+                    <p id="customer-email">Loading...</p>
+                </div>
+            </div>
+            <nav class="dashboard-nav">
+                <ul>
+                    <li>
+                        <a href="account.html">
+                            <i class="material-icons">dashboard</i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="orders.html">
+                            <i class="material-icons">shopping_bag</i>
+                            My Orders
+                        </a>
+                    </li>
+                    <li>
+                        <a href="addresses.html">
+                            <i class="material-icons">location_on</i>
+                            My Addresses
+                        </a>
+                    </li>
+                    <li>
+                        <a href="wishlist.html">
+                            <i class="material-icons">favorite</i>
+                            Wishlist
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile.html">
+                            <i class="material-icons">person</i>
+                            Edit Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="sidebar-logout">
+                            <i class="material-icons">exit_to_app</i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <div class="dashboard-content">
+            <h2>My Orders</h2>
+            
+            <div class="filters-bar">
+                <div class="search-field">
+                    <input type="text" id="search-orders" placeholder="Search by order number">
+                    <button id="search-btn" class="btn primary">Search</button>
+                </div>
+                <div class="filter-options">
+                    <select id="status-filter">
+                        <option value="">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                    <select id="date-filter">
+                        <option value="">All Time</option>
+                        <option value="7">Last 7 Days</option>
+                        <option value="30">Last 30 Days</option>
+                        <option value="90">Last 3 Months</option>
+                        <option value="365">Last Year</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="orders-container" id="orders-list">
+                <p class="loading">Loading your orders...</p>
+                <!-- Orders will be loaded dynamically -->
+            </div>
+            
+            <div class="pagination" id="pagination">
+                <!-- Pagination will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Online Grocery Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+        let ordersPerPage = 10;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            fetch('php/customer/check_auth.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.isAuthenticated || data.role !== 'customer') {
+                        window.location.href = 'login.html';
+                    } else {
+                        // Set user information
+                        document.getElementById('customer-name').textContent = `Welcome, ${data.name}!`;
+                        document.getElementById('customer-email').textContent = data.email;
+                        
+                        // Load orders
+                        loadOrders();
+                        
+                        // Set up event listeners
+                        setupEventListeners();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking authentication:', error);
+                    window.location.href = 'login.html';
+                });
+        });
+        
+        function setupEventListeners() {
+            // Logout functionality
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            document.getElementById('sidebar-logout').addEventListener('click', logout);
+            
+            // Search orders
+            document.getElementById('search-btn').addEventListener('click', function() {
+                currentPage = 1;
+                loadOrders();
+            });
+            
+            // Enter key in search field
+            document.getElementById('search-orders').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    currentPage = 1;
+                    loadOrders();
+                }
+            });
+            
+            // Status filter
+            document.getElementById('status-filter').addEventListener('change', function() {
+                currentPage = 1;
+                loadOrders();
+            });
+            
+            // Date filter
+            document.getElementById('date-filter').addEventListener('change', function() {
+                currentPage = 1;
+                loadOrders();
+            });
+        }
+        
+        function logout(e) {
+            e.preventDefault();
+            fetch('php/logout.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = 'login.html';
+                    }
+                })
+                .catch(error => console.error('Error logging out:', error));
+        }
+        
+        function loadOrders() {
+            const searchQuery = document.getElementById('search-orders').value;
+            const statusFilter = document.getElementById('status-filter').value;
+            const dateFilter = document.getElementById('date-filter').value;
+            
+            let url = `php/customer/get_orders.php?page=${currentPage}&limit=${ordersPerPage}`;
+            
+            if (searchQuery) {
+                url += `&search=${encodeURIComponent(searchQuery)}`;
+            }
+            
+            if (statusFilter) {
+                url += `&status=${encodeURIComponent(statusFilter)}`;
+            }
+            
+            if (dateFilter) {
+                url += `&days=${encodeURIComponent(dateFilter)}`;
+            }
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error loading orders:', data.error);
+                        document.getElementById('orders-list').innerHTML = `
+                            <p class="empty-message">Error loading orders. Please try again.</p>
+                        `;
+                        return;
+                    }
+                    
+                    renderOrders(data.orders);
+                    renderPagination(data.totalOrders);
+                })
+                .catch(error => console.error('Error loading orders:', error));
+        }
+        
+        function renderOrders(orders) {
+            const ordersContainer = document.getElementById('orders-list');
+            
+            if (orders.length === 0) {
+                ordersContainer.innerHTML = `
+                    <div class="empty-orders">
+                        <i class="material-icons">shopping_bag</i>
+                        <p>You haven't placed any orders yet.</p>
+                        <a href="products.html" class="btn primary">Start Shopping</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            let ordersHtml = '';
+            
+            orders.forEach(order => {
+                // Create status badge
+                let statusClass;
+                switch (order.status) {
+                    case 'pending':
+                        statusClass = 'warning';
+                        break;
+                    case 'processing':
+                        statusClass = 'info';
+                        break;
+                    case 'shipped':
+                        statusClass = 'primary';
+                        break;
+                    case 'delivered':
+                        statusClass = 'success';
+                        break;
+                    case 'cancelled':
+                        statusClass = 'danger';
+                        break;
+                    default:
+                        statusClass = 'secondary';
+                }
+                
+                ordersHtml += `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-number">
+                                <h3>Order #${order.order_number}</h3>
+                                <span class="badge ${statusClass}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>
+                            </div>
+                            <div class="order-date">
+                                <span>${new Date(order.created_at).toLocaleDateString()} ${new Date(order.created_at).toLocaleTimeString()}</span>
+                            </div>
+                        </div>
+                        <div class="order-details">
+                            <div class="order-items">
+                                <h4>Items: ${order.item_count}</h4>
+                                <div class="order-summary">
+                                    ${order.items.map(item => `
+                                        <div class="order-item-summary">
+                                            <img src="uploads/products/${item.image || 'no-image.jpg'}" alt="${item.name}" class="item-image">
+                                            <span class="item-name">${item.name}</span>
+                                            <span class="item-quantity">x${item.quantity}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <div class="order-total">
+                                <div class="total-amount">
+                                    <span class="label">Total:</span>
+                                    <span class="amount">$${parseFloat(order.total_amount).toFixed(2)}</span>
+                                </div>
+                                <a href="order-details.html?id=${order.id}" class="btn secondary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            ordersContainer.innerHTML = ordersHtml;
+        }
+        
+        function renderPagination(totalOrders) {
+            totalPages = Math.ceil(totalOrders / ordersPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let paginationHtml = '';
+            
+            // Previous button
+            paginationHtml += `
+                <button class="pagination-btn prev ${currentPage === 1 ? 'disabled' : ''}" 
+                        ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="material-icons">chevron_left</i>
+                </button>
+            `;
+            
+            // Page numbers
+            const maxPages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxPages / 2));
+            let endPage = Math.min(totalPages, startPage + maxPages - 1);
+            
+            if (endPage - startPage + 1 < maxPages) {
+                startPage = Math.max(1, endPage - maxPages + 1);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                paginationHtml += `
+                    <button class="pagination-btn page-number ${i === currentPage ? 'active' : ''}" 
+                            data-page="${i}">
+                        ${i}
+                    </button>
+                `;
+            }
+            
+            // Next button
+            paginationHtml += `
+                <button class="pagination-btn next ${currentPage === totalPages ? 'disabled' : ''}" 
+                        ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="material-icons">chevron_right</i>
+                </button>
+            `;
+            
+            pagination.innerHTML = paginationHtml;
+            
+            // Add event listeners to pagination buttons
+            document.querySelectorAll('.pagination-btn.page-number').forEach(button => {
+                button.addEventListener('click', function() {
+                    currentPage = parseInt(this.getAttribute('data-page'));
+                    loadOrders();
+                });
+            });
+            
+            document.querySelector('.pagination-btn.prev').addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    loadOrders();
+                }
+            });
+            
+            document.querySelector('.pagination-btn.next').addEventListener('click', function() {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    loadOrders();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

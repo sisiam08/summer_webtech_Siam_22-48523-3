@@ -1,0 +1,130 @@
+[05-Sep-2025 15:06:12 Europe/Berlin] Adding product ID: 1, Quantity: 1 to cart
+[05-Sep-2025 15:06:13 Europe/Berlin] Adding product ID: 2, Quantity: 1 to cart
+[05-Sep-2025 15:06:14 Europe/Berlin] Adding product ID: 8, Quantity: 1 to cart
+[05-Sep-2025 15:06:19 Europe/Berlin] Adding product ID: 4, Quantity: 1 to cart
+[06-Sep-2025 18:32:51 Europe/Berlin] Adding product ID: 2, Quantity: 1 to cart
+[06-Sep-2025 18:32:51 Europe/Berlin] Updated cart for guest user. Cart now contains: Array
+(
+    [2] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:32:51
+        )
+
+)
+
+[06-Sep-2025 18:33:11 Europe/Berlin] Adding product ID: 8, Quantity: 1 to cart
+[06-Sep-2025 18:33:11 Europe/Berlin] Updated cart for guest user. Cart now contains: Array
+(
+    [8] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:11
+        )
+
+)
+
+[06-Sep-2025 18:33:13 Europe/Berlin] Adding product ID: 7, Quantity: 1 to cart
+[06-Sep-2025 18:33:13 Europe/Berlin] Updated cart for guest user. Cart now contains: Array
+(
+    [8] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:11
+        )
+
+    [7] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:13
+        )
+
+)
+
+[06-Sep-2025 18:33:14 Europe/Berlin] Adding product ID: 14, Quantity: 1 to cart
+[06-Sep-2025 18:33:14 Europe/Berlin] Updated cart for guest user. Cart now contains: Array
+(
+    [8] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:11
+        )
+
+    [7] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:13
+        )
+
+    [14] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:14
+        )
+
+)
+
+[06-Sep-2025 18:33:42 Europe/Berlin] Adding product ID: 3, Quantity: 1 to cart
+[06-Sep-2025 18:33:42 Europe/Berlin] Updated cart for guest user. Cart now contains: Array
+(
+    [8] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:11
+        )
+
+    [7] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:13
+        )
+
+    [14] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:14
+        )
+
+    [3] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:42
+        )
+
+)
+
+[06-Sep-2025 18:33:53 Europe/Berlin] Adding product ID: 6, Quantity: 1 to cart
+[06-Sep-2025 18:33:53 Europe/Berlin] Updated cart for guest user. Cart now contains: Array
+(
+    [8] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:11
+        )
+
+    [7] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:13
+        )
+
+    [14] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:14
+        )
+
+    [3] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:42
+        )
+
+    [6] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:53
+        )
+
+)
+
