@@ -14,7 +14,7 @@ header("Pragma: no-cache");
 // Check if user is logged in as shop owner
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'shop_owner') {
     // Not logged in as shop owner, redirect to login
-    header("Location: login.html");
+    header("Location: ../login.php");
     exit;
 }
 

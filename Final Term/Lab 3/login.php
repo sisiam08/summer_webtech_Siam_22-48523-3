@@ -25,7 +25,7 @@ if(file_exists($usersFile)) {
     file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
 }
 
-if($_SERVER["REQUEST_METHOD"] == "POST") {
+if($_POST) {
  
     if(empty(trim($_POST["username"]))) {
         $username_err = "Please enter username.";

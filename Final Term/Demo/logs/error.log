@@ -1,20 +1,384 @@
-[07-Sep-2025 07:42:56 Europe/Berlin] Cart session: Array
+[05-Sep-2025 13:50:32 Europe/Berlin] PHP Warning:  session_name(): Session name cannot be changed when a session is active in E:\University\Web Tech\Lab\Final Term\Project\Main Project\config\config.php on line 166
+[05-Sep-2025 13:50:32 Europe/Berlin] PHP Warning:  session_set_cookie_params(): Session cookie parameters cannot be changed when a session is active in E:\University\Web Tech\Lab\Final Term\Project\Main Project\config\config.php on line 167
+[05-Sep-2025 13:50:40 Europe/Berlin] PHP Warning:  session_name(): Session name cannot be changed when a session is active in E:\University\Web Tech\Lab\Final Term\Project\Main Project\config\config.php on line 166
+[05-Sep-2025 13:50:40 Europe/Berlin] PHP Warning:  session_set_cookie_params(): Session cookie parameters cannot be changed when a session is active in E:\University\Web Tech\Lab\Final Term\Project\Main Project\config\config.php on line 167
+[05-Sep-2025 13:52:43 Europe/Berlin] PHP Fatal error:  Cannot redeclare formatPrice() (previously declared in E:\University\Web Tech\Lab\Final Term\Project\Main Project\includes\helpers.php:36) in E:\University\Web Tech\Lab\Final Term\Project\Main Project\includes\global_functions.php on line 91
+[05-Sep-2025 13:52:50 Europe/Berlin] PHP Fatal error:  Cannot redeclare formatPrice() (previously declared in E:\University\Web Tech\Lab\Final Term\Project\Main Project\includes\helpers.php:36) in E:\University\Web Tech\Lab\Final Term\Project\Main Project\includes\global_functions.php on line 91
+[05-Sep-2025 14:17:32 Europe/Berlin] PHP Fatal error:  Cannot redeclare isAdmin() (previously declared in E:\University\Web Tech\Lab\Final Term\Project\Main Project\includes\session.php:17) in E:\University\Web Tech\Lab\Final Term\Project\Main Project\includes\global_functions.php on line 132
+[05-Sep-2025 14:17:50 Europe/Berlin] PHP Fatal error:  Cannot redeclare isAdmin() (previously declared in E:\University\Web Tech\Lab\Final Term\Project\Main Project\includes\session.php:17) in E:\University\Web Tech\Lab\Final Term\Project\Main Project\includes\global_functions.php on line 132
+[05-Sep-2025 15:06:03 Europe/Berlin] Cart session: Array
 (
 )
 
-[07-Sep-2025 07:42:56 Europe/Berlin] Cart is empty or not set in session
-[07-Sep-2025 07:42:56 Europe/Berlin] Cart session: Array
+[05-Sep-2025 15:06:03 Europe/Berlin] Cart is empty or not set in session
+[05-Sep-2025 15:06:03 Europe/Berlin] Cart session: Array
 (
 )
 
-[07-Sep-2025 07:42:56 Europe/Berlin] Cart is empty or not set in session
-[07-Sep-2025 07:43:02 Europe/Berlin] Cart session: Array
+[05-Sep-2025 15:06:03 Europe/Berlin] Cart is empty or not set in session
+[05-Sep-2025 15:06:15 Europe/Berlin] Cart session: Array
 (
 )
 
-[07-Sep-2025 07:43:02 Europe/Berlin] Cart is empty or not set in session
-[07-Sep-2025 07:43:02 Europe/Berlin] Cart session: Array
+[05-Sep-2025 15:06:15 Europe/Berlin] Cart is empty or not set in session
+[05-Sep-2025 15:06:15 Europe/Berlin] Cart session: Array
 (
 )
 
-[07-Sep-2025 07:43:02 Europe/Berlin] Cart is empty or not set in session
+[05-Sep-2025 15:06:15 Europe/Berlin] Cart is empty or not set in session
+[05-Sep-2025 15:06:21 Europe/Berlin] Cart session: Array
+(
+)
+
+[05-Sep-2025 15:06:21 Europe/Berlin] Cart is empty or not set in session
+[05-Sep-2025 15:06:21 Europe/Berlin] Cart session: Array
+(
+)
+
+[05-Sep-2025 15:06:21 Europe/Berlin] Cart is empty or not set in session
+[06-Sep-2025 18:32:51 Europe/Berlin] Cart session: Array
+(
+    [2] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:32:51
+        )
+
+)
+
+[06-Sep-2025 18:32:51 Europe/Berlin] Processing product ID: 2 with quantity: 1
+[06-Sep-2025 18:32:51 Europe/Berlin] Getting product by ID: 2
+[06-Sep-2025 18:32:51 Europe/Berlin] Found product: {"id":2,"shop_id":1,"name":"Banana","description":"Fresh yellow bananas","price":"0.99","discounted_price":null,"image":"images\/banana.jpg","is_active":1,"is_featured":1,"category_id":1,"stock":150,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:32:51 Europe/Berlin] Product data: {"id":2,"shop_id":1,"name":"Banana","description":"Fresh yellow bananas","price":"0.99","discounted_price":null,"image":"images\/banana.jpg","is_active":1,"is_featured":1,"category_id":1,"stock":150,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:32:51 Europe/Berlin] Shop cart items: {"1":{"shop_id":1,"shop_name":"Chaldal","delivery_charge":"0.00","items":[{"id":2,"shop_id":1,"name":"Banana","description":"Fresh yellow bananas","price":"0.99","discounted_price":null,"image":"images\/banana.jpg","is_active":1,"is_featured":1,"category_id":1,"stock":150,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":0.99}],"subtotal":0.99}}
+[06-Sep-2025 18:32:51 Europe/Berlin] Getting product by ID: 2
+[06-Sep-2025 18:32:51 Europe/Berlin] Found product: {"id":2,"shop_id":1,"name":"Banana","description":"Fresh yellow bananas","price":"0.99","discounted_price":null,"image":"images\/banana.jpg","is_active":1,"is_featured":1,"category_id":1,"stock":150,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:32:51 Europe/Berlin] Cart session: Array
+(
+    [2] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:32:51
+        )
+
+)
+
+[06-Sep-2025 18:32:51 Europe/Berlin] Processing product ID: 2 with quantity: 1
+[06-Sep-2025 18:32:51 Europe/Berlin] Getting product by ID: 2
+[06-Sep-2025 18:32:51 Europe/Berlin] Found product: {"id":2,"shop_id":1,"name":"Banana","description":"Fresh yellow bananas","price":"0.99","discounted_price":null,"image":"images\/banana.jpg","is_active":1,"is_featured":1,"category_id":1,"stock":150,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:32:51 Europe/Berlin] Product data: {"id":2,"shop_id":1,"name":"Banana","description":"Fresh yellow bananas","price":"0.99","discounted_price":null,"image":"images\/banana.jpg","is_active":1,"is_featured":1,"category_id":1,"stock":150,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:32:51 Europe/Berlin] Shop cart items: {"1":{"shop_id":1,"shop_name":"Chaldal","delivery_charge":"0.00","items":[{"id":2,"shop_id":1,"name":"Banana","description":"Fresh yellow bananas","price":"0.99","discounted_price":null,"image":"images\/banana.jpg","is_active":1,"is_featured":1,"category_id":1,"stock":150,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":0.99}],"subtotal":0.99}}
+[06-Sep-2025 18:32:59 Europe/Berlin] Cart session: Array
+(
+)
+
+[06-Sep-2025 18:32:59 Europe/Berlin] Cart is empty or not set in session
+[06-Sep-2025 18:32:59 Europe/Berlin] Cart session: Array
+(
+)
+
+[06-Sep-2025 18:32:59 Europe/Berlin] Cart is empty or not set in session
+[06-Sep-2025 18:33:00 Europe/Berlin] Cart session: Array
+(
+)
+
+[06-Sep-2025 18:33:00 Europe/Berlin] Cart is empty or not set in session
+[06-Sep-2025 18:33:00 Europe/Berlin] Cart session: Array
+(
+)
+
+[06-Sep-2025 18:33:00 Europe/Berlin] Cart is empty or not set in session
+[06-Sep-2025 18:33:15 Europe/Berlin] Cart session: Array
+(
+    [8] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:11
+        )
+
+    [7] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:13
+        )
+
+    [14] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:14
+        )
+
+)
+
+[06-Sep-2025 18:33:15 Europe/Berlin] Processing product ID: 8 with quantity: 1
+[06-Sep-2025 18:33:15 Europe/Berlin] Getting product by ID: 8
+[06-Sep-2025 18:33:15 Europe/Berlin] Found product: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Product data: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Processing product ID: 7 with quantity: 1
+[06-Sep-2025 18:33:15 Europe/Berlin] Getting product by ID: 7
+[06-Sep-2025 18:33:15 Europe/Berlin] Found product: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Product data: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Processing product ID: 14 with quantity: 1
+[06-Sep-2025 18:33:15 Europe/Berlin] Getting product by ID: 14
+[06-Sep-2025 18:33:15 Europe/Berlin] Found product: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Product data: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Shop cart items: {"1":{"shop_id":1,"shop_name":"Chaldal","delivery_charge":"0.00","items":[{"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":2.29},{"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":3.99},{"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52","quantity":1,"total":3500}],"subtotal":3506.28}}
+[06-Sep-2025 18:33:15 Europe/Berlin] Getting product by ID: 8
+[06-Sep-2025 18:33:15 Europe/Berlin] Found product: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Getting product by ID: 7
+[06-Sep-2025 18:33:15 Europe/Berlin] Found product: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Getting product by ID: 14
+[06-Sep-2025 18:33:15 Europe/Berlin] Found product: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Cart session: Array
+(
+    [8] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:11
+        )
+
+    [7] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:13
+        )
+
+    [14] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:14
+        )
+
+)
+
+[06-Sep-2025 18:33:15 Europe/Berlin] Processing product ID: 8 with quantity: 1
+[06-Sep-2025 18:33:15 Europe/Berlin] Getting product by ID: 8
+[06-Sep-2025 18:33:15 Europe/Berlin] Found product: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Product data: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Processing product ID: 7 with quantity: 1
+[06-Sep-2025 18:33:15 Europe/Berlin] Getting product by ID: 7
+[06-Sep-2025 18:33:15 Europe/Berlin] Found product: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Product data: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Processing product ID: 14 with quantity: 1
+[06-Sep-2025 18:33:15 Europe/Berlin] Getting product by ID: 14
+[06-Sep-2025 18:33:15 Europe/Berlin] Found product: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Product data: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:15 Europe/Berlin] Shop cart items: {"1":{"shop_id":1,"shop_name":"Chaldal","delivery_charge":"0.00","items":[{"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":2.29},{"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":3.99},{"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52","quantity":1,"total":3500}],"subtotal":3506.28}}
+[06-Sep-2025 18:33:46 Europe/Berlin] Cart session: Array
+(
+    [8] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:11
+        )
+
+    [7] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:13
+        )
+
+    [14] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:14
+        )
+
+    [3] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:42
+        )
+
+)
+
+[06-Sep-2025 18:33:46 Europe/Berlin] Processing product ID: 8 with quantity: 1
+[06-Sep-2025 18:33:46 Europe/Berlin] Getting product by ID: 8
+[06-Sep-2025 18:33:46 Europe/Berlin] Found product: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Product data: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Processing product ID: 7 with quantity: 1
+[06-Sep-2025 18:33:46 Europe/Berlin] Getting product by ID: 7
+[06-Sep-2025 18:33:46 Europe/Berlin] Found product: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Product data: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Processing product ID: 14 with quantity: 1
+[06-Sep-2025 18:33:46 Europe/Berlin] Getting product by ID: 14
+[06-Sep-2025 18:33:46 Europe/Berlin] Found product: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Product data: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Processing product ID: 3 with quantity: 1
+[06-Sep-2025 18:33:46 Europe/Berlin] Getting product by ID: 3
+[06-Sep-2025 18:33:46 Europe/Berlin] Found product: {"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Product data: {"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Shop cart items: {"1":{"shop_id":1,"shop_name":"Chaldal","delivery_charge":"0.00","items":[{"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":2.29},{"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":3.99},{"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52","quantity":1,"total":3500},{"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":1.49}],"subtotal":3507.77}}
+[06-Sep-2025 18:33:46 Europe/Berlin] Getting product by ID: 8
+[06-Sep-2025 18:33:46 Europe/Berlin] Found product: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Getting product by ID: 7
+[06-Sep-2025 18:33:46 Europe/Berlin] Found product: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Getting product by ID: 14
+[06-Sep-2025 18:33:46 Europe/Berlin] Found product: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Getting product by ID: 3
+[06-Sep-2025 18:33:46 Europe/Berlin] Found product: {"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Cart session: Array
+(
+    [8] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:11
+        )
+
+    [7] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:13
+        )
+
+    [14] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:14
+        )
+
+    [3] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:42
+        )
+
+)
+
+[06-Sep-2025 18:33:46 Europe/Berlin] Processing product ID: 8 with quantity: 1
+[06-Sep-2025 18:33:46 Europe/Berlin] Getting product by ID: 8
+[06-Sep-2025 18:33:46 Europe/Berlin] Found product: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Product data: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Processing product ID: 7 with quantity: 1
+[06-Sep-2025 18:33:46 Europe/Berlin] Getting product by ID: 7
+[06-Sep-2025 18:33:46 Europe/Berlin] Found product: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Product data: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Processing product ID: 14 with quantity: 1
+[06-Sep-2025 18:33:46 Europe/Berlin] Getting product by ID: 14
+[06-Sep-2025 18:33:46 Europe/Berlin] Found product: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Product data: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Processing product ID: 3 with quantity: 1
+[06-Sep-2025 18:33:46 Europe/Berlin] Getting product by ID: 3
+[06-Sep-2025 18:33:46 Europe/Berlin] Found product: {"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Product data: {"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:46 Europe/Berlin] Shop cart items: {"1":{"shop_id":1,"shop_name":"Chaldal","delivery_charge":"0.00","items":[{"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":2.29},{"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":3.99},{"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52","quantity":1,"total":3500},{"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":1.49}],"subtotal":3507.77}}
+[06-Sep-2025 18:33:56 Europe/Berlin] Cart session: Array
+(
+    [8] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:11
+        )
+
+    [7] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:13
+        )
+
+    [14] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:14
+        )
+
+    [3] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:42
+        )
+
+    [6] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:53
+        )
+
+)
+
+[06-Sep-2025 18:33:56 Europe/Berlin] Processing product ID: 8 with quantity: 1
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 8
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Product data: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Processing product ID: 7 with quantity: 1
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 7
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Product data: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Processing product ID: 14 with quantity: 1
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 14
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Product data: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Processing product ID: 3 with quantity: 1
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 3
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Product data: {"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Processing product ID: 6 with quantity: 1
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 6
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":6,"shop_id":1,"name":"Milk","description":"Fresh cow milk","price":"2.49","discounted_price":null,"image":"images\/milk.jpg","is_active":1,"is_featured":1,"category_id":3,"stock":50,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Product data: {"id":6,"shop_id":1,"name":"Milk","description":"Fresh cow milk","price":"2.49","discounted_price":null,"image":"images\/milk.jpg","is_active":1,"is_featured":1,"category_id":3,"stock":50,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Shop cart items: {"1":{"shop_id":1,"shop_name":"Chaldal","delivery_charge":"0.00","items":[{"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":2.29},{"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":3.99},{"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52","quantity":1,"total":3500},{"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":1.49},{"id":6,"shop_id":1,"name":"Milk","description":"Fresh cow milk","price":"2.49","discounted_price":null,"image":"images\/milk.jpg","is_active":1,"is_featured":1,"category_id":3,"stock":50,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":2.49}],"subtotal":3510.2599999999998}}
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 8
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 7
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 14
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 3
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 6
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":6,"shop_id":1,"name":"Milk","description":"Fresh cow milk","price":"2.49","discounted_price":null,"image":"images\/milk.jpg","is_active":1,"is_featured":1,"category_id":3,"stock":50,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Cart session: Array
+(
+    [8] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:11
+        )
+
+    [7] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:13
+        )
+
+    [14] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:14
+        )
+
+    [3] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:42
+        )
+
+    [6] => Array
+        (
+            [quantity] => 1
+            [added_at] => 2025-09-06 18:33:53
+        )
+
+)
+
+[06-Sep-2025 18:33:56 Europe/Berlin] Processing product ID: 8 with quantity: 1
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 8
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Product data: {"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Processing product ID: 7 with quantity: 1
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 7
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Product data: {"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Processing product ID: 14 with quantity: 1
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 14
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Product data: {"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Processing product ID: 3 with quantity: 1
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 3
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Product data: {"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Processing product ID: 6 with quantity: 1
+[06-Sep-2025 18:33:56 Europe/Berlin] Getting product by ID: 6
+[06-Sep-2025 18:33:56 Europe/Berlin] Found product: {"id":6,"shop_id":1,"name":"Milk","description":"Fresh cow milk","price":"2.49","discounted_price":null,"image":"images\/milk.jpg","is_active":1,"is_featured":1,"category_id":3,"stock":50,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Product data: {"id":6,"shop_id":1,"name":"Milk","description":"Fresh cow milk","price":"2.49","discounted_price":null,"image":"images\/milk.jpg","is_active":1,"is_featured":1,"category_id":3,"stock":50,"unit":"piece","created_at":"2025-09-01 21:26:24"}
+[06-Sep-2025 18:33:56 Europe/Berlin] Shop cart items: {"1":{"shop_id":1,"shop_name":"Chaldal","delivery_charge":"0.00","items":[{"id":8,"shop_id":1,"name":"Bread","description":"Freshly baked bread","price":"2.29","discounted_price":null,"image":"images\/bread.jpg","is_active":1,"is_featured":0,"category_id":4,"stock":30,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":2.29},{"id":7,"shop_id":1,"name":"Cheese","description":"Cheddar cheese","price":"3.99","discounted_price":null,"image":"images\/cheese.jpg","is_active":1,"is_featured":0,"category_id":3,"stock":40,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":3.99},{"id":14,"shop_id":1,"name":"chal - 5kg","description":"fgdhgj","price":"3500.00","discounted_price":"3325.00","image":"product_68ba596ae8c7e.jpg","is_active":1,"is_featured":1,"category_id":4,"stock":200,"unit":"0","created_at":"2025-09-05 09:30:52","quantity":1,"total":3500},{"id":3,"shop_id":1,"name":"Orange","description":"Fresh juicy oranges","price":"1.49","discounted_price":null,"image":"images\/orange.jpg","is_active":1,"is_featured":0,"category_id":1,"stock":120,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":1.49},{"id":6,"shop_id":1,"name":"Milk","description":"Fresh cow milk","price":"2.49","discounted_price":null,"image":"images\/milk.jpg","is_active":1,"is_featured":1,"category_id":3,"stock":50,"unit":"piece","created_at":"2025-09-01 21:26:24","quantity":1,"total":2.49}],"subtotal":3510.2599999999998}}

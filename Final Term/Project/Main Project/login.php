@@ -8,7 +8,23 @@ require_once 'helpers.php';
 
 // Redirect if already logged in
 if (isLoggedIn()) {
-    redirect('index.php');
+    $user = getCurrentUser();
+    
+    switch ($user['role']) {
+        case 'admin':
+            redirect('admin/index.php');
+            break;
+        case 'shop_owner':
+            redirect('shop_owner/index.php');
+            break;
+        case 'delivery':
+            redirect('delivery/index.php');
+            break;
+        case 'customer':
+        default:
+            redirect('customer/index.php');
+            break;
+    }
 }
 
 // Handle form submission
@@ -31,14 +47,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Attempt login if no errors
     if (empty($errors)) {
         if (loginUser($email, $password)) {
-            // Redirect based on role
+            // Redirect based on user role
             $user = getCurrentUser();
-            if ($user['role'] === 'admin') {
-                redirect('admin/index.php');
-            } else if ($user['role'] === 'shop_owner') {
-                redirect('shop_owner/index.html');
-            } else {
-                redirect('index.php');
+            
+            switch ($user['role']) {
+                case 'admin':
+                    redirect('admin/index.php');
+                    break;
+                case 'shop_owner':
+                    redirect('shop_owner/index.php');
+                    break;
+                case 'delivery':
+                    redirect('delivery/index.php');
+                    break;
+                case 'customer':
+                default:
+                    redirect('customer/index.php');
+                    break;
             }
         } else {
             $errors[] = 'Invalid email or password';

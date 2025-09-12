@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Online Grocery Store</title>
+    <link rel="stylesheet" href="../Includes/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Nitto Proyojon</h1>
+            <nav>
+                <ul>
+                    <li><a href="../Users_Panel/Customer_Panel/index.html">Home</a></li>
+                    <li><a href="../Users_Panel/Customer_Panel/products.html">Products</a></li>
+                    <li><a href="../Users_Panel/Customer_Panel/cart.html">Cart</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="form-container">
+            <h2>Login</h2>
+            <div id="message"></div>
+            
+            <form id="login-form" action="login.php" method="post">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn">Login</button>
+            </form>
+            
+            <p>Don't have an account? <a href="register.html">Sign Up</a></p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Online Grocery Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- <script src="script.js"></script> -->
+    <script>
+    const form = document.getElementById('login-form');
+    const msg = document.getElementById('message');
+
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        msg.textContent = '';
+
+        const formData = new FormData(this);
+
+        try {
+            const res = await fetch('login_process.php', { method: 'POST', body: formData });
+            const data = await res.json();
+
+            if (data.success) {
+                window.location.href = data.redirect;
+            } else {
+                msg.innerHTML = '<div class="error">' + (data.message || 'Authentication failed') + '</div>';
+            }
+        } catch (err) {
+            msg.innerHTML = '<div class="error">An error occurred. Please try again.</div>';
+        }
+    });
+    </script>
+</body>
+</html>

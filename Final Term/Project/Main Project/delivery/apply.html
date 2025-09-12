@@ -187,14 +187,49 @@
         document.getElementById('delivery-apply-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Here you would normally send the form data to a server endpoint
-            // For now, we'll just show a success message
-            alert('Thank you for your application! We will review your information and contact you soon.');
+            // Get form data
+            const formData = new FormData(this);
+            const data = {
+                name: formData.get('fullname'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                address: formData.get('address'),
+                vehicle_type: formData.get('vehicle_type'),
+                license_number: formData.get('license_number') || 'N/A',
+                emergency_contact: formData.get('emergency_contact') || '',
+                experience: formData.get('experience'),
+                password: prompt('Please create a password for your account:')
+            };
             
-            // Redirect to homepage after a short delay
-            setTimeout(function() {
-                window.location.href = '../index.php';
-            }, 2000);
+            // Validate password
+            if (!data.password || data.password.length < 6) {
+                alert('Password must be at least 6 characters long');
+                return;
+            }
+            
+            // Submit application
+            fetch('../api/delivery/apply.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert(result.message);
+                    setTimeout(function() {
+                        window.location.href = '../login.php';
+                    }, 2000);
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while submitting your application. Please try again.');
+            });
         });
     </script>
 </body>

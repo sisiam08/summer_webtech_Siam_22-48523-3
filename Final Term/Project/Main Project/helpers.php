@@ -14,6 +14,31 @@ function isAdmin() {
     return isLoggedIn() && isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
 }
 
+// Function to check if user is a shop owner
+function isShopOwner() {
+    return isLoggedIn() && isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'shop_owner';
+}
+
+// Function to check if user is a delivery person
+function isDelivery() {
+    return isLoggedIn() && isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'delivery';
+}
+
+// Function to check if user is a customer
+function isCustomer() {
+    return isLoggedIn() && isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'customer';
+}
+
+// Function to check user role
+function hasRole($role) {
+    return isLoggedIn() && isset($_SESSION['user_role']) && $_SESSION['user_role'] === $role;
+}
+
+// Function to get user role
+function getUserRole() {
+    return isLoggedIn() ? ($_SESSION['user_role'] ?? null) : null;
+}
+
 // Function to redirect user
 function redirect($location) {
     header("Location: $location");

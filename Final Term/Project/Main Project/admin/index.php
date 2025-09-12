@@ -13,7 +13,7 @@ require_once '../php/functions.php';
 // Check if user is logged in and is an admin
 if (!isLoggedIn() || !isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin') {
     // Not logged in or not an admin, redirect to login page
-    header('Location: login.html');
+    header('Location: ../login.php');
     exit;
 }
 

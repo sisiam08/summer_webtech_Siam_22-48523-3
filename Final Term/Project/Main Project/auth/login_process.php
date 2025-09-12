@@ -37,15 +37,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = getCurrentUser();
         
         // Determine redirect based on role
-        $redirect = 'index.html';
-        if ($user['role'] === 'admin') {
-            $redirect = 'admin/index.html';
+        $redirect = '';
+        switch ($user['role']) {
+            case 'admin':
+                $redirect = 'admin/index.php';
+                break;
+            case 'shop_owner':
+                $redirect = 'shop_owner/index.php';
+                break;
+            case 'delivery':
+                $redirect = 'delivery/index.php';
+                break;
+            case 'customer':
+            default:
+                $redirect = 'customer/index.php';
+                break;
         }
         
         echo json_encode([
             'success' => true,
             'message' => 'Login successful',
-            'redirect' => $redirect
+            'redirect' => $redirect,
+            'user' => [
+                'id' => $user['id'],
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'role' => $user['role']
+            ]
         ]);
     } else {
         echo json_encode([
