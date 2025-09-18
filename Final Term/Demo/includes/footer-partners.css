@@ -1,0 +1,78 @@
+/* Footer partner opportunities styles */
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    flex-wrap: wrap;
+}
+
+.footer-main {
+    flex: 1;
+    min-width: 200px;
+}
+
+.partnership-opportunities {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    padding: 12px 20px;
+    max-width: 400px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    margin-left: 20px;
+}
+
+.partnership-opportunities h4 {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.partner-options {
+    display: flex;
+    gap: 15px;
+}
+
+.partner-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #4CAF50;
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 4px;
+}
+
+.partner-link:hover {
+    background-color: #eaf7ea;
+}
+
+.partner-icon {
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .partnership-opportunities {
+        margin: 15px 0 0 0;
+        width: 100%;
+    }
+    
+    .partner-options {
+        justify-content: center;
+    }
+}
+
+/* Smaller screens */
+@media (max-width: 480px) {
+    .partner-options {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+}

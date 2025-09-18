@@ -7,22 +7,22 @@
  */
 
 // Define base paths
-define('BASE_PATH', dirname(__DIR__));
-define('UPLOADS_PATH', BASE_PATH . '/uploads');
-define('LOGS_PATH', BASE_PATH . '/logs');
+// define('BASE_PATH', dirname(__DIR__));
+// define('UPLOADS_PATH', BASE_PATH . '/uploads');
+// define('LOGS_PATH', BASE_PATH . '/logs');
 
 // Site Information
 $config = [
     // Platform Information
     'site' => [
-        'name' => 'Online Grocery Store',
+        'name' => 'Nitto Proyojon',
         'title_separator' => ' | ',
         'tagline' => 'Fresh groceries delivered to your doorstep',
         'description' => 'Online grocery store with fresh products delivered directly to your home',
         'keywords' => 'grocery, online, fresh, delivery, food, vegetables, fruits',
         'url' => 'http://localhost:8000',
         'email' => 'support@grocerystore.com',
-        'phone' => '+1234567890',
+        'phone' => '+880123456789',
         'currency' => 'TK',
         'currency_symbol' => '৳',
         'date_format' => 'F j, Y',
@@ -41,126 +41,124 @@ $config = [
     
     // Admin Configuration
     'admin' => [
-        'email' => 'admin@grocerystore.com',
+        'email' => 'admin@example.com',
         'default_password' => 'admin123',
-        'pagination_limit' => 10,
+        // 'pagination_limit' => 10,
     ],
     
     // Shop Owner Configuration
     'shop_owner' => [
-        'pagination_limit' => 10,
-        'default_commission' => 10, // percentage
+        // 'pagination_limit' => 10,
+        // 'default_commission' => 10, // percentage
     ],
     
     // User Configuration
     'user' => [
-        'default_profile_image' => 'default-user.png',
-        'min_password_length' => 8,
+        // 'default_profile_image' => 'default-user.png',
+        // 'min_password_length' => 8,
     ],
     
     // Product Configuration
     'product' => [
-        'default_image' => 'no-image.jpg',
-        'image_max_size' => 2097152, // 2MB in bytes
-        'allowed_extensions' => ['jpg', 'jpeg', 'png', 'gif'],
-        'thumbnails' => [
-            'small' => ['width' => 100, 'height' => 100],
-            'medium' => ['width' => 300, 'height' => 300],
-            'large' => ['width' => 600, 'height' => 600],
-        ],
+        // 'default_image' => 'no-image.jpg',
+        // 'image_max_size' => 2097152, // 2MB in bytes
+        // 'allowed_extensions' => ['jpg', 'jpeg', 'png', 'gif'],
+        // 'thumbnails' => [
+        //     'small' => ['width' => 100, 'height' => 100],
+        //     'medium' => ['width' => 300, 'height' => 300],
+        //     'large' => ['width' => 600, 'height' => 600],
+        // ],
     ],
     
     // Cart Configuration
     'cart' => [
-        'min_order_amount' => 500,
-        'tax_percentage' => 5,
+        // 'min_order_amount' => 100,
+        // 'tax_percentage' => 0,
     ],
     
     // Delivery Configuration
     'delivery' => [
-        'default_charge' => 60,
-        'free_delivery_threshold' => 1500,
+        // 'default_charge' => 60,
+        // 'free_delivery_threshold' => 1000,
     ],
     
     // Payment Configuration
     'payment' => [
-        'methods' => [
-            'cash' => 'Cash on Delivery',
-            'bkash' => 'bKash',
-            'nagad' => 'Nagad',
-            'rocket' => 'Rocket',
-        ],
-        'default_method' => 'cash',
+        // 'methods' => [
+        //     'cash' => 'Cash on Delivery',
+        //     'bkash' => 'bKash',
+        //     'nagad' => 'Nagad',
+        //     'rocket' => 'Rocket',
+        // ],
+        // 'default_method' => 'cash',
     ],
     
     // Email Configuration
     'email' => [
-        'from_email' => 'noreply@grocerystore.com',
-        'from_name' => 'Online Grocery Store',
-        'smtp_host' => 'smtp.mailtrap.io',
-        'smtp_port' => 2525,
-        'smtp_user' => 'your_mailtrap_user',
-        'smtp_pass' => 'your_mailtrap_password',
-        'smtp_secure' => 'tls',
+        // 'from_email' => 'noreply@example.com',
+        // 'from_name' => 'Nitto Proyojon',
+        // 'smtp_host' => 'smtp.mailtrap.io',
+        // 'smtp_port' => 2525,
+        // 'smtp_user' => 'your_mailtrap_user',
+        // 'smtp_pass' => 'your_mailtrap_password',
+        // 'smtp_secure' => 'tls',
     ],
     
     // Error Handling
     'errors' => [
-        'display_errors' => true,
-        'log_errors' => true,
-        'error_log_file' => LOGS_PATH . '/error.log',
+        'display_errors' => true
     ],
     
     // Session Configuration
     'session' => [
-        'name' => 'grocery_session',
-        'lifetime' => 86400, // 24 hours in seconds
-        'path' => '/',
-        'domain' => '',
-        'secure' => false,
-        'httponly' => true,
+        // 'name' => 'grocery_session',
+        // 'lifetime' => 86400, // 24 hours in seconds
+        // 'path' => '/',
+        // 'domain' => '',
+        // 'secure' => false,
+        // 'httponly' => true,
     ],
 ];
 
 // Function to get config values
-function config($key = null, $default = null) {
-    global $config;
+// function config($key = null, $default = null) {
+//     global $config;
     
-    if ($key === null) {
-        return $config;
-    }
+//     if ($key === null) {
+//         return $config;
+//     }
     
-    $keys = explode('.', $key);
-    $value = $config;
+//     $keys = explode('.', $key);
+//     $value = $config;
     
-    foreach ($keys as $segment) {
-        if (!isset($value[$segment])) {
-            return $default;
-        }
-        $value = $value[$segment];
-    }
+//     foreach ($keys as $segment) {
+//         if (!isset($value[$segment])) {
+//             return $default;
+//         }
+//         $value = $value[$segment];
+//     }
     
-    return $value;
-}
+//     return $value;
+// }
 
-// Set error reporting based on config
-if (config('errors.display_errors')) {
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
-} else {
-    ini_set('display_errors', 0);
-    error_reporting(0);
-}
+// // Set error reporting based on config
+// if (config('errors.display_errors')) {
+//     ini_set('display_errors', 1);
+//     error_reporting(E_ALL);
+// } else {
+//     ini_set('display_errors', 0);
+//     error_reporting(0);
+// }
 
-if (config('errors.log_errors')) {
-    ini_set('log_errors', 1);
-    ini_set('error_log', config('errors.error_log_file'));
-}
+// if (config('errors.log_errors')) {
+//     ini_set('log_errors', 1);
+//     ini_set('error_log', config('errors.error_log_file'));
+// }
 
-// Make sure the logs directory exists
-if (!file_exists(LOGS_PATH)) {
-    mkdir(LOGS_PATH, 0755, true);
-}
+// // Make sure the logs directory exists
+// if (!file_exists(LOGS_PATH)) {
+//     mkdir(LOGS_PATH, 0755, true);
+// }
 
 // Create a function to configure session - this will be called from outside
 $config['configureSession'] = function() use ($config) {

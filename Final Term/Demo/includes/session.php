@@ -1,6 +1,6 @@
 <?php
 // Initialize session with proper configuration
-require_once __DIR__ . '/session_init.php';
+require "./session_init.php";
 
 // Function to check if user is logged in
 function isLoggedIn() {
@@ -22,7 +22,7 @@ function isShopOwner() {
 }
 
 function isDelivery() {
-    return hasRole('delivery');
+    return hasRole('delivery_man');
 }
 
 function isCustomer() {

@@ -22,7 +22,7 @@ function isShopOwner() {
 }
 
 function isDelivery() {
-    return hasRole('delivery');
+    return hasRole('delivery_man');
 }
 
 function isCustomer() {

@@ -7,7 +7,7 @@
  */
 
 // Load configuration
-$configPath = __DIR__ . '/../config/config.php';
+$configPath = "../Config/config.php";
 if (file_exists($configPath)) {
     $config = require $configPath;
     

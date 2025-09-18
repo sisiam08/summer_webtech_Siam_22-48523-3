@@ -86,16 +86,16 @@ function formatTitle($title) {
  * @param float $price The price to format
  * @return string The formatted price with currency symbol
  */
-function formatPrice($price) {
-    // Get currency symbol from config if available
-    if (function_exists('config')) {
-        $symbol = config('site.currency_symbol', '৳');
-    } else {
-        // Fallback for backward compatibility
-        $symbol = '৳';
-    }
-    return $symbol . ' ' . number_format($price, 2);
-}
+// function formatPrice($price) {
+//     // Get currency symbol from config if available
+//     if (function_exists('config')) {
+//         $symbol = config('site.currency_symbol', '৳');
+//     } else {
+//         // Fallback for backward compatibility
+//         $symbol = '৳';
+//     }
+//     return $symbol . ' ' . number_format($price, 2);
+// }
 
 /**
  * Get the site URL

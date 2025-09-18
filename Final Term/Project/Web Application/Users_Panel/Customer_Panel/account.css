@@ -1,72 +1,238 @@
 /* Account page specific styles */
 
+/* Customer Role - Teal Theme */
+:root {
+    --customer-primary: #0D9488;
+    --customer-secondary: #14B8A6;
+    --customer-light: #CCFBF1;
+    --customer-dark: #0F766E;
+    --customer-accent: #5EEAD4;
+}
+
+/* Main Account Container - Updated for Tab Layout */
 .account-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Tab Navigation Styles */
+.account-tabs {
     display: flex;
-    gap: 2rem;
+    border-bottom: 2px solid #ddd;
     margin-bottom: 2rem;
 }
 
-.account-sidebar {
-    width: 25%;
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 1rem;
+.tab-button {
+    background: none;
+    border: none;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
 }
 
-.account-content {
-    width: 75%;
-    background: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 1.5rem;
+.tab-button:hover {
+    color: var(--customer-primary);
+    background-color: #f5f5f5;
 }
 
-.account-nav {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.tab-button.active {
+    color: var(--customer-primary);
+    border-bottom-color: var(--customer-primary);
+    font-weight: bold;
 }
 
-.account-nav li {
-    margin-bottom: 0.5rem;
-}
-
-.account-nav a {
-    display: block;
-    padding: 0.75rem 1rem;
-    color: #333;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-}
-
-.account-nav a:hover {
-    background-color: #f0f0f0;
-}
-
-.account-nav a.active {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.account-section {
+/* Tab Content Styles */
+.tab-content {
     display: none;
 }
 
-.account-section.active {
+.tab-content.active {
     display: block;
+}
+
+/* Form Container Styles */
+.form-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+}
+
+.form-container h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--customer-dark);
+    border-bottom: 2px solid var(--customer-light);
+    padding-bottom: 0.5rem;
+}
+
+/* Form Group and Row Styles */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--customer-primary);
+    box-shadow: 0 0 0 2px var(--customer-light);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.25rem;
+    color: #666;
+    font-size: 0.875rem;
 }
 
 .form-row {
     display: flex;
     gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .form-row .form-group {
     flex: 1;
+    margin-bottom: 0;
 }
 
+/* Button Styles */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--customer-primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--customer-dark);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+/* Address Container and Cards */
+.addresses-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.addresses-container h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--customer-dark);
+    border-bottom: 2px solid var(--customer-light);
+    padding-bottom: 0.5rem;
+}
+
+.address-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    background: #fff;
+    transition: box-shadow 0.2s;
+}
+
+.address-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.address-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.address-header h4 {
+    margin: 0;
+    color: var(--customer-dark);
+}
+
+.default-badge {
+    background: var(--customer-primary);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.address-actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Orders Container */
+.orders-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.orders-container h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--customer-dark);
+    border-bottom: 2px solid var(--customer-light);
+    padding-bottom: 0.5rem;
+}
+
+/* Additional Utility Styles */
 .checkbox-group {
     display: flex;
     align-items: center;
@@ -77,63 +243,12 @@
     width: auto;
 }
 
-.address-card {
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    position: relative;
-}
-
-.address-card h4 {
-    margin-top: 0;
-    display: flex;
-    align-items: center;
-}
-
-.default-badge {
-    background-color: #4CAF50;
-    color: white;
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 3px;
-    margin-left: 0.5rem;
-}
-
-.address-actions {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    display: flex;
-    gap: 0.5rem;
-}
-
-.address-actions button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #666;
-    font-size: 0.875rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 3px;
-}
-
-.address-actions button:hover {
-    background-color: #eee;
-}
-
-.address-actions .delete-btn {
-    color: #ff6b6b;
-}
-
-.address-actions .default-btn {
-    color: #4CAF50;
-}
-
+/* Order Card Styles */
 .order-card {
     background-color: #f9f9f9;
-    border-radius: 5px;
-    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
     margin-bottom: 1rem;
 }
 
@@ -143,11 +258,12 @@
     align-items: center;
     border-bottom: 1px solid #ddd;
     padding-bottom: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .order-number {
     font-weight: bold;
+    color: var(--customer-dark);
 }
 
 .order-date {
@@ -158,8 +274,9 @@
 .order-status {
     display: inline-block;
     padding: 0.25rem 0.5rem;
-    border-radius: 3px;
+    border-radius: 4px;
     font-size: 0.875rem;
+    font-weight: bold;
     margin-bottom: 0.5rem;
 }
 
@@ -191,49 +308,57 @@
 .order-total {
     font-weight: bold;
     margin-top: 0.5rem;
+    color: var(--customer-dark);
 }
 
-.order-details-btn {
-    display: inline-block;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 0.875rem;
-    cursor: pointer;
-}
-
+/* Message Styles */
 .message {
     padding: 1rem;
     border-radius: 5px;
     margin-bottom: 1.5rem;
 }
 
-.success-message {
+.success {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
 }
 
-.error-message {
+.error {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
     .account-container {
-        flex-direction: column;
+        padding: 1rem;
     }
     
-    .account-sidebar, .account-content {
-        width: 100%;
+    .account-tabs {
+        flex-wrap: wrap;
+    }
+    
+    .tab-button {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .form-container,
+    .addresses-container,
+    .orders-container {
+        padding: 1rem;
     }
     
     .form-row {
         flex-direction: column;
         gap: 0;
+    }
+    
+    .address-actions {
+        position: static;
+        margin-top: 1rem;
+        justify-content: flex-start;
     }
 }

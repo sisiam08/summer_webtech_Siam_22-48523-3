@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply as Delivery Personnel - Online Grocery Store</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">  
+    <link rel="stylesheet" href="../Includes/style.css">
+    <link rel="stylesheet" href="../Includes/footer-partners.css">
+    <link rel="stylesheet" href="../Users_Panel/Delivery_Panel/delivery.css">
+    <style>
+        .apply-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .apply-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .apply-header h2 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        
+        .apply-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .apply-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .apply-form input, 
+        .apply-form select,
+        .apply-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .apply-form small {
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+        }
+        
+        .apply-form textarea {
+            height: 120px;
+        }
+        
+        .document-upload {
+            border: 2px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            background-color: #45a049;
+        }
+        
+        .apply-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .apply-footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        
+        .apply-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="apply-container">
+        <div class="apply-header">
+            <h2>Apply to Become a Delivery Partner</h2>
+            <p>Join our team of delivery personnel and earn flexible income</p>
+        </div>
+        
+        <form id="delivery-apply-form" class="apply-form">
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" name="fullname" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="address">Current Address</label>
+                <textarea id="address" name="address" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="vehicle-type">Vehicle Type</label>
+                <select id="vehicle-type" name="vehicle_type" required>
+                    <option value="">Select your vehicle</option>
+                    <option value="bicycle">Bicycle</option>
+                    <option value="motorcycle">Motorcycle</option>
+                    <option value="car">Car</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="experience">Delivery Experience (Years)</label>
+                <select id="experience" name="experience" required>
+                    <option value="">Select experience</option>
+                    <option value="0">No experience</option>
+                    <option value="1">Less than 1 year</option>
+                    <option value="2">1-2 years</option>
+                    <option value="3">3-5 years</option>
+                    <option value="5">5+ years</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="id-proof">Identity Proof (Driver's License, ID Card)</label>
+                <div class="document-upload">
+                    <input type="file" id="id-proof" name="id_proof" accept="image/*,.pdf" required>
+                    <p>Drag & drop or click to upload<br>Max size: 5MB</p>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="availability">Available Working Hours</label>
+                <textarea id="availability" name="availability" placeholder="Please specify your available days and hours for delivery work" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" minlength="8" required>
+                <small style="color: #666;">Password must be at least 8 characters long</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm_password" minlength="8" required>
+                <small style="color: #666;">Please re-enter your password</small>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn-primary">Submit Application</button>
+            </div>
+        </form>
+
+        <div class="login-footer">
+            <p>Already have a delivery personnel account? <a href="login.html">Login</a></p>
+            <!-- <p><a href="../index.html">Back to Homepage</a></p> -->
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Nitto Proyojon. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('delivery-apply-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const password = formData.get('password');
+            const confirmPassword = formData.get('confirm_password');
+            
+            // Validate password match
+            if (password !== confirmPassword) {
+                alert('Passwords do not match. Please ensure both password fields are identical.');
+                return;
+            }
+            
+            // Validate password strength
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long');
+                return;
+            }
+            
+            const data = {
+                name: formData.get('fullname'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                address: formData.get('address'),
+                vehicle_type: formData.get('vehicle_type'),
+                experience: formData.get('experience'),
+                availability: formData.get('availability'),
+                password: password
+            };
+            
+            // Submit application
+            fetch('delivery_register.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert(result.message);
+                    setTimeout(function() {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while submitting your application. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>

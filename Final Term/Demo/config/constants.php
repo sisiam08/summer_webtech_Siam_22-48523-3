@@ -2,18 +2,17 @@
 // Application constants
 
 // Site information
-define('SITE_NAME', 'Online Grocery Store');
+define('SITE_NAME', 'Nitto Proyojon');
 define('SITE_VERSION', '1.0.0');
 
 // Path constants
 define('ROOT_PATH', dirname(__DIR__));
-define('ASSETS_PATH', ROOT_PATH . '/assets');
-define('UPLOADS_PATH', ROOT_PATH . '/uploads');
+// define('UPLOADS_PATH', ROOT_PATH . '\uploads');
 
 // User roles
 define('ROLE_ADMIN', 'admin');
 define('ROLE_SHOP_OWNER', 'shop_owner');
-define('ROLE_DELIVERY', 'delivery');
+define('ROLE_DELIVERY', 'delivery_man');
 define('ROLE_CUSTOMER', 'customer');
 
 // Order statuses

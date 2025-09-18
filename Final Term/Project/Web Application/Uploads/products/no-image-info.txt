@@ -1,0 +1,8 @@
+This directory should contain a no-image.jpg placeholder file.
+
+Since I cannot create binary image files directly, please add a simple placeholder image file:
+1. Create a 300x300 pixel image with light gray background
+2. Add text "No Image Available" in the center
+3. Save as "no-image.jpg" in this directory
+
+Alternatively, the fallback CSS and onerror handlers in the code will handle missing images gracefully.

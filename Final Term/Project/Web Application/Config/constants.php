@@ -12,7 +12,7 @@ define('ROOT_PATH', dirname(__DIR__));
 // User roles
 define('ROLE_ADMIN', 'admin');
 define('ROLE_SHOP_OWNER', 'shop_owner');
-define('ROLE_DELIVERY', 'delivery');
+define('ROLE_DELIVERY', 'delivery_man');
 define('ROLE_CUSTOMER', 'customer');
 
 // Order statuses

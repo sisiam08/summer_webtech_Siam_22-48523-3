@@ -1,7 +1,0 @@
-# Redirect /admin to /admin/index.php
-DirectoryIndex index.php index.html
-
-# Handle direct access to admin directory
-RewriteEngine On
-RewriteBase /admin/
-RewriteRule ^$ index.php [L]
