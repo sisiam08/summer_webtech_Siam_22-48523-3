@@ -20,11 +20,14 @@ try {
     $conn = connectDB();
     $deliveryPersonId = $_SESSION['user_id'];
     
+    // Get today's date in PHP timezone for consistent date filtering
+    $today = date('Y-m-d');
+    
     // Debug: Add user info to response
     $userInfo = getCurrentUser();
     
     // 1. PENDING DELIVERIES: Count orders with status 'delivered' assigned to this delivery man
-    // These appear in "My Assignments" page
+    // These are orders ready for delivery pickup/completion
     $pendingStmt = $conn->prepare("
         SELECT COUNT(*) as pending_count
         FROM orders 
@@ -39,28 +42,12 @@ try {
         FROM orders 
         WHERE delivery_person_id = ? 
         AND status = 'completed' 
-        AND DATE(created_at) = CURDATE()
+        AND DATE(delivery_time) = ?
     ");
-    $completedTodayStmt->execute([$deliveryPersonId]);
+    $completedTodayStmt->execute([$deliveryPersonId, $today]);
     $completedToday = $completedTodayStmt->fetch(PDO::FETCH_ASSOC)['completed_today_count'];
     
-    // 3. TODAY'S EARNINGS: 2% commission from orders completed TODAY by this delivery man
-    $earningsTodayStmt = $conn->prepare("
-        SELECT COALESCE(SUM(
-            (SELECT SUM(oi.quantity * p.price) * 0.02
-             FROM order_items oi 
-             JOIN products p ON oi.product_id = p.id 
-             WHERE oi.order_id = o.id)
-        ), 0) as earnings_today
-        FROM orders o
-        WHERE o.delivery_person_id = ? 
-        AND o.status = 'completed' 
-        AND DATE(o.created_at) = CURDATE()
-    ");
-    $earningsTodayStmt->execute([$deliveryPersonId]);
-    $earningsToday = $earningsTodayStmt->fetch(PDO::FETCH_ASSOC)['earnings_today'];
-    
-    // Get total completed deliveries (for rating calculation)
+    // 3. TOTAL COMPLETED DELIVERIES: All completed orders by this delivery man
     $totalCompletedStmt = $conn->prepare("
         SELECT COUNT(*) as total_completed
         FROM orders 
@@ -68,6 +55,28 @@ try {
     ");
     $totalCompletedStmt->execute([$deliveryPersonId]);
     $totalCompleted = $totalCompletedStmt->fetch(PDO::FETCH_ASSOC)['total_completed'];
+    
+    // 4. TODAY'S EARNINGS: Commission from orders completed TODAY
+    // Using a simpler approach: 2% of total order amount for completed orders today
+    $earningsTodayStmt = $conn->prepare("
+        SELECT COALESCE(SUM(total_amount * 0.02), 0) as earnings_today
+        FROM orders
+        WHERE delivery_person_id = ? 
+        AND status = 'completed' 
+        AND DATE(delivery_time) = ?
+    ");
+    $earningsTodayStmt->execute([$deliveryPersonId, $today]);
+    $earningsToday = $earningsTodayStmt->fetch(PDO::FETCH_ASSOC)['earnings_today'];
+    
+    // 5. TOTAL EARNINGS: Commission from all completed orders
+    $totalEarningsStmt = $conn->prepare("
+        SELECT COALESCE(SUM(total_amount * 0.02), 0) as total_earnings
+        FROM orders
+        WHERE delivery_person_id = ? 
+        AND status = 'completed'
+    ");
+    $totalEarningsStmt->execute([$deliveryPersonId]);
+    $totalEarnings = $totalEarningsStmt->fetch(PDO::FETCH_ASSOC)['total_earnings'];
     
     // Calculate a simple rating based on completed deliveries (5.0 - 0.1 for every 10 deliveries, min 4.0)
     $rating = max(4.0, 5.0 - (floor($totalCompleted / 10) * 0.1));
@@ -79,23 +88,22 @@ try {
             'user_name' => $userInfo['name'] ?? 'Unknown',
             'user_role' => $userInfo['role'] ?? 'Unknown',
             'current_date' => date('Y-m-d'),
-            'queries_executed' => [
-                'pending' => "SELECT COUNT(*) FROM orders WHERE delivery_person_id = $deliveryPersonId AND status = 'delivered'",
-                'completed_today' => "SELECT COUNT(*) FROM orders WHERE delivery_person_id = $deliveryPersonId AND status = 'completed' AND DATE(created_at) = CURDATE()",
-                'earnings_today' => "2% commission from completed orders today"
-            ]
+            'current_time' => date('Y-m-d H:i:s')
         ],
         'raw_values' => [
             'pending_raw' => (int)$pending,
             'completed_today_raw' => (int)$completedToday,
-            'earnings_today_raw' => (float)$earningsToday
+            'total_completed_raw' => (int)$totalCompleted,
+            'earnings_today_raw' => (float)$earningsToday,
+            'total_earnings_raw' => (float)$totalEarnings
         ],
         'stats' => [
             'pending' => (int)$pending,
             'completed_today' => (int)$completedToday,
-            'earnings_today' => number_format($earningsToday, 2),
+            'earnings_today' => number_format(ceil($earningsToday), 0),
             'rating' => number_format($rating, 1),
-            'total_completed' => (int)$totalCompleted
+            'total_completed' => (int)$totalCompleted,
+            'total_earnings' => number_format(ceil($totalEarnings), 0)
         ]
     ];
     

@@ -565,7 +565,7 @@ $conn = null;
                                         </span>
                                     </td>
                                     <td><?php echo htmlspecialchars($employee['position']); ?></td>
-                                    <td>৳<?php echo number_format($employee['salary'], 2); ?></td>
+                                    <td>৳<?php echo number_format(ceil($employee['salary']), 0); ?></td>
                                     <td><?php echo date('M d, Y', strtotime($employee['hire_date'])); ?></td>
                                     <td>
                                         <span class="badge badge-<?php echo $employee['is_active'] ? 'active' : 'inactive'; ?>">

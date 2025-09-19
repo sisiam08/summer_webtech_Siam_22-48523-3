@@ -48,7 +48,7 @@ function outputProductCard($product) {
         $imageSrc = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDMwMCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik0xMjAgNjBIMTgwVjkwSDEyMFY2MFoiIGZpbGw9IiNEREREREQiLz4KPGNPCMCSQ2xlIGN4PSIxNDAiIGN5PSI3NSIgcj0iNSIgZmlsbD0iI0RERERERCIvPgo8dGV4dCB4PSIxNTAiIHk9IjExMCIgZmlsbD0iIzk5OSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5ObyBJbWFnZTwvdGV4dD4KPC9zdmc+';
     }
     
-    $price = number_format($product['price'], 2);
+    $price = number_format(ceil($product['price']), 0);
     
     echo '<div class="product-card">';
     echo '  <div class="product-image">';
@@ -57,7 +57,7 @@ function outputProductCard($product) {
     echo '  <div class="product-info">';
     echo '    <h3>' . htmlspecialchars($product['name']) . '</h3>';
     echo '    <p class="product-description">' . htmlspecialchars($product['description']) . '</p>';
-    echo '    <p class="product-price">$' . $price . '</p>';
+    echo '    <p class="product-price">৳' . $price . '</p>';
     echo '    <button class="add-to-cart-btn" data-product-id="' . $product['id'] . '">Add to Cart</button>';
     echo '  </div>';
     echo '</div>';

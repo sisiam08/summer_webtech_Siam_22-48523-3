@@ -67,38 +67,15 @@ try {
     
     // Return the statistics
     echo json_encode([
-        'totalProducts' => $totalProducts,
-        'totalOrders' => $totalOrders,
-        'totalRevenue' => number_format($totalRevenue, 2),
-        'pendingOrders' => $pendingOrders
+        'totalProducts' => (int)$totalProducts,
+        'totalOrders' => (int)$totalOrders,
+        'totalRevenue' => (int)ceil($totalRevenue),
+        'pendingOrders' => (int)$pendingOrders
     ]);
     
 } catch (PDOException $e) {
     // Log the error and return an error message
     error_log('Database error in get_dashboard_stats.php: ' . $e->getMessage());
-    echo json_encode(['error' => 'Database error occurred']);
-}
-?>
-        SELECT COUNT(DISTINCT o.id) as total 
-        FROM orders o
-        JOIN order_items oi ON o.id = oi.order_id
-        JOIN products p ON oi.product_id = p.id
-        WHERE p.shop_owner_id = ? AND o.status IN ('pending', 'processing')
-    ");
-    $stmt->execute([$shop_owner_id]);
-    $pendingOrders = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-    
-    // Return the dashboard data
-    echo json_encode([
-        'totalProducts' => $totalProducts,
-        'totalOrders' => $totalOrders,
-        'totalRevenue' => $totalRevenue,
-        'pendingOrders' => $pendingOrders
-    ]);
-    
-} catch (PDOException $e) {
-    // Log the error and return an error message
-    error_log('Database error: ' . $e->getMessage());
     echo json_encode(['error' => 'Database error occurred']);
 }
 ?>

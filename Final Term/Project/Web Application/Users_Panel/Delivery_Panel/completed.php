@@ -164,7 +164,7 @@ try {
                         <i class="material-icons">monetization_on</i>
                     </div>
                     <div class="stat-info">
-                        <h3>৳<?php echo number_format($stats['total_revenue'], 2); ?></h3>
+                        <h3>৳<?php echo number_format(ceil($stats['total_revenue']), 0); ?></h3>
                         <p>Total Revenue</p>
                     </div>
                 </div>
@@ -173,7 +173,7 @@ try {
                         <i class="material-icons">check_circle</i>
                     </div>
                     <div class="stat-info">
-                        <h3>৳<?php echo number_format(($stats['total_deliveries'] > 0 ? $stats['total_revenue'] / $stats['total_deliveries'] : 0), 2); ?></h3>
+                        <h3>৳<?php echo number_format(ceil(($stats['total_deliveries'] > 0 ? $stats['total_revenue'] / $stats['total_deliveries'] : 0)), 0); ?></h3>
                         <p>Avg. Commission per Order</p>
                     </div>
                 </div>
@@ -218,7 +218,7 @@ try {
                                         <span class="status-badge status-delivered">Delivered</span>
                                     </div>
                                     <div class="order-amount">
-                                        ৳<?php echo number_format($order['total_amount'], 2); ?>
+                                        ৳<?php echo number_format(ceil($order['total_amount']), 0); ?>
                                     </div>
                                 </div>
                                 
@@ -261,7 +261,7 @@ try {
                                                     <div class="item">
                                                         <span class="item-name"><?php echo htmlspecialchars($item['name']); ?></span>
                                                         <span class="item-quantity">Qty: <?php echo $item['quantity']; ?></span>
-                                                        <span class="item-price">৳<?php echo number_format($item['price'], 2); ?></span>
+                                                        <span class="item-price">৳<?php echo number_format(ceil($item['price']), 0); ?></span>
                                                     </div>
                                                 <?php endforeach; ?>
                                             </div>

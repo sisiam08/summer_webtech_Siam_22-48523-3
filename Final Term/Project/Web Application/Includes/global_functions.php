@@ -117,7 +117,8 @@ function siteUrl($path = '') {
  * @return string The upload path
  */
 function uploadPath($type = '') {
-    $uploadsPath = UPLOADS_PATH;
+    // Define the uploads path relative to the application root
+    $uploadsPath = __DIR__ . '/../Uploads';
     $type = trim($type, '/');
     
     return $uploadsPath . ($type ? "/{$type}" : '');

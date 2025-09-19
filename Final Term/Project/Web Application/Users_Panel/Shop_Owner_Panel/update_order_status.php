@@ -52,7 +52,7 @@ if (strtolower($newStatus) === 'delivered' && !$deliveryPersonId) {
 }
 
 // Validate status values (case insensitive)
-$allowedStatuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+$allowedStatuses = ['pending', 'processing', 'delivered', 'returned', 'completed'];
 if (!in_array(strtolower($newStatus), $allowedStatuses)) {
     echo json_encode(['success' => false, 'message' => 'Invalid status value']);
     exit();
@@ -75,11 +75,11 @@ try {
     $newStatusNormalized = strtolower($newStatus);
     
     $validTransitions = [
-        'pending' => ['processing', 'cancelled'],
-        'processing' => ['shipped', 'cancelled'],
-        'shipped' => ['delivered'],
+        'pending' => ['processing',],
+        'processing' => ['delivered'],
         'delivered' => [], // Cannot change from delivered
-        'cancelled' => []  // Cannot change from cancelled
+        'returned' => [],  // Cannot change from returned
+        'completed' => []  // Cannot change from completed
     ];
     
     if (!isset($validTransitions[$currentStatusNormalized]) || !in_array($newStatusNormalized, $validTransitions[$currentStatusNormalized])) {

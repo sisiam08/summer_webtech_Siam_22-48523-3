@@ -74,7 +74,7 @@ function updateStats(stats) {
     const elements = {
         'total-orders': stats.total_orders || 0,
         'pending-orders': stats.pending_orders || 0,
-        'total-spent': '$' + (stats.total_spent || 0),
+        'total-spent': '৳' + Math.ceil(stats.total_spent || 0),
         'wishlist-count': stats.wishlist_count || 0
     };
 
@@ -120,7 +120,7 @@ function displayRecentOrders(orders) {
                     <span class="order-date">${order.created_at}</span>
                 </div>
                 <div class="order-status status-${order.status.toLowerCase()}">${order.status}</div>
-                <div class="order-total">$${order.total}</div>
+                <div class="order-total">৳${Math.ceil(order.total)}</div>
             </div>
         `;
     });

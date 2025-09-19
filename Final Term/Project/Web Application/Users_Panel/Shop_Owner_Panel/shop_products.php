@@ -222,7 +222,7 @@ try {
                                 <span class="category-tag">${product.category_name}</span>
                             </td>
                             <td>
-                                <div class="price">৳${parseFloat(product.price).toFixed(2)}</div>
+                                <div class="price">৳${Math.ceil(parseFloat(product.price))}</div>
                             </td>
                             <td>
                                 <span class="stock-badge ${stockClass}">${product.stock} units</span>

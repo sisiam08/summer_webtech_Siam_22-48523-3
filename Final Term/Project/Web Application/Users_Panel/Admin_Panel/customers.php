@@ -619,7 +619,7 @@ $conn = null;
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="total-spent">৳<?php echo number_format($customer['total_spent'], 2); ?></div>
+                                        <div class="total-spent">৳<?php echo number_format(ceil($customer['total_spent']), 0); ?></div>
                                     </td>
                                     <td>
                                         <?php if ($customer['last_order_date']): ?>

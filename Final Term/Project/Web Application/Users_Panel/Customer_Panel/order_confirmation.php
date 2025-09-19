@@ -155,7 +155,7 @@ $orderItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                     <div class="info-item">
                         <label>Total Amount:</label>
-                        <span class="price">৳<?= number_format($order['total_amount'], 2) ?></span>
+                        <span class="price">৳<?= number_format(ceil($order['total_amount']), 0) ?></span>
                     </div>
                     <div class="info-item">
                         <label>Status:</label>
@@ -176,10 +176,10 @@ $orderItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="item-details">
                         <div class="item-name"><?= htmlspecialchars($item['product_name']) ?></div>
                         <div>Quantity: <?= $item['quantity'] ?></div>
-                        <div class="item-price">৳<?= number_format($item['price'], 2) ?> each</div>
+                        <div class="item-price">৳<?= number_format(ceil($item['price']), 0) ?> each</div>
                     </div>
                     <div class="item-total">
-                        <strong>৳<?= number_format($item['price'] * $item['quantity'], 2) ?></strong>
+                        <strong>৳<?= number_format(ceil($item['price'] * $item['quantity']), 0) ?></strong>
                     </div>
                 </div>
                 <?php endforeach; ?>

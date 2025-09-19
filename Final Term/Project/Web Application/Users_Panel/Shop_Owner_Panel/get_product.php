@@ -52,13 +52,11 @@ try {
         exit;
     }
     
-    // Format the product data for the frontend
-    $product['formatted_price'] = number_format($product['price'], 2);
+    // Format price and cost without decimal points
+    $product['formatted_price'] = number_format(ceil($product['price']), 0);
     if (!empty($product['cost'])) {
-        $product['formatted_cost'] = number_format($product['cost'], 2);
-    }
-    
-    // Handle image path
+        $product['formatted_cost'] = number_format(ceil($product['cost']), 0);
+    }    // Handle image path
     if (!empty($product['image'])) {
         $product['image_url'] = '../../Uploads/products/' . $product['image'];
     }

@@ -97,11 +97,31 @@ $userName = $user['name'] ?? 'Delivery Partner';
                 
                 <div class="stat-card">
                     <div class="stat-icon">
+                        <i class="material-icons">check_circle_outline</i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-completed">0</h3>
+                        <p>Total Completed</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
                         <i class="material-icons">monetization_on</i>
                     </div>
                     <div class="stat-content">
                         <h3 id="earnings-today">৳0</h3>
                         <p>Today's Earnings</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="material-icons">account_balance_wallet</i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="total-earnings">৳0</h3>
+                        <p>Total Earnings</p>
                     </div>
                 </div>
                 
@@ -141,32 +161,52 @@ $userName = $user['name'] ?? 'Delivery Partner';
 
         async function loadDashboardData() {
             try {
+                console.log('Loading dashboard data...');
                 const response = await fetch('get_delivery_stats.php');
-                const data = await response.json();
                 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
                 console.log('Stats response:', data); // Debug log
                 
                 if (data.success) {
+                    // Update the stats with fallback values
                     document.getElementById('pending-deliveries').textContent = data.stats.pending || 0;
                     document.getElementById('completed-today').textContent = data.stats.completed_today || 0;
-                    document.getElementById('earnings-today').textContent = '৳' + (data.stats.earnings_today || '0.00');
+                    document.getElementById('total-completed').textContent = data.stats.total_completed || 0;
+                    document.getElementById('earnings-today').textContent = '৳' + (data.stats.earnings_today || '0');
+                    document.getElementById('total-earnings').textContent = '৳' + (data.stats.total_earnings || '0');
                     document.getElementById('rating').textContent = data.stats.rating || '5.0';
+                    
+                    console.log('Dashboard updated successfully');
+                    console.log('Stats:', {
+                        pending: data.stats.pending,
+                        completed_today: data.stats.completed_today,
+                        total_completed: data.stats.total_completed,
+                        earnings_today: data.stats.earnings_today,
+                        total_earnings: data.stats.total_earnings,
+                        rating: data.stats.rating
+                    });
                 } else {
                     console.error('Stats error:', data.error);
-                    // Set default values on error
-                    document.getElementById('pending-deliveries').textContent = '0';
-                    document.getElementById('completed-today').textContent = '0';
-                    document.getElementById('earnings-today').textContent = '৳0.00';
-                    document.getElementById('rating').textContent = '5.0';
+                    setDefaultValues('API returned error: ' + data.error);
                 }
             } catch (error) {
                 console.error('Error loading dashboard data:', error);
-                // Set default values on error
-                document.getElementById('pending-deliveries').textContent = '0';
-                document.getElementById('completed-today').textContent = '0';
-                document.getElementById('earnings-today').textContent = '৳0.00';
-                document.getElementById('rating').textContent = '5.0';
+                setDefaultValues('Network or server error: ' + error.message);
             }
+        }
+        
+        function setDefaultValues(reason = '') {
+            console.log('Setting default values. Reason:', reason);
+            document.getElementById('pending-deliveries').textContent = '0';
+            document.getElementById('completed-today').textContent = '0';
+            document.getElementById('total-completed').textContent = '0';
+            document.getElementById('earnings-today').textContent = '৳0';
+            document.getElementById('total-earnings').textContent = '৳0';
+            document.getElementById('rating').textContent = '5.0';
         }
 
         function loadCurrentDelivery() {

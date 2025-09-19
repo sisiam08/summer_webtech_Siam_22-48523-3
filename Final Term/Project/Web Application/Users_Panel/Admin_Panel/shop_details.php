@@ -273,7 +273,7 @@ $conn = null;
                         <div class="label">Total Orders</div>
                     </div>
                     <div class="stat-card">
-                        <div class="number">$<?php echo number_format($totalRevenue, 2); ?></div>
+                        <div class="number">৳<?php echo number_format(ceil($totalRevenue), 0); ?></div>
                         <div class="label">Total Revenue</div>
                     </div>
                 </div>

@@ -688,7 +688,7 @@ $conn = null;
                                 <i class="material-icons">payments</i>
                             </div>
                         </div>
-                        <div class="stat-number">৳<?php echo number_format($systemStats['total_revenue'], 2); ?></div>
+                        <div class="stat-number">৳<?php echo number_format(ceil($systemStats['total_revenue']), 0); ?></div>
                         <div class="stat-label">Total Revenue</div>
                         <div class="stat-trend">
                             <i class="material-icons">trending_up</i>

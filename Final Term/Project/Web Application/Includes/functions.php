@@ -120,11 +120,11 @@ function formatPrice($price) {
     // Use the global_functions.php implementation if available
     if (function_exists('config')) {
         $symbol = config('site.currency_symbol', '৳');
-        return $symbol . ' ' . number_format($price, 2);
+        return $symbol . ' ' . number_format(ceil($price), 0);
     }
     
     // Fallback for backward compatibility
-    return '৳ ' . number_format($price, 2);
+    return '৳ ' . number_format(ceil($price), 0);
 }
 
 // Function to get current user data

@@ -169,7 +169,7 @@ try {
                             <i class="fas fa-dollar-sign"></i>
                         </div>
                         <div class="stat-info">
-                            <h3 id="total-revenue">৳0.00</h3>
+                            <h3 id="total-revenue">৳0</h3>
                             <p>Total Revenue</p>
                         </div>
                     </div>
@@ -344,14 +344,33 @@ try {
 
             loadDashboardData() {
                 fetch('get_dashboard_stats.php')
-                    .then(response => response.json())
-                    .then(data => {
-                        this.animateCounter('total-orders', data.totalOrders);
-                        this.animateCounter('pending-orders', data.pendingOrders);
-                        this.animateCounter('total-products', data.totalProducts);
-                        this.animateRevenue('total-revenue', data.totalRevenue);
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
                     })
-                    .catch(error => console.error('Error loading dashboard stats:', error));
+                    .then(data => {
+                        if (data.error) {
+                            console.error('Server error:', data.error);
+                            return;
+                        }
+                        
+                        console.log('Dashboard data received:', data); // Debug log
+                        
+                        this.animateCounter('total-orders', data.totalOrders || 0);
+                        this.animateCounter('pending-orders', data.pendingOrders || 0);
+                        this.animateCounter('total-products', data.totalProducts || 0);
+                        this.animateRevenue('total-revenue', data.totalRevenue || 0);
+                    })
+                    .catch(error => {
+                        console.error('Error loading dashboard stats:', error);
+                        // Set default values on error
+                        document.getElementById('total-orders').textContent = '0';
+                        document.getElementById('pending-orders').textContent = '0';
+                        document.getElementById('total-products').textContent = '0';
+                        document.getElementById('total-revenue').textContent = '৳0';
+                    });
             }
 
             animateCounter(elementId, targetValue) {
@@ -380,10 +399,10 @@ try {
                 const timer = setInterval(() => {
                     currentValue += increment;
                     if (currentValue >= targetValue) {
-                        element.textContent = '৳' + targetValue.toFixed(2);
+                        element.textContent = '৳' + Math.ceil(targetValue);
                         clearInterval(timer);
                     } else {
-                        element.textContent = '৳' + currentValue.toFixed(2);
+                        element.textContent = '৳' + Math.ceil(currentValue);
                     }
                 }, 50);
             }
@@ -391,7 +410,13 @@ try {
             loadRecentOrders() {
                 fetch('get_recent_orders.php')
                     .then(response => response.json())
-                    .then(orders => {
+                    .then(data => {
+                        if (data.error) {
+                            console.error('Error loading recent orders:', data.error);
+                            return;
+                        }
+                        
+                        const orders = data.orders || [];
                         const tableBody = document.getElementById('recent-orders-table');
                         if (!tableBody) return;
 
@@ -424,7 +449,7 @@ try {
                                     <span class="status-badge ${statusClass}">${order.status}</span>
                                 </td>
                                 <td>
-                                    <div class="amount">৳${parseFloat(order.total).toFixed(2)}</div>
+                                    <div class="amount">৳${Math.ceil(parseFloat(order.total_amount))}</div>
                                 </td>
                                 <td>
                                     <div class="action-buttons">
@@ -440,14 +465,31 @@ try {
                             
                             tableBody.appendChild(row);
                         });
+                        
+                        // Show message if no orders found
+                        if (orders.length === 0) {
+                            tableBody.innerHTML = '<tr><td colspan="5" class="no-data">No recent orders found</td></tr>';
+                        }
                     })
-                    .catch(error => console.error('Error loading recent orders:', error));
+                    .catch(error => {
+                        console.error('Error loading recent orders:', error);
+                        const tableBody = document.getElementById('recent-orders-table');
+                        if (tableBody) {
+                            tableBody.innerHTML = '<tr><td colspan="5" class="error-message">Failed to load recent orders</td></tr>';
+                        }
+                    });
             }
 
             loadLowStockProducts() {
                 fetch('get_low_stock_products.php')
                     .then(response => response.json())
-                    .then(products => {
+                    .then(data => {
+                        if (data.error) {
+                            console.error('Error loading low stock products:', data.error);
+                            return;
+                        }
+                        
+                        const products = data.products || [];
                         const tableBody = document.getElementById('low-stock-table');
                         if (!tableBody) return;
 
@@ -474,16 +516,13 @@ try {
                                     <span class="category-tag">${product.category_name}</span>
                                 </td>
                                 <td>
-                                    <div class="price">৳${parseFloat(product.price).toFixed(2)}</div>
+                                    <div class="price">৳${Math.ceil(parseFloat(product.price))}</div>
                                 </td>
                                 <td>
                                     <span class="stock-badge ${stockClass}">${product.stock} units</span>
                                 </td>
                                 <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-icon edit" onclick="editProduct(${product.id})">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
+                                    <div class="action-buttons">                                        
                                         <button class="btn-icon restock" onclick="restockProduct(${product.id})">
                                             <i class="fas fa-plus"></i>
                                         </button>
@@ -493,15 +532,27 @@ try {
                             
                             tableBody.appendChild(row);
                         });
+                        
+                        // Show message if no low stock products found
+                        if (products.length === 0) {
+                            tableBody.innerHTML = '<tr><td colspan="5" class="no-data">No low stock products found</td></tr>';
+                        }
                     })
-                    .catch(error => console.error('Error loading low stock products:', error));
+                    .catch(error => {
+                        console.error('Error loading low stock products:', error);
+                        const tableBody = document.getElementById('low-stock-table');
+                        if (tableBody) {
+                            tableBody.innerHTML = '<tr><td colspan="5" class="error-message">Failed to load low stock products</td></tr>';
+                        }
+                    });
             }
 
             getStatusClass(status) {
                 const statusMap = {
                     'Processing': 'warning',
                     'Delivered': 'success',
-                    'Cancelled': 'danger',
+                    'Returned': 'danger',
+                    'Completed': 'success',
                     'Pending': 'info'
                 };
                 return statusMap[status] || 'default';

@@ -327,9 +327,9 @@ try {
                             <option value="all">All Orders</option>
                             <option value="pending">Pending</option>
                             <option value="processing">Processing</option>
-                            <option value="shipped">Shipped</option>
                             <option value="delivered">Delivered</option>
-                            <option value="cancelled">Cancelled</option>
+                            <option value="returned">Returned</option>
+                            <option value="completed">Completed</option>
                         </select>
                     </div>
                 </div>
@@ -460,14 +460,14 @@ try {
                             case 'processing':
                                 statusClass = 'status-badge processing';
                                 break;
-                            case 'shipped':
-                                statusClass = 'status-badge shipped';
-                                break;
                             case 'delivered':
                                 statusClass = 'status-badge delivered';
                                 break;
-                            case 'cancelled':
-                                statusClass = 'status-badge cancelled';
+                            case 'returned':
+                                statusClass = 'status-badge returned';
+                                break;
+                            case 'completed':
+                                statusClass = 'status-badge completed';
                                 break;
                             default:
                                 statusClass = 'status-badge';
@@ -481,9 +481,9 @@ try {
                                     <div style="font-weight: 600; color: #333; font-size: 14px;">${item.product_name}</div>
                                     <div style="font-size: 12px; color: #666; margin-top: 2px;">
                                         <span style="background: #e3f2fd; padding: 2px 6px; border-radius: 12px; margin-right: 8px;">Qty: ${item.quantity}</span>
-                                        <span style="background: #e8f5e8; padding: 2px 6px; border-radius: 12px;">৳${parseFloat(item.price).toFixed(2)} each</span>
+                                        <span style="background: #e8f5e8; padding: 2px 6px; border-radius: 12px;">৳${Math.ceil(parseFloat(item.price))} each</span>
                                     </div>
-                                    <div style="font-size: 11px; color: #888; margin-top: 4px;">Total: ৳${(parseFloat(item.price) * parseInt(item.quantity)).toFixed(2)}</div>
+                                    <div style="font-size: 11px; color: #888; margin-top: 4px;">Total: ৳${Math.ceil(parseFloat(item.price) * parseInt(item.quantity))}</div>
                                 </div>
                             `).join('');
                         } else {
@@ -510,7 +510,7 @@ try {
                             </td>
                             <td>${order.order_date}</td>
                             <td><span class="${statusClass}">${order.status}</span></td>
-                            <td class="amount-cell">৳${parseFloat(order.total_amount).toFixed(2)}</td>
+                            <td class="amount-cell">৳${Math.ceil(parseFloat(order.total_amount))}</td>
                             <td>
                                 <div class="action-buttons">
                                     <button class="btn-icon primary" onclick="viewOrder(${order.id})" title="View Details">
@@ -579,22 +579,21 @@ try {
             
             switch(currentStatusLower) {
                 case 'pending':
-                    availableStatuses = ['Processing', 'Cancelled'];
+                    availableStatuses = ['Processing'];
                     break;
                 case 'processing':
-                    availableStatuses = ['Shipped', 'Cancelled'];
-                    break;
-                case 'shipped':
                     availableStatuses = ['Delivered'];
                     break;
                 case 'delivered':
                     availableStatuses = []; // Cannot change from delivered
                     break;
-                case 'cancelled':
-                    availableStatuses = []; // Cannot change from cancelled
+                case 'returned':
+                    availableStatuses = []; // Cannot change from returned
                     break;
+                case 'completed':
+                    availableStatuses = []; // Cannot change from completed
                 default:
-                    availableStatuses = ['Processing', 'Shipped', 'Delivered', 'Cancelled'];
+                    availableStatuses = ['Processing', 'Delivered', 'Returned', 'Completed'];
             }
             
             if (availableStatuses.length === 0) {

@@ -557,7 +557,7 @@ try {
                                             <span class="status-badge status-<?php echo $order['status']; ?>">
                                                 <?php echo ucfirst($order['status']); ?>
                                             </span>
-                                            <p class="order-total">৳<?php echo number_format($order['total_amount'], 2); ?></p>
+                                            <p class="order-total">৳<?php echo number_format(ceil($order['total_amount']), 0); ?></p>
                                         </div>
                                     </div>
                                     
@@ -669,8 +669,8 @@ try {
                                 <tr>
                                     <td>${item.product_name}</td>
                                     <td>${item.quantity}</td>
-                                    <td>৳${parseFloat(item.price).toFixed(2)}</td>
-                                    <td>৳${(parseFloat(item.price) * parseInt(item.quantity)).toFixed(2)}</td>
+                                    <td>৳${Math.ceil(parseFloat(item.price))}</td>
+                                    <td>৳${Math.ceil(parseFloat(item.price) * parseInt(item.quantity))}</td>
                                 </tr>
                             `;
                         });

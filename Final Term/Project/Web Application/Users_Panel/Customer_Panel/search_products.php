@@ -61,7 +61,7 @@ try {
 // Function to output a product card matching the main products page format
 function outputProductCard($product) {
     $image = !empty($product['image']) ? $product['image'] : 'no-image.jpg';
-    $price = isset($product['price']) ? formatPrice($product['price']) : '$0.00';
+    $price = isset($product['price']) ? formatPrice($product['price']) : '৳0';
     $shopName = $product['shop_name'] ?? 'Unknown Shop';
     
     echo '<div class="product-card">';

@@ -157,7 +157,7 @@ try {
                                     </span>
                                 </div>
                                 <div class="order-amount">
-                                    ৳<?php echo number_format($order['total_amount'], 2); ?>
+                                    ৳<?php echo number_format(ceil($order['total_amount']), 0); ?>
                                 </div>
                             </div>
                             
@@ -218,7 +218,7 @@ try {
                                                 <div class="item">
                                                     <span class="item-name"><?php echo htmlspecialchars($item['name']); ?></span>
                                                     <span class="item-quantity">Qty: <?php echo $item['quantity']; ?></span>
-                                                    <span class="item-price">৳<?php echo number_format($item['price'], 2); ?></span>
+                                                    <span class="item-price">৳<?php echo number_format(ceil($item['price']), 0); ?></span>
                                                 </div>
                                             <?php endforeach; ?>
                                         </div>

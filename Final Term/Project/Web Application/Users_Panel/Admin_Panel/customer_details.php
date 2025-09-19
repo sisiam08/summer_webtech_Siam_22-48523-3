@@ -464,11 +464,11 @@ $conn = null;
                 <div class="stat-label">Total Orders</div>
             </div>
             <div class="stat-card blue">
-                <div class="stat-number">৳<?php echo number_format($order_stats['total_spent'], 2); ?></div>
+                <div class="stat-number">৳<?php echo number_format(ceil($order_stats['total_spent']), 0); ?></div>
                 <div class="stat-label">Total Spent</div>
             </div>
             <div class="stat-card orange">
-                <div class="stat-number">৳<?php echo number_format($order_stats['avg_order_value'], 2); ?></div>
+                <div class="stat-number">৳<?php echo number_format(ceil($order_stats['avg_order_value']), 0); ?></div>
                 <div class="stat-label">Average Order Value</div>
             </div>
             <div class="stat-card purple">
@@ -507,7 +507,7 @@ $conn = null;
                                 <?php foreach ($recent_orders as $order): ?>
                                     <tr>
                                         <td>#<?php echo $order['id']; ?></td>
-                                        <td>৳<?php echo number_format($order['total_amount'], 2); ?></td>
+                                        <td>৳<?php echo number_format(ceil($order['total_amount']), 0); ?></td>
                                         <td>
                                             <span class="badge badge-<?php echo $order['status']; ?>">
                                                 <?php echo ucfirst($order['status']); ?>

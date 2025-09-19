@@ -95,37 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// Get delivery statistics for profile overview
-try {
-    $conn = connectDB();
-    
-    // Get delivery statistics
-    $statsStmt = $conn->prepare("
-        SELECT 
-            COUNT(CASE WHEN status = 'delivered' THEN 1 END) as total_delivered,
-            COUNT(CASE WHEN status IN ('assigned', 'picked_up') THEN 1 END) as active_orders,
-            AVG(CASE WHEN status = 'delivered' AND pickup_time IS NOT NULL AND delivery_time IS NOT NULL 
-                THEN TIMESTAMPDIFF(MINUTE, pickup_time, delivery_time) END) as avg_delivery_time,
-            SUM(CASE WHEN status = 'delivered' THEN 
-                (SELECT SUM(oi.quantity * p.price) 
-                 FROM order_items oi 
-                 JOIN products p ON oi.product_id = p.id 
-                 WHERE oi.order_id = o.id) 
-                ELSE 0 END) as total_revenue
-        FROM orders o
-        WHERE o.delivery_person_id = ?
-    ");
-    $statsStmt->execute([$user['id']]);
-    $stats = $statsStmt->fetch(PDO::FETCH_ASSOC);
-    
-} catch (Exception $e) {
-    $stats = [
-        'total_delivered' => 0,
-        'active_orders' => 0,
-        'avg_delivery_time' => 0,
-        'total_revenue' => 0
-    ];
-}
 ?>
 
 <!DOCTYPE html>
@@ -195,62 +164,8 @@ try {
             <?php displayFlashMessage(); ?>
 
             <div class="profile-container">
-                <!-- Profile Overview -->
-                <div class="profile-overview">
-                    <h3>Profile Overview</h3>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="material-icons">check_circle</i>
-                            </div>
-                            <div class="stat-info">
-                                <h3><?php echo number_format($stats['total_delivered']); ?></h3>
-                                <p>Deliveries Completed</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="material-icons">assignment</i>
-                            </div>
-                            <div class="stat-info">
-                                <h3><?php echo number_format($stats['active_orders']); ?></h3>
-                                <p>Active Assignments</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="material-icons">timer</i>
-                            </div>
-                            <div class="stat-info">
-                                <h3><?php echo round($stats['avg_delivery_time'] ?? 0); ?> min</h3>
-                                <p>Avg. Delivery Time</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="material-icons">monetization_on</i>
-                            </div>
-                            <div class="stat-info">
-                                <h3>৳<?php echo number_format($stats['total_revenue'] ?? 0, 2); ?></h3>
-                                <p>Total Revenue</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Profile Tabs -->
                 <div class="profile-tabs">
-                    <div class="tab-nav">
-                        <button type="button" class="tab-button active" onclick="showTab('profile-info')">
-                            <i class="material-icons">person</i>
-                            Profile Information
-                        </button>
-                        <button type="button" class="tab-button" onclick="showTab('change-password')">
-                            <i class="material-icons">lock</i>
-                            Change Password
-                        </button>
-                    </div>
-
                     <!-- Profile Information Tab -->
                     <div id="profile-info" class="tab-content active">
                         <div class="form-card">

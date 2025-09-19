@@ -76,10 +76,7 @@ try {
     $status_mapping = [
         'Pending' => 'Pending',
         'Processing' => 'Processing',
-        'Shipped' => 'Shipped',
         'Delivered' => 'Delivered',
-        'Cancelled' => 'Cancelled',
-        'Refunded' => 'Refunded',
         'Completed' => 'Completed'
     ];
     

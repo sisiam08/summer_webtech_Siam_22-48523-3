@@ -1,8 +1,6 @@
 <?php
-// Start session and include required files
+// Start session
 session_start();
-require_once __DIR__ . '/../../Database/database.php';
-require_once __DIR__ . '/../../Includes/functions.php';
 
 // Set headers for JSON response
 header('Content-Type: application/json');
@@ -15,6 +13,10 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['user_role']) || $_SESSION[
     echo json_encode(['error' => 'Unauthorized access']);
     exit();
 }
+
+// Include database connection and functions
+require_once __DIR__ . '/../../Database/database.php';
+require_once __DIR__ . '/../../Includes/functions.php';
 
 try {
     $conn = connectDB();
@@ -30,7 +32,7 @@ try {
     }
     
     $shop_id = $shop['id'];
-
+    
     // Get time period from query parameter
     $period = $_GET['period'] ?? 'month';
     
@@ -53,52 +55,61 @@ try {
             $date_condition = "AND o.created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)";
     }
 
-    // Query to get revenue by category
-    $sql = "SELECT 
-                COALESCE(c.name, 'Uncategorized') as category_name,
-                SUM(oi.quantity * oi.price) as revenue
-            FROM orders o
-            JOIN order_items oi ON o.id = oi.order_id
-            JOIN products p ON oi.product_id = p.id
-            LEFT JOIN categories c ON p.category_id = c.id
-            WHERE p.shop_id = ? 
-            AND o.status NOT IN ('cancelled', 'refunded')
-            $date_condition
-            GROUP BY c.id, c.name
-            HAVING revenue > 0
-            ORDER BY revenue DESC";
-
-    $stmt = $conn->prepare($sql);
+    // Get total sales
+    $stmt = $conn->prepare("
+        SELECT COALESCE(SUM(oi.quantity * oi.price), 0) as total_sales
+        FROM orders o
+        JOIN order_items oi ON o.id = oi.order_id
+        JOIN products p ON oi.product_id = p.id
+        WHERE p.shop_id = ? 
+        AND o.status NOT IN ('cancelled', 'refunded')
+        $date_condition
+    ");
     $stmt->execute([$shop_id]);
-    
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    // Prepare data for Chart.js
-    $labels = [];
-    $revenue = [];
-    
-    foreach ($results as $row) {
-        $labels[] = $row['category_name'];
-        $revenue[] = intval(ceil($row['revenue']));
-    }
-    
-    // If no data found, provide default structure
-    if (empty($labels)) {
-        $labels = ['No Sales'];
-        $revenue = [0];
-    }
-    
+    $totalSales = $stmt->fetchColumn();
+
+    // Get total orders
+    $stmt = $conn->prepare("
+        SELECT COUNT(DISTINCT o.id) as total_orders
+        FROM orders o
+        JOIN order_items oi ON o.id = oi.order_id
+        JOIN products p ON oi.product_id = p.id
+        WHERE p.shop_id = ? 
+        AND o.status NOT IN ('cancelled', 'refunded')
+        $date_condition
+    ");
+    $stmt->execute([$shop_id]);
+    $totalOrders = $stmt->fetchColumn();
+
+    // Get total products sold
+    $stmt = $conn->prepare("
+        SELECT COALESCE(SUM(oi.quantity), 0) as products_sold
+        FROM orders o
+        JOIN order_items oi ON o.id = oi.order_id
+        JOIN products p ON oi.product_id = p.id
+        WHERE p.shop_id = ? 
+        AND o.status NOT IN ('cancelled', 'refunded')
+        $date_condition
+    ");
+    $stmt->execute([$shop_id]);
+    $productsSold = $stmt->fetchColumn();
+
+    // Calculate average order value
+    $avgOrderValue = $totalOrders > 0 ? $totalSales / $totalOrders : 0;
+
     echo json_encode([
-        'labels' => $labels,
-        'revenue' => $revenue,
+        'totalSales' => intval(ceil($totalSales)),
+        'totalOrders' => intval($totalOrders),
+        'productsSold' => intval($productsSold),
+        'avgOrderValue' => intval(ceil($avgOrderValue)),
         'period' => $period
     ]);
 
 } catch (PDOException $e) {
-    error_log('Database error in get_category_revenue.php: ' . $e->getMessage());
+    error_log('Database error in get_analytics_data.php: ' . $e->getMessage());
     echo json_encode(['error' => 'Database error occurred']);
 } catch (Exception $e) {
-    error_log('Error in get_category_revenue.php: ' . $e->getMessage());
+    error_log('Error in get_analytics_data.php: ' . $e->getMessage());
     echo json_encode(['error' => 'An error occurred']);
 }
 ?>

@@ -55,7 +55,7 @@ try {
         }
         
         // Format price
-        $product['formatted_price'] = number_format($product['price'], 2);
+        $product['formatted_price'] = number_format(ceil($product['price']), 0);
         
         // Add status text
         $product['status_text'] = $product['is_active'] ? 'Active' : 'Inactive';

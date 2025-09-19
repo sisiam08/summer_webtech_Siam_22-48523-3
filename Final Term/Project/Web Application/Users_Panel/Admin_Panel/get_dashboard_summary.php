@@ -90,7 +90,7 @@ if ($recentOrdersResult) {
         $order['date'] = date('M d, Y', strtotime($order['date']));
         
         // Format amount
-        $order['amount'] = number_format($order['amount'], 2);
+        $order['amount'] = number_format(ceil($order['amount']), 0);
         
         // Capitalize status
         $order['status'] = ucfirst($order['status']);
@@ -119,8 +119,8 @@ $topProducts = [];
 if ($topProductsResult) {
     foreach ($topProductsResult as $product) {
         // Format price and revenue
-        $product['price'] = number_format($product['price'], 2);
-        $product['revenue'] = number_format($product['revenue'], 2);
+        $product['price'] = number_format(ceil($product['price']), 0);
+        $product['revenue'] = number_format(ceil($product['revenue']), 0);
         
         $topProducts[] = $product;
     }
@@ -163,8 +163,8 @@ echo json_encode([
         'new' => (int)$newUsers
     ],
     'revenue' => [
-        'total' => number_format((float)$totalRevenue, 2),
-        'monthly' => number_format((float)$monthlyRevenue, 2)
+        'total' => number_format(ceil((float)$totalRevenue), 0),
+        'monthly' => number_format(ceil((float)$monthlyRevenue), 0)
     ],
     'recentOrders' => $recentOrders,
     'topProducts' => $topProducts,
