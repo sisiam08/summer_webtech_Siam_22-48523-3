@@ -424,8 +424,6 @@ try {
                         throw new Error('Invalid response format: Expected array');
                     }
                     
-                    console.log('Orders data received:', data); // Debug log
-                    
                     const tableBody = document.getElementById('orders-table-body');
                     tableBody.innerHTML = '';
                     

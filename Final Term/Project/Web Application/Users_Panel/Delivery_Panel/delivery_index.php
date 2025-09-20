@@ -161,7 +161,6 @@ $userName = $user['name'] ?? 'Delivery Partner';
 
         async function loadDashboardData() {
             try {
-                console.log('Loading dashboard data...');
                 const response = await fetch('get_delivery_stats.php');
                 
                 if (!response.ok) {
@@ -169,7 +168,6 @@ $userName = $user['name'] ?? 'Delivery Partner';
                 }
                 
                 const data = await response.json();
-                console.log('Stats response:', data); // Debug log
                 
                 if (data.success) {
                     // Update the stats with fallback values
@@ -179,16 +177,6 @@ $userName = $user['name'] ?? 'Delivery Partner';
                     document.getElementById('earnings-today').textContent = '৳' + (data.stats.earnings_today || '0');
                     document.getElementById('total-earnings').textContent = '৳' + (data.stats.total_earnings || '0');
                     document.getElementById('rating').textContent = data.stats.rating || '5.0';
-                    
-                    console.log('Dashboard updated successfully');
-                    console.log('Stats:', {
-                        pending: data.stats.pending,
-                        completed_today: data.stats.completed_today,
-                        total_completed: data.stats.total_completed,
-                        earnings_today: data.stats.earnings_today,
-                        total_earnings: data.stats.total_earnings,
-                        rating: data.stats.rating
-                    });
                 } else {
                     console.error('Stats error:', data.error);
                     setDefaultValues('API returned error: ' + data.error);
@@ -200,7 +188,6 @@ $userName = $user['name'] ?? 'Delivery Partner';
         }
         
         function setDefaultValues(reason = '') {
-            console.log('Setting default values. Reason:', reason);
             document.getElementById('pending-deliveries').textContent = '0';
             document.getElementById('completed-today').textContent = '0';
             document.getElementById('total-completed').textContent = '0';
@@ -211,12 +198,10 @@ $userName = $user['name'] ?? 'Delivery Partner';
 
         function loadCurrentDelivery() {
             // Disabled - API endpoint doesn't exist
-            console.log('Current delivery loading disabled');
         }
 
         function loadRecentActivity() {
             // Disabled - API endpoint doesn't exist  
-            console.log('Recent activity loading disabled');
         }
 
         function displayCurrentDelivery(delivery) {

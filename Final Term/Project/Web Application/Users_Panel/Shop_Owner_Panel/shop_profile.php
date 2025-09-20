@@ -290,7 +290,6 @@ try {
         // Function to save shop profile
         function saveShopProfile(event) {
             event.preventDefault();
-            console.log('saveShopProfile called');
             
             const shopData = {
                 name: document.getElementById('shop-name').value,
@@ -299,8 +298,6 @@ try {
                 phone: document.getElementById('shop-phone').value,
                 email: document.getElementById('shop-email').value
             };
-            
-            console.log('Shop data:', shopData);
             
             // Show loading notification
             showLoading('Updating shop profile...');
@@ -315,7 +312,6 @@ try {
             .then(response => response.json())
             .then(data => {
                 hideLoading(); // Hide loading state
-                console.log('Response:', data);
                 if (data.success) {
                     showNotification('Shop profile updated successfully!', 'success');
                 } else {
@@ -415,7 +411,6 @@ try {
             // Initialize notification system
             if (typeof NotificationSystem !== 'undefined') {
                 window.notificationSystem = new NotificationSystem();
-                console.log('Notification system initialized');
             } else {
                 console.error('NotificationSystem not found');
             }
@@ -430,19 +425,16 @@ try {
             
             if (shopForm) {
                 shopForm.addEventListener('submit', saveShopProfile);
-                console.log('Shop form listener added');
             } else {
                 console.error('Shop form not found');
             }
             
             if (accountForm) {
                 accountForm.addEventListener('submit', saveAccountInfo);
-                console.log('Account form listener added');
             }
             
             if (passwordForm) {
                 passwordForm.addEventListener('submit', changePassword);
-                console.log('Password form listener added');
             }
         });
     </script>

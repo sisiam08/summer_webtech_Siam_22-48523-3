@@ -491,7 +491,7 @@ if ($isLoggedIn && !$isCustomer) {
                     }
                 }
             } catch (error) {
-                console.log('Could not load cart count:', error);
+                // Silently handle cart count loading errors
             }
         }
     </script>

@@ -2,8 +2,6 @@
 
 // Global cart function
 function addToCart(productId) {
-    console.log('Adding product ID to cart:', productId);
-    
     // Get the base URL for the Web Application
     const currentUrl = window.location.href;
     const webAppIndex = currentUrl.indexOf('/Web Application/');
@@ -25,21 +23,15 @@ function addToCart(productId) {
         }
     }
     
-    console.log('Using path:', addToCartPath);
-    
     // Simple AJAX request to add item to cart
     const xhr = new XMLHttpRequest();
     xhr.open('GET', addToCartPath, true);
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     
     xhr.onload = function() {
-        console.log('Status:', this.status);
-        console.log('Response text:', this.responseText);
-        
         if (this.status === 200) {
             try {
                 const response = JSON.parse(this.responseText);
-                console.log('Parsed response:', response);
                 
                 if (response.success) {
                     // Save cart directly from response data

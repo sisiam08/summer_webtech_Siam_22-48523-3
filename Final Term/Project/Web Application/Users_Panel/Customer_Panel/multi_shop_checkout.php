@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Format complete shipping address
         $shippingAddress = "$address, $city";
         
-        // Debug: Check if user has items in cart
+        // Check if user has items in cart
         if (empty($shopCartItems)) {
             $errors[] = 'Your cart is empty. Please add items to your cart before checkout.';
         } else {

@@ -23,7 +23,6 @@ try {
     // Get today's date in PHP timezone for consistent date filtering
     $today = date('Y-m-d');
     
-    // Debug: Add user info to response
     $userInfo = getCurrentUser();
     
     // 1. PENDING DELIVERIES: Count orders with status 'delivered' assigned to this delivery man
@@ -83,13 +82,6 @@ try {
     
     $response = [
         'success' => true,
-        'debug' => [
-            'user_id' => $deliveryPersonId,
-            'user_name' => $userInfo['name'] ?? 'Unknown',
-            'user_role' => $userInfo['role'] ?? 'Unknown',
-            'current_date' => date('Y-m-d'),
-            'current_time' => date('Y-m-d H:i:s')
-        ],
         'raw_values' => [
             'pending_raw' => (int)$pending,
             'completed_today_raw' => (int)$completedToday,

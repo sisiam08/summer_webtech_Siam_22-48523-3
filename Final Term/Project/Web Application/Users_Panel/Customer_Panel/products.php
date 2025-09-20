@@ -17,7 +17,7 @@ require_once __DIR__ . '/../../Includes/multi_shop_notice.php';
 // Ensure cart has the correct structure
 normalizeCartStructure();
 
-// Calculate cart count for UI (prevents undefined variable in the template)
+// Calculate cart count for UI
 $cartCount = calculateCartCount();
 
 // Get products based on filters
@@ -469,7 +469,6 @@ $shops = getAllShops();
                                     addToCart(productId);
                                 } else {
                                     // Fallback if addToCart function is not available
-                                    console.log('Adding product to cart:', productId);
                                 }
                             });
                         });

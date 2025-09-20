@@ -256,18 +256,15 @@ try {
         // Function to load analytics data
         function loadAnalyticsData() {
             const period = document.getElementById('time-period').value;
-            console.log('Loading analytics data for period:', period);
             
             fetch(`get_analytics_data.php?period=${period}`)
                 .then(response => {
-                    console.log('Analytics response status:', response.status);
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Analytics data received:', data);
                     if (data.error) {
                         console.error('Server error:', data.error);
                         return;
@@ -296,18 +293,15 @@ try {
         // Function to load sales data and create chart
         function loadSalesChart() {
             const period = document.getElementById('time-period').value;
-            console.log('Loading sales chart for period:', period);
             
             fetch(`get_sales_data.php?period=${period}`)
                 .then(response => {
-                    console.log('Sales data response status:', response.status);
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Sales data received:', data);
                     if (data.error) {
                         console.error('Server error in sales data:', data.error);
                         return;

@@ -65,10 +65,6 @@ try {
         $hasLastName = in_array('last_name', $userColumns);
     }
     
-    // Log user table structure for debugging
-    error_log("User table columns: " . implode(', ', $userColumns));
-    error_log("Using name column: $nameColumn");
-    
     // Check if email is already in use by another user
     $checkQuery = "SELECT id FROM users WHERE email = ? AND id != ?";
     $checkStmt = $conn->prepare($checkQuery);

@@ -356,8 +356,6 @@ try {
                             return;
                         }
                         
-                        console.log('Dashboard data received:', data); // Debug log
-                        
                         this.animateCounter('total-orders', data.totalOrders || 0);
                         this.animateCounter('pending-orders', data.pendingOrders || 0);
                         this.animateCounter('total-products', data.totalProducts || 0);
@@ -589,7 +587,6 @@ try {
                     searchInput.addEventListener('keypress', function(e) {
                         if (e.key === 'Enter') {
                             // Implement search functionality
-                            console.log('Search:', this.value);
                         }
                     });
                 }
@@ -627,12 +624,10 @@ try {
 
         function restockProduct(productId) {
             // Implement restock functionality
-            console.log('Restock product:', productId);
         }
 
         // Initialize dashboard when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Modern dashboard initializing...');
             new DashboardManager();
         });
     </script>
